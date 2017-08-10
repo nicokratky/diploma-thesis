@@ -1,0 +1,101 @@
+\documentclass[english,oneside,color]{htldipl}
+% Zulässige Class Options:
+%   Hauptsprache: german (default), english
+%   Doppelseitig: oneside (default), twoside
+%   Syntax-Highlighting: color (default), black
+
+% die folgende Zeile einkommentieren für Arial-Ähnliche Schriftart
+%\renewcommand{\familydefault}{\sfdefault}
+
+\graphicspath{{images/}}    % wo liegen die Bilder?
+\usepackage[margin=3cm]{geometry} % alle Seitenränder auf 3 cm einstellen
+
+\makeglossaries
+%\include{glossary}
+\loadglsentries{glossary}
+%%%----------------------------------------------------------
+\begin{document}
+%%%----------------------------------------------------------
+
+\title{GRAMOC - Gradienten Magnetometer Online Controller}
+\abteilung{Informatik}
+\schwerpunkt{}
+\studienort{Wiener Neustadt}
+\schule{HTBLuVA Wiener Neustadt}
+\schullogo{htl.jpeg}
+\abgabejahr{2017/18}
+\betreuerA{Dr.\ Michael Stifter}
+\betreuerB{}
+\betreuerC{}
+%\betreuerD{} leer lassen wenn nicht vorhanden
+\schuelerA{Nico Kratky}
+\evidenzA{5CHIF-13}
+\subthemaA{}
+\schuelerB{Nico LEIDENFROST}
+\evidenzB{5CHIF-14}
+\subthemaB{}
+\schuelerC{}
+\evidenzC{}
+\subthemaC{}
+\schuelerD{}
+\evidenzD{}
+\subthemaD{}
+\schuelerE{}
+\evidenzE{}
+\subthemaE{}
+%\schuelerE{} leer lassen wenn nicht vorhanden
+%\evidenzE{}
+%\subthemaE{}
+
+%%%----------------------------------------------------------
+\frontmatter
+\maketitle
+\tableofcontents
+%%%----------------------------------------------------------
+
+\include{vorwort}				%ggfs. weglassen
+\include{kurzfassung}
+\include{abstract}
+
+%%%----------------------------------------------------------
+\mainmatter           %Hauptteil (ab hier arab. Seitenzahlen)
+%%%----------------------------------------------------------
+
+\include{einleitung}
+\include{diplomschrift}
+\include{latex}
+\include{abbildungen}
+\include{mathematik}
+\include{literatur}
+\include{drucken}
+\include{word}
+\include{schluss}
+
+%%%----------------------------------------------------------
+%%%Anhang
+\appendix
+\printglossaries
+\include{anhang_a}	% Technische Ergänzungen
+\include{anhang_b}	% Inhalt der CD-ROM/DVD
+\include{anhang_c}	% Chronologische Liste der Änderungen
+\include{anhang_d}	% Quelltext dieses Dokuments
+
+%%%----------------------------------------------------------
+
+%Literaturverzeichnis
+\clearpage
+\addcontentsline{toc}{chapter}{\bibname}
+
+\bibliographystyle{bababbrv}
+%options: babplain, babunsrt, bababbrv, babalpha
+%         babplain-fl etc: first/lastname
+%         babplain-lf etc: last/firstname
+\bibliography{literatur}     %BibTeX-Datei literatur.bib
+
+
+%%%----------------------------------------------------------
+
+%%%Messbox zur Druckkontrolle
+\include{messbox}
+
+\end{document}
