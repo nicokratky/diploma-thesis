@@ -10,9 +10,13 @@
 \graphicspath{{images/}}    % wo liegen die Bilder?
 \usepackage[margin=3cm]{geometry} % alle Seitenränder auf 3 cm einstellen
 
-\makeglossaries
-%\include{glossary}
-\loadglsentries{glossary}
+\usepackage{hyperref}
+
+\hypersetup{
+	colorlinks = true,
+	linkcolor = black
+} % interne Links sollen schwarz sein
+
 %%%----------------------------------------------------------
 \begin{document}
 %%%----------------------------------------------------------
@@ -24,7 +28,7 @@
 \schule{HTBLuVA Wiener Neustadt}
 \schullogo{htl.jpeg}
 \abgabejahr{2017/18}
-\betreuerA{Dr.\ Michael Stifter}
+\betreuerA{Dr. Michael Stifter}
 \betreuerB{}
 \betreuerC{}
 %\betreuerD{} leer lassen wenn nicht vorhanden
@@ -53,34 +57,14 @@
 \tableofcontents
 %%%----------------------------------------------------------
 
-\include{vorwort}				%ggfs. weglassen
-\include{kurzfassung}
-\include{abstract}
+\include{abstract_de}
+\include{abstract_en}
 
 %%%----------------------------------------------------------
 \mainmatter           %Hauptteil (ab hier arab. Seitenzahlen)
 %%%----------------------------------------------------------
 
-\include{einleitung}
-\include{diplomschrift}
-\include{latex}
-\include{abbildungen}
-\include{mathematik}
-\include{literatur}
-\include{drucken}
-\include{word}
-\include{schluss}
-
-%%%----------------------------------------------------------
-%%%Anhang
-\appendix
-\printglossaries
-\include{anhang_a}	% Technische Ergänzungen
-\include{anhang_b}	% Inhalt der CD-ROM/DVD
-\include{anhang_c}	% Chronologische Liste der Änderungen
-\include{anhang_d}	% Quelltext dieses Dokuments
-
-%%%----------------------------------------------------------
+\include{introduction}
 
 %Literaturverzeichnis
 \clearpage
@@ -90,7 +74,7 @@
 %options: babplain, babunsrt, bababbrv, babalpha
 %         babplain-fl etc: first/lastname
 %         babplain-lf etc: last/firstname
-\bibliography{literatur}     %BibTeX-Datei literatur.bib
+\bibliography{references}     %BibTeX-Datei literatur.bib
 
 
 %%%----------------------------------------------------------
