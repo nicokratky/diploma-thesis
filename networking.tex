@@ -53,7 +53,7 @@ One method of Message framing is to prefix each message with its length. When do
 
 \paragraph{Sending}
 
-First, the message has to be encoded into its binary representation. To send this message, the length followed by the binary encoded message simply have to be sent.
+First, the message has to be encoded into its binary representation. To send this message, the length followed by the binary encoded message simply has to be sent.
 
 \paragraph{Receiving}
 
@@ -67,7 +67,7 @@ Messages can also be framed by using delimiters. This can be done by sending a s
 
 \paragraph{Receiving}
 
-Receiving delimited messages is relativly straighforward. One message is read when a delimiter is reached. This message has to be passed to a unescaping function when a delimiter character is chosed that can exist in messages.
+Receiving delimited messages is relativly straighforward. One message is read when a delimiter is reached. This message has to be passed to an unescaping function when a delimiter character is chosed that can exist in messages.
 
 \subsubsection{Security Concerns}
 
