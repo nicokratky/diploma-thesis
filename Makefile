@@ -6,10 +6,10 @@ clean:
 
 .PHONY: compile
 compile: clean
-	pdflatex $(SRC)
-	bibtex $(SRC)
-	pdflatex $(SRC)
-	pdflatex $(SRC)
+	pdflatex $(SRC) || true
+	bibtex $(SRC) || true
+	pdflatex $(SRC) || true
+	pdflatex $(SRC) || true
 	make clean
 
 .PHONY: watch
