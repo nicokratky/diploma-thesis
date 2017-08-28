@@ -1,0 +1,74 @@
+\chapter{Networking Technologies}
+\label{ch:networkingtechnologies}
+
+\section{Networking in GRAMOC}
+
+\section{GSDEP}
+
+\subsection{Data Flow}
+
+\subsection{Data Interchange Format}
+
+\subsection{Commands}
+
+Commands are special messages that are sent to the endpoint that require further action to be taken. These commands can either be used during the connect or disconnect handshakes, or to request data.
+
+\begin{center}
+
+	\begin{tabular}{| l | l | p{5cm} |}
+	\hline
+	\textbf{Command} & \textbf{Used by} & \textbf{Meaning} \\ \hline
+	SYN & client & Tells the server that a new client wants to connect \\ \hline
+	ACK & server \& client & Tells the other end that it acknowledges the previous command \\ \hline
+	FIN & server \& client & Tells the other end that it will disconnect \\ \hline
+	STD & client & Tells the server that the client requests data\\ \hline
+	SPD & client & Tells the server that the client rejects data\\
+	\hline
+	\end{tabular}
+
+\end{center}
+
+\subsection{Channels}
+
+In the case of gramoc, where large amounts of data are received in short periods of time, it is crucial to differentiate between communication data and sensor data in split seconds. To accomplish this a 2 byte unsigned short is included in the packet header. This information can the be used to tell apart these two types of data.
+
+\begin{center}
+
+	\begin{tabular}{| l | c |}
+	\hline
+	\textbf{Channel} & \textbf{Value} \\ \hline
+	Communication & 1 \\ \hline
+	Data & 2 \\
+	\hline
+	\end{tabular}
+
+\end{center}
+
+\subsection{Message framing}
+Because TCP operates with streams of data and not packets of data, messages have to be framed so that the receiving end knows what one message is. This can be done in two ways. \cite{MessageFramingCleary,MessageFramingSkotzko}
+
+\subsubsection{Length Prefixing}
+
+One method of Message framing is to prefix each message with its length. When doing so the format of the message length has to be stated explecitly. In the case of GSDEP that is a ``4 byte unsigned integer''.
+
+\paragraph{Sending}
+
+First, the message has to be encoded into its binary representation. To send this message, the length followed by the binary encoded message simply have to be sent.
+
+\paragraph{Receiving}
+
+Receiving one message is done by first reading into a buffer of specified length (in this case the buffer would be 4 bytes long). Then the message is read into a second buffer with the just read length. When this buffer is full, one message has been read.
+
+\subsubsection{Delimiters}
+
+\paragraph{Sending}
+
+Messages can also be framed by using delimiters. This can be done by sending a special character between each message. This character can either be a character that does not show up in actual messages (e.g. a Null character), or a character that is present in a message. If the second approach is used, every message has to be run through a escaping process which replaces these characters in the messages.
+
+\paragraph{Receiving}
+
+Receiving delimited messages is relativly straighforward. One message is read when a delimiter is reached. This message has to be passed to a unescaping function when a delimiter character is chosed that can exist in messages.
+
+\subsubsection{Security Concerns}
+
+Whichever solution is chosen, each solution has to provide code regarding Denial of Service (DoS) attacks. Wether a very big message length or large amounts of data without a delimiter are received, both can result in OutOfMemoryExceptions.
