@@ -7,14 +7,41 @@
 
 \subsection{Data Flow}
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=8cm,keepaspectratio]{handshake}
+	\caption{TCP-like three way handshake performed on client connect}
+	\label{fig:handshake}
+\end{figure}
+
+Figure \ref{fig:handshake} depicts the handshake perfomed by GSDEP that is based on TCP's three-way handshake. The Client sends a synchronize (SYN) message to the server to let it know that it wants to connect. If the server can accept new Clients it returns an acknowledgement message (ACK). The client then also returns this acknowledgement message to inform the server that it is indeed connected. The connection now is established.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=8cm,keepaspectratio]{disconnect}
+	\caption{Two way handshake performed on client disconnect}
+	\label{fig:disconnect}
+\end{figure}
+
+If the client wants to disconnect to the server it will send a disconnect message (FIN) to the server. Before it actually disconnects, it has to wait for the server to finish cleaning up and return the FIN packet. After the client has received this message, it can close the connection and shut down. This procedure is show in Figure \ref{fig:disconnect}
+
 \subsection{Data Interchange Format}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=8cm,keepaspectratio]{packet}
+	\caption{Structure of on packet sent by GSDEP}
+	\label{fig:packet}
+\end{figure}
+
+Every message consists of a header and the actual payload that is transmitted. The header includes additional information that is used by the other end to only read to the end of this message (see \ref{sec:messageframing}), to differentiate between different kinds of messages (see \ref{sec:channels}) and to rebuild the message to its correct datatype. As depicted in Figure \ref{fig:packet}, the header consists of 4 bytes Message Length, 2 bytes each for data type and channel.
 
 \subsection{Commands}
 
 Commands are special messages that are sent to the endpoint that require further action to be taken. These commands can either be used during the connect or disconnect handshakes, or to request data.
 
-\begin{center}
-
+\begin{table}[H]
+	\centering
 	\begin{tabular}{| l | l | p{5cm} |}
 	\hline
 	\textbf{Command} & \textbf{Used by} & \textbf{Meaning} \\ \hline
@@ -25,15 +52,17 @@ Commands are special messages that are sent to the endpoint that require further
 	SPD & client & Tells the server that the client rejects data\\
 	\hline
 	\end{tabular}
-
-\end{center}
+	\caption{Commands sent by one of the connection partners and what they do}
+	\label{tab:commands}
+\end{table}
 
 \subsection{Channels}
+\label{sec:channels}
 
 In the case of gramoc, where large amounts of data are received in short periods of time, it is crucial to differentiate between communication data and sensor data in split seconds. To accomplish this a 2 byte unsigned short is included in the packet header. This information can the be used to tell apart these two types of data.
 
-\begin{center}
-
+\begin{table}[!]
+	\centering
 	\begin{tabular}{| l | c |}
 	\hline
 	\textbf{Channel} & \textbf{Value} \\ \hline
@@ -41,10 +70,12 @@ In the case of gramoc, where large amounts of data are received in short periods
 	Data & 2 \\
 	\hline
 	\end{tabular}
-
-\end{center}
+	\caption{Channels used to distinguish between message types}
+	\label{tab:channels}
+\end{table}
 
 \subsection{Message framing}
+\label{sec:messageframing}
 Because TCP operates with streams of data and not packets of data, messages have to be framed so that the receiving end knows what one message is. This can be done in two ways. \cite{MessageFramingCleary,MessageFramingSkotzko}
 
 \subsubsection{Length Prefixing}
@@ -67,7 +98,7 @@ Messages can also be framed by using delimiters. This can be done by sending a s
 
 \paragraph{Receiving}
 
-Receiving delimited messages is relativly straighforward. One message is read when a delimiter is reached. This message has to be passed to an unescaping function when a delimiter character is chosed that can exist in messages.
+Receiving delimited messages is relativly straighforward. One message is read when a delimiter is reached. This message has to be passed to an unescaping function when a delimiter character is chosen that can exist in messages.
 
 \subsubsection{Security Concerns}
 
