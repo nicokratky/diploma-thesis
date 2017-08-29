@@ -3,13 +3,17 @@
 
 \section{Networking in GRAMOC}
 
+Because GRAMOC is a client-server architecture, a common way of communication had to be developed. This developement process resultet in GSDEP.
+
 \section{GSDEP}
+
+GRAMOC Sensor Data Exchange Protocol (GSDEP) is GRAMOC's Network Protocol that is used for sending large amounts of sensor data to the clients. It is built on top of the TCP/IP stack.
 
 \subsection{Data Flow}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=8cm,keepaspectratio]{handshake}
+	\includegraphics[width=8cm,keepaspectratio]{gsdep_handshake}
 	\caption{TCP-like three way handshake performed on client connect}
 	\label{fig:handshake}
 \end{figure}
@@ -18,7 +22,7 @@ Figure \ref{fig:handshake} depicts the handshake perfomed by GSDEP that is based
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=8cm,keepaspectratio]{disconnect}
+	\includegraphics[width=8cm,keepaspectratio]{gsdep_disconnect}
 	\caption{Two way handshake performed on client disconnect}
 	\label{fig:disconnect}
 \end{figure}
@@ -29,7 +33,7 @@ If the client wants to disconnect to the server it will send a disconnect messag
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=8cm,keepaspectratio]{packet}
+	\includegraphics[width=8cm,keepaspectratio]{gsdep_packet}
 	\caption{Structure of on packet sent by GSDEP}
 	\label{fig:packet}
 \end{figure}
@@ -59,9 +63,9 @@ Commands are special messages that are sent to the endpoint that require further
 \subsection{Channels}
 \label{sec:channels}
 
-In the case of gramoc, where large amounts of data are received in short periods of time, it is crucial to differentiate between communication data and sensor data in split seconds. To accomplish this a 2 byte unsigned short is included in the packet header. This information can the be used to tell apart these two types of data.
+In the case of GRAMOC, where large amounts of data are received in short periods of time, it is crucial to differentiate between communication data and sensor data in split seconds. To accomplish this a 2 byte unsigned short is included in the packet header. This information can the be used to tell apart these two types of data.
 
-\begin{table}[!]
+\begin{table}[H]
 	\centering
 	\begin{tabular}{| l | c |}
 	\hline
