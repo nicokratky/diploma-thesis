@@ -23,7 +23,7 @@
 % \savesymbol{XXX}, which renames a symbol from \XXX to \origXXX, and    %
 % \restoresymbol{yyy}{XXX}, which renames \origXXX back to \XXX and     %
 % defines a new command, \yyyXXX, which corresponds to the most recently %
-% loaded version of \XXX.   
+% loaded version of \XXX.
 % Wilbur: modified to use "orig@" instead of "orig" (not visible to users)
 
 % Save a symbol that we know is going to get redefined.
@@ -51,7 +51,7 @@
 \RequirePackage[utf8]{inputenc}
 
 % T1-Fonts zur besseren Silbentrennung bei Umlauten etc.,
-% verwendet automatisch die cm-super Type1 Postscript Schriften 
+% verwendet automatisch die cm-super Type1 Postscript Schriften
 % (in MikTeX ab 2.4 installiert):
 \RequirePackage[T1]{fontenc}
 
@@ -73,7 +73,7 @@
 	{\main@language{ngerman}}{}
 \ifthenelse{\equal{\htl@MainLanguage}{english}}%
 	{\main@language{english}}{}
-	
+
 \RequirePackage[fixlanguage]{babelbib}
 %\RequirePackage{natbib}
 
@@ -103,9 +103,9 @@
 %\RequirePackage[small,rm,loose]{subfigure}
 %\setlength{\subfigtopskip}{7pt}
 %\setlength{\subfigcapskip}{7pt}
-%\setlength{\subfigcaptopadj}{0pt} 
+%\setlength{\subfigcaptopadj}{0pt}
 %\setlength{\subfigbottomskip}{-3pt}
-%\setlength{\subfigcapmargin}{0pt} 
+%\setlength{\subfigcapmargin}{0pt}
 %\setlength{\subfiglabelskip}{0.33em plus 0.07em minus 0.03em}
 
 \RequirePackage{exscale}
@@ -166,7 +166,7 @@
 %  \nopagebreak[4]
   \noindent\makebox[\textwidth]{\rule{4cm}{0.4pt}}
   \vskip 2.5ex}
-  
+
 %Div. Abkürzungen (in Anlehnung an Jochen Köpper, jkthesis):
 %\usepackage{xspace}
 \RequirePackage{xspace}
@@ -210,8 +210,8 @@
 \linethickness{0.05mm}%
 \put(0,0){\dashbox{0.2}(#1,#2)%
 {\parbox{#1mm}{%
-\centering\footnotesize 
-%{\bf MESSBOX}\\ 
+\centering\footnotesize
+%{\bf MESSBOX}\\
 Breite $ = #1 {\rm\ mm}$\\
 H\"ohe $ = #2 {\rm\ mm}$
 }}}\end{picture}
@@ -236,7 +236,7 @@ H\"ohe $ = #2 {\rm\ mm}$
 %\parindent0pt
 %\parskip1.5ex plus0.5ex minus0.5ex % flexibler Absatzabstand
 
-% Make float placement easier    
+% Make float placement easier
 \renewcommand{\floatpagefraction}{.9}  % vorher: .5
 \renewcommand{\textfraction}{.01}      % vorher: .2
 \renewcommand{\topfraction}{.9}        % vorher: .7
@@ -247,7 +247,7 @@ H\"ohe $ = #2 {\rm\ mm}$
 
 %% ------------- Math Stuff --------------
 %% Problem mit Satzzeichen im Math-Modus!
-%% Verwende Komma (statt Punkt) als Trennzeichen in Dezimalzahlen 
+%% Verwende Komma (statt Punkt) als Trennzeichen in Dezimalzahlen
 %\DeclareMathSymbol{,}{\mathpunct}{letters}{"3B}
 %\DeclareMathSymbol{.}{\mathord}{letters}{"3B}
 %\DeclareMathSymbol{\decimal}{\mathord}{letters}{"3A}
@@ -261,7 +261,7 @@ H\"ohe $ = #2 {\rm\ mm}$
 
 %\floatname{algorithm}{Algorithmus}
 %\DeclareCaptionLabelSeparator{colon}{: } % Anpassung an den standard caption style
-\DeclareCaptionStyle{ruled}{labelfont=bf,labelsep=colon} 
+\DeclareCaptionStyle{ruled}{labelfont=bf,labelsep=colon}
 
 % 'algorithmicx' liefert das Innere der Algorithmen (\begin{algorithmic}[1]...)
 \RequirePackage{algorithmicx}
@@ -281,7 +281,7 @@ H\"ohe $ = #2 {\rm\ mm}$
 %\floatname{program}{\@ProgramName}
 \floatstyle{plain}
 \restylefloat*{program}
-	
+
 \ifthenelse{\equal{\bbl@main@language}{german} \or \equal{\bbl@main@language}{ngerman}}%
 {	\floatname{program}{Programm}
   \floatname{algorithm}{Algorithmus}
@@ -309,7 +309,7 @@ identifierstyle=,%\sffamily, %\bfseries
 commentstyle=\normalfont\itshape,%
 stringstyle=\ttfamily,%
 showstringspaces=false,%
-columns = flexible,% fixed, 
+columns = flexible,% fixed,
 breaklines=true,%
 tabsize=2, %
 backgroundcolor=\color{lightgray},
@@ -342,7 +342,7 @@ keepspaces=true,%
 }
 }{}
 
-\lstnewenvironment{JavaCode}	% code environment for Java 
+\lstnewenvironment{JavaCode}	% code environment for Java
 {\lstset{%
 	language=Java,%
 	escapeinside={/+}{+/},% makes "/+" and "+/" available for Latex escapes (labels etc.)
@@ -462,7 +462,7 @@ keepspaces=true,%
 
 % Erzeugt einen neuen, nicht eingerückten Absatz
 % mit zusätzlichem Abstand:
-\newcommand{\SuperPar}[0]{% 
+\newcommand{\SuperPar}[0]{%
 \par\bigskip\noindent%
 }
 
@@ -483,6 +483,8 @@ keepspaces=true,%
   \@modifydate{htl@date}{#1}{#2}{#3}
 }
 
+\newdateformat{germandateformat}{\THEDAY{. }\monthname[\THEMONTH] \THEYEAR}
+
 \newcommand{\htl@GetDateDay}{\getdateday{htl@date}}
 \newcommand{\htl@GetDateMonth}{\getdatemonth{htl@date}}
 \newcommand{\htl@GetDateYear}{\getdateyear{htl@date}}
@@ -495,8 +497,8 @@ keepspaces=true,%
 \definecolor{dark-blue}{rgb}{0.15,0.15,0.4}
 \definecolor{medium-blue}{rgb}{0,0,0.5}
 \hypersetup{
-    colorlinks, linkcolor={dark-red},
-    citecolor={dark-blue}, urlcolor={medium-blue}
+    colorlinks, linkcolor={black},
+    citecolor={black}, urlcolor={medium-blue}
 }
 
 
@@ -508,19 +510,19 @@ keepspaces=true,%
 \RequirePackage[noadjust]{cite} % vermeidet zusätzliches Spacing vor [..]
 
 \RequirePackage{ifpdf}
-\ifpdf % LaTeX is in native PDF mode (pdflatex) 
+\ifpdf % LaTeX is in native PDF mode (pdflatex)
   \RequirePackage{epstopdf}		% zur automatischen Konvertierung von EPS-Dateien nach PDF für pdflatex
 %  \pdfcompresslevel=0			  % 0 = keine Kompression, 9 = max. Kompression
 %  \pdfimageresolution=300
 \else % LaTeX is in emulation mode (DVI-PS-PDF)
   \RequirePackage[hyphenbreaks]{breakurl}	% erlaubt Zeilenumbruch von URLs auch ohne pdflatex (DIV, PS, PDF)
-\fi	
-	
+\fi
+
 \RequirePackage{enumitem}	% fix excessive vertical spacing in lists
 \setlist{%
-	partopsep = .0ex plus .1ex, 
-	topsep = .6ex plus .3ex, 
-	itemsep = .0ex plus .1ex, 
+	partopsep = .0ex plus .1ex,
+	topsep = .6ex plus .3ex,
+	itemsep = .0ex plus .1ex,
 	parsep = .4ex plus .2ex
 }
 %\setlist{nolistsep}	% kein Spacing zwischen items

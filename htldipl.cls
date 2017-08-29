@@ -5,8 +5,7 @@
 
 \NeedsTeXFormat{LaTeX2e}
 \newcommand{\htldiplDate}{2015/07/09} %Versionsdatum
-\ProvidesClass{htldipl}[\htldiplDate\space LaTeX-Vorlage fuer Diplomarbeiten
-der HTL Wiener Neustadt]
+\ProvidesClass{htldipl}[\htldiplDate\space LaTeX-Vorlage fuer Diplomarbeiten der HTL Wiener Neustadt]
 
 \author{ }
 
@@ -31,14 +30,14 @@ der HTL Wiener Neustadt]
 "\CurrentOption"}}
 \ProcessOptions
 %% end class options ---------------------------------------------
- 
+
 \ifthenelse{\equal{\htl@DoubleSided}{oneside}}%
 	{\LoadClass[a4paper,11pt,oneside]{book} }{}
 \ifthenelse{\equal{\htl@DoubleSided}{twoside}}%
 	{\LoadClass[a4paper,11pt,twoside]{book}%
 	 \RequirePackage{emptypage}}{}
 
- 
+
 \RequirePackage{htl}[2015/07/09]	% load associated style file htl.sty
 
 \RequirePackage[toc]{glossaries}
@@ -88,7 +87,7 @@ der HTL Wiener Neustadt]
 \newcommand{\@abgabejahr}{\@MissingArg{Jahr??}}
 \newcommand{\abgabejahr}[1]{%
 	\renewcommand{\@abgabejahr}{#1}
-} 
+}
 
 \newcommand{\@schule}{\@MissingArg{Schule??}}
 \newcommand{\schule}[1]{%
@@ -200,7 +199,7 @@ der HTL Wiener Neustadt]
 \rule{\textwidth}{1pt}
 \begin{center}%
   \setlength{\unitlength}{1cm}
-  	
+
   	\vskip 10mm%
     {\Huge\bf D\,I\,P\,L\,O\,M\,A\,R\,B\,E\,I\,T}%
     \vskip 10mm%
@@ -209,32 +208,32 @@ der HTL Wiener Neustadt]
   	\end{picture}
 \end{center}
 \vskip 0mm%
-    {\large\bf Ausgeführt im Schuljahr \@abgabejahr\ von:} 
+    {\large\bf Ausgeführt im Schuljahr \@abgabejahr\ von:}
     \begin{tabbing}
     \hspace*{1cm}\=\hspace*{8cm}\=\hspace*{5cm}\= \kill
-	\> \@subthemaA  \> \\    
+	\> \@subthemaA  \> \\
     	\> \@schuelerA \> \@evidenzA \\
     	\\
-    	\> \@subthemaB  \> \\  
-    	\> \@schuelerB \> \@evidenzB \\ 
+    	\> \@subthemaB  \> \\
+    	\> \@schuelerB \> \@evidenzB \\
     	\\
-    	\> \@subthemaC  \> \\  
-    	\> \@schuelerC \> \@evidenzC \\ 
+    	\> \@subthemaC  \> \\
+    	\> \@schuelerC \> \@evidenzC \\
     	\\
-    	\> \@subthemaD  \> \\  
-    	\> \@schuelerD \> \@evidenzD \\ 
+    	\> \@subthemaD  \> \\
+    	\> \@schuelerD \> \@evidenzD \\
     	\\
-    	\> \@subthemaE  \> \\  
-    	\> \@schuelerE \> \@evidenzE \\ 
+    	\> \@subthemaE  \> \\
+    	\> \@schuelerE \> \@evidenzE \\
     \end{tabbing}
     {\large\bf Betreuer / Betreuerin:}
     \begin{tabbing}
     \hspace*{1cm}\=\hspace*{5cm}\= \kill
     	\> \@betreuerA \\
-    	\> \@betreuerB \\ 
-    	\> \@betreuerC \\ 
+    	\> \@betreuerB \\
+    	\> \@betreuerC \\
     \end{tabbing}
-    {\large \@studienort, am \today}%
+    {\large \@studienort, am \germandateformat\today}%
   \par\vfil\null
 \end{titlepage}%
 }
@@ -270,11 +269,11 @@ Quellen und Hilfsmittel nicht benutzt und die den benutzten Quellen wörtlich un
 
 \vspace{10mm}
 \noindent
-\@studienort, am \today
+\@studienort, am \germandateformat\today
 
 \vspace{12mm}
 \noindent
-{\large\bf Verfasser / Verfasserinnen:} 
+{\large\bf Verfasser / Verfasserinnen:}
     \begin{tabbing}
     \hspace*{7cm}\=\hspace*{7cm}\= \kill
     	\\
@@ -282,21 +281,21 @@ Quellen und Hilfsmittel nicht benutzt und die den benutzten Quellen wörtlich un
     	\\
     	\\
     	\@schuelerA \> \@schuelerB \\
-    	\\ 
     	\\
     	\\
     	\\
-    	\@schuelerC \> \@schuelerD \\ 
-    	\\ 
+    	\\
+    	\@schuelerC \> \@schuelerD \\
     	\\
     	\\
     	\\
-    	\@schuelerE \>  \\ 
+    	\\
+    	\@schuelerE \>  \\
     \end{tabbing}
 }
 
 %------------ Struktur der Frontseiten -------------------
-     
+
 \renewcommand{\@datitelseiten}{
 \@datitel
 %\@copyrightseite
