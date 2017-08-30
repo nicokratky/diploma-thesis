@@ -11,6 +11,8 @@ GRAMOC Sensor Data Exchange Protocol (GSDEP) is GRAMOC's Network Protocol that i
 
 \subsection{Data Flow}
 
+Figure \ref{fig:handshake} depicts the handshake perfomed by GSDEP that is based on TCP's three-way handshake. The Client sends a synchronize (SYN) message to the server to let it know that it wants to connect. If the server can accept new Clients it returns an acknowledgement message (ACK). The client then also returns this acknowledgement message to inform the server that it is indeed connected. The connection now is established.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=8cm,keepaspectratio]{gsdep_handshake}
@@ -18,7 +20,7 @@ GRAMOC Sensor Data Exchange Protocol (GSDEP) is GRAMOC's Network Protocol that i
 	\label{fig:handshake}
 \end{figure}
 
-Figure \ref{fig:handshake} depicts the handshake perfomed by GSDEP that is based on TCP's three-way handshake. The Client sends a synchronize (SYN) message to the server to let it know that it wants to connect. If the server can accept new Clients it returns an acknowledgement message (ACK). The client then also returns this acknowledgement message to inform the server that it is indeed connected. The connection now is established.
+If a client wants to disconnect from the server it will send a disconnect message (FIN) to the server. Before it actually disconnects, it has to wait for the server to finish cleaning up and return the FIN packet. After the client has received this message, it can close the connection and shut down. This procedure is show in Figure \ref{fig:disconnect}
 
 \begin{figure}[H]
 	\centering
@@ -27,9 +29,9 @@ Figure \ref{fig:handshake} depicts the handshake perfomed by GSDEP that is based
 	\label{fig:disconnect}
 \end{figure}
 
-If the client wants to disconnect to the server it will send a disconnect message (FIN) to the server. Before it actually disconnects, it has to wait for the server to finish cleaning up and return the FIN packet. After the client has received this message, it can close the connection and shut down. This procedure is show in Figure \ref{fig:disconnect}
-
 \subsection{Data Interchange Format}
+
+Every message consists of a header and the actual payload that is transmitted. The header includes additional information that is used by the other end to only read to the end of this message (see \ref{sec:messageframing}), to differentiate between different kinds of messages (see \ref{sec:channels}) and to rebuild the message to its correct datatype. As depicted in Figure \ref{fig:packet}, the header consists of 4 bytes Message Length, 2 bytes each for data type and channel.
 
 \begin{figure}[H]
 	\centering
@@ -37,8 +39,6 @@ If the client wants to disconnect to the server it will send a disconnect messag
 	\caption{Structure of on packet sent by GSDEP}
 	\label{fig:packet}
 \end{figure}
-
-Every message consists of a header and the actual payload that is transmitted. The header includes additional information that is used by the other end to only read to the end of this message (see \ref{sec:messageframing}), to differentiate between different kinds of messages (see \ref{sec:channels}) and to rebuild the message to its correct datatype. As depicted in Figure \ref{fig:packet}, the header consists of 4 bytes Message Length, 2 bytes each for data type and channel.
 
 \subsection{Commands}
 
