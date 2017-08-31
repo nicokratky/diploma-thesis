@@ -13,6 +13,7 @@ Java is the most popular language to develop an Android application. The majorit
 
 \subsection{C/C++}
 With C or C++ Code and the Android native development kit (NDK), a native library for Android, applications can get much better results in terms of performance. Because the C or C++ Code runs natively on the device it executes faster than the Java code run in the Android runtime environment. The only downside of this is that all of the C or C++ code needs to be handled through the Java native interface (JNI). This programming framework handles the interoperability of the Java code and the C/C++ Code.
+
 \subsection{Go}
 The Go programming language is an open source project developed by a team at Google and many contributers from the open source community \cite{GoProject}. This programming language is supported although there are limitations to the application programming interfaces (API).
 
@@ -20,7 +21,6 @@ The Go programming language is an open source project developed by a team at Goo
 In May 2017, Google announced official support for the Kotlin Programming language. Kotlin is a modern and powerful language and solved some issues addressed with Java (e.g. Null references). Kotlin is also interoperable with Java which means Kotlin can be used in already existing Java projects.
 
 \section{Design}
-
 Material Design is Google's visual design language that was first introduced in 2014. The goal was to develop a single underlying system that allows for a unified experience across all kinds of devices. It tries to support visual elements with the characteristics of real materials, hence Material Design. These guidelines help the users to interact and quickly understand different kinds of User Interface (UI) elements by using familiar tactile attributes.
 
 GRAMOC's Android app uses these design principles for the user interface as shown in figure \ref{fig:appscreenshots}
@@ -41,3 +41,71 @@ GRAMOC's Android app uses these design principles for the user interface as show
 \end{figure}
 
 \section{Implementation}
+
+\subsection{Libraries}
+The Android client was implemented using a small number of libraries:
+\begin{itemize}
+	\item \textbf{Android SDK}
+
+	The standard libraries included in the Android platform itself \cite{AndroidSDK}.
+
+	\item \textbf{GramocAlgorithm-client}
+
+	The Java implementation of the GSDEP client developed along with this project \cite{GramocAlgorithm-client}.
+
+	\item \textbf{MPAndroidChart}
+
+	An easy to use but also powerful open source 2 dimensional chart library for Android \cite{MPAndroidChart}.
+
+	\item \textbf{android-about-page}
+
+	This library allows to simply create an about page for your Android application \cite{android-about-page}.
+\end{itemize}
+
+\subsection{Components}
+In order to build this Android application following components were used:
+
+\begin{itemize}
+	\item Activity
+	\item Service
+	\item NavigationDrawer
+	\item Toolbar
+	\item LineChart
+	\item GramocAlgorithmClient
+	\item Intent
+	\item Thread
+\end{itemize}
+
+\subsection{Activity}
+``An activity is a single, focused thing that the user can do.'' \cite{AndroidActivity} An activity is the main entry point of an application, it takes care of creating a new window and loading all the User Interface (UI) elements. Activities are usually shown as a full-screen window, but they can also be used as a floating window or even be embedded inside of another activity by implementing an ActivityGroup. Inside the Android-system, activities are managed as a stack, this means when a new activity is started it will be placed on top of this stack and become the running activity, the other activities are placed below this one in the stack and therefore remain inactive. The lifecycle of such an activity can be described as in Figure \ref{fig:activitylifecycle}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=10cm,keepaspectratio]{android-activity-lifecycle}
+	\caption{Flowchart showing the lifecycle of an Android-activity}
+	\label{fig:activitylifecycle}
+\end{figure}
+
+\subsection{Service}
+A service is used to perform long-running operations in the background, because it's there it does not need a user interface like an activity. Once started a service can persist even if the user switches to another application. If another component binds itself to the service, it enables the possibility of interprocess communication (IPC). A typical example for a service is to handle network connections through it. The lifecycle is described as in Figure \ref{fig:servicelifecycle}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=10cm,keepaspectratio]{android-service-lifecycle}
+	\caption{Flowchart showing the lifecycle of an Android-service}
+	\label{fig:servicelifecycle}
+\end{figure}
+
+\subsection{NavigationDrawer}
+
+\subsection{Toolbar}
+
+\subsection{LineChart}
+
+\subsection{GramocAlgorithmClient}
+
+\subsection{Intent}
+
+\subsection{Thread}
+
+\subsection{Problems}
