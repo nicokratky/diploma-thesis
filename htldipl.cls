@@ -180,62 +180,67 @@
 %------------------ Titelseite -------------------
 
 \newcommand{\@datitel}{%
-\begin{titlepage}%
-	\begin{center}%
-	\parbox[b][4cm]{3cm}{
-	\includegraphics[width=30mm]{\@schullogo}
-	}
-	\parbox[b][4cm]{8.5cm}{
-  		\centering\Large\@schule
-  		\vskip 0mm%
-  		\small{Höhere Lehranstalt für \@abteilung}
-  		\vskip 0mm%
-  		{\@schwerpunkt}
-	}%
-	\parbox[b][4cm]{3cm}{
-  	\includegraphics[width=30mm]{htl_allgemein.jpg}
-  	}
-\end{center}
-\rule{\textwidth}{1pt}
-\begin{center}%
-  \setlength{\unitlength}{1cm}
+	\begin{titlepage}%
+		\begin{center}%
+			\parbox[b][2cm]{3cm}{
+				\includegraphics[width=30mm]{\@schullogo}
+			}
+			\parbox[b][2cm]{8.5cm}{
+		  		\centering\Large\@schule
+		  		\vskip 0mm%
+		  		\small{Höhere Lehranstalt für \@abteilung}
+		  		\vskip 0mm%
+		  		{\@schwerpunkt}
+			}%
+			\parbox[b][2cm]{3cm}{
+		  		\includegraphics[width=30mm]{htl_allgemein.jpg}
+		  	}
+		\end{center}
+		\rule{\textwidth}{1pt}
+		\begin{center}%
+	  		\setlength{\unitlength}{1cm}
 
-  	\vskip 10mm%
-    {\Huge\bf D\,I\,P\,L\,O\,M\,A\,R\,B\,E\,I\,T}%
-    \vskip 10mm%
-  	\begin{picture}(12,4)
-  		\put(0,1.8){\parbox{12cm}{\centering\huge\bf\setlength{\baselineskip}{20pt}\@title}}
-  	\end{picture}
-\end{center}
-\vskip 0mm%
-    {\large\bf Ausgeführt im Schuljahr \@abgabejahr\ von:}
-    \begin{tabbing}
-    \hspace*{1cm}\=\hspace*{8cm}\=\hspace*{5cm}\= \kill
-	\> \@subthemaA  \> \\
-    	\> \@schuelerA \> \@evidenzA \\
-    	\\
-    	\> \@subthemaB  \> \\
-    	\> \@schuelerB \> \@evidenzB \\
-    	\\
-    	\> \@subthemaC  \> \\
-    	\> \@schuelerC \> \@evidenzC \\
-    	\\
-    	\> \@subthemaD  \> \\
-    	\> \@schuelerD \> \@evidenzD \\
-    	\\
-    	\> \@subthemaE  \> \\
-    	\> \@schuelerE \> \@evidenzE \\
-    \end{tabbing}
-    {\large\bf Betreuer / Betreuerin:}
-    \begin{tabbing}
-    \hspace*{1cm}\=\hspace*{5cm}\= \kill
-    	\> \@betreuerA \\
-    	\> \@betreuerB \\
-    	\> \@betreuerC \\
-    \end{tabbing}
-    {\large \@studienort, am \germandateformat\today}%
-  \par\vfil\null
-\end{titlepage}%
+	  		\vskip 30mm%
+	    	{\Huge\bf D\,I\,P\,L\,O\,M\,A\,R\,B\,E\,I\,T}%
+	    	\vskip 10mm%
+	  		\begin{picture}(12,4)
+	  			\put(0,1.8){\parbox{12cm}{\centering\huge\bf\setlength{\baselineskip}{20pt}\@title}}
+	  		\end{picture}
+		\end{center}
+		\vskip -10mm%
+	    {\large\bf Ausgeführt im Schuljahr \@abgabejahr\ von:}
+	    \begin{tabbing}
+		    \hspace*{1cm}\=\hspace*{8cm}\=\hspace*{5cm}\= \kill
+			\> \@subthemaA  \> \\
+			\> \@schuelerA \> \@evidenzA \\
+			\\
+			\> \@subthemaB  \> \\
+			\> \@schuelerB \> \@evidenzB \\
+			\\
+			\> \@subthemaC  \> \\
+			\> \@schuelerC \> \@evidenzC \\
+			\\
+			\> \@subthemaD  \> \\
+			\> \@schuelerD \> \@evidenzD \\
+			\\
+			\> \@subthemaE  \> \\
+			\> \@schuelerE \> \@evidenzE \\
+	    \end{tabbing}
+	    {\large\bf Betreuer:}
+	    \begin{tabbing}
+	    	\hspace*{1cm}\=\hspace*{5cm}\= \kill
+	    	\> \@betreuerA \\
+	    	\> \@betreuerB \\
+	    	\> \@betreuerC
+	    \end{tabbing}
+	    {\large \@studienort, am \germandateformat\today}
+	    \vskip 3mm
+	  	\noindent \rule{\textwidth}{1pt}
+	  	\vskip 5mm
+	  	\noindent Abgabevermerk:
+	  	\vskip 3mm
+	  	\noindent Übernommen von:
+	\end{titlepage}%
 }
 
 

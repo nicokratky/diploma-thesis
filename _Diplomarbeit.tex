@@ -15,7 +15,8 @@
 
 \geometry{
 	a4paper,
-	margin=3cm
+	margin=3cm,
+	top=1.5cm
 }
 
 %%%----------------------------------------------------------
@@ -35,10 +36,10 @@
 %\betreuerD{} leer lassen wenn nicht vorhanden
 \schuelerA{Nico Kratky}
 \evidenzA{5CHIF-13}
-\subthemaA{}
-\schuelerB{Nico LEIDENFROST}
+\subthemaA{Entwicklung Server, Netzwerkprotokoll}
+\schuelerB{Nico Leidenfrost}
 \evidenzB{5CHIF-14}
-\subthemaB{}
+\subthemaB{Entwicklung App, Visualisierung}
 \schuelerC{}
 \evidenzC{}
 \subthemaC{}
@@ -55,11 +56,23 @@
 %%%----------------------------------------------------------
 \frontmatter
 \maketitle
+\newgeometry{
+	a4paper,
+	margin=3cm
+}
 \tableofcontents
 %%%----------------------------------------------------------
 
 \include{abstract_de}
 \include{abstract_en}
+
+\chapter[Logo]{}
+\vspace*{\fill}
+\begin{center}
+	\makebox[\textwidth]{\includegraphics[width=0.6\paperwidth]{gramoc-icon}}
+\end{center}
+\vspace*{\fill}
+\clearpage
 
 %%%----------------------------------------------------------
 \mainmatter           %Hauptteil (ab hier arab. Seitenzahlen)
@@ -67,9 +80,14 @@
 
 \include{introduction}
 \include{projectmanagement}
+
+\part{Implementationphase 1}
 \include{networking}
 \include{server}
 \include{android}
+
+\part{Lessons Learned}
+\part{Implementationphase 2}
 
 %Literaturverzeichnis
 \clearpage
