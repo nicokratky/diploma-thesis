@@ -10,6 +10,7 @@ Because GRAMOC is a client-server architecture, a common way of communication ha
 GRAMOC Sensor Data Exchange Protocol (GSDEP) is GRAMOC's Network Protocol that is used for sending large amounts of sensor data to the clients. It is built on top of the TCP/IP stack \cite{rfc793, rfc791}.
 
 \subsection{Data Flow}
+\label{sec:networking_data-flow}
 
 Figure \ref{fig:handshake} depicts the handshake performed by GSDEP that is based on TCP's three-way handshake. The Client sends a synchronize (SYN) message to the server to let it know that it wants to connect. If the server can accept new Clients it returns an acknowledgment message (ACK). The client then also returns this acknowledgment message to inform the server that it is indeed connected. The connection now is established.
 
@@ -41,6 +42,7 @@ Every message consists of a header and the actual payload that is transmitted. T
 \end{figure}
 
 \subsection{Commands}
+\label{sec:networking_command}
 
 Commands are special messages that are sent to the endpoint that require further action to be taken. These commands can either be used during the connect or disconnect handshakes, or to request data.
 
