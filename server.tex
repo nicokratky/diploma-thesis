@@ -1,7 +1,11 @@
 \chapter{Server}
 \label{ch:server}
 
+\textbf{TODO:} what are servers?
+
 \section{History of Servers}
+
+\textbf{TODO:} what were the first approaches to servers? how are they used?
 
 \section{Tasks}
 The tasks of the server are to manage incoming connection and their requests. It should always be prepared to send sensor data to a client if it is requested.
@@ -44,12 +48,27 @@ The Raspberry Pi Sense HAT includes following sensors and inputs/outputs:
 The RGB LED matrix and the joystick are both driven by a Atmel ATTINY88 microcontroller-unit.\\
 Because this project focuses on data from magnetic field sensors, the focus was put onto the 3D magnetometer of the SenseHAT. This sensor has a magnetic measurement range of $\pm$ 4/8/12/16 gauss \cite{InertialSensorsManual}.
 
+\subsection{Magnetic field sensors}
+
+\textbf{TODO:} what are magnetic field sensors, what do the measure, how do they measure
+
 \section{Implementation}
 
+\textbf{TODO:} more precise \\
 The server program of GRAMOC is written in Python. This allows for great compatibility.
 
 \subsection{Programming Language}
 
-Python is a simple yet powerful, modern programming language and supports both procedure-oriented as well as object-oriented programming. Since Python is a high-level language, it automatically manages the memory used by the program.
+\textbf{TODO:} explain why Python was chosen, differences between 2 and 3, why 3? \\
+Python is a simple yet powerful, modern programming language and supports both procedure-oriented as well as object-oriented programming. It was developed by Guido van Rossum at Centrum Wiskunde \& Informatica (CWI) in the Netherlands in 1989 and first released in 1991 \cite{HistoryOfPython}. It was meant to be a successor to the ABC programming language. Since Python is a high-level language, it automatically manages the memory used by the program.
 
-\subsection{Design Pattern}
+\section{Program Flow}
+
+As depicted in figure \ref{fig:server-program-flow}, the server starts accepting new connections right after is has started. It then performs the handshake that is required by GSDEP (further explained in \ref{sec:networking_data-flow}). If this handshake is performed without errors, the server starts listening for data from this now connected client on a separate thread. While this thread is running it receives one message and checks if it is a command (see \ref{sec:networking_command}). If it is, the message is interpreted and the appropriate function is executed. This thread is kept alive until the client disconnects or the server is shutdown by the user.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=8cm,keepaspectratio]{server-task}
+	\caption{Flowchart of server program showing the procedure}
+	\label{fig:server-program-flow}
+\end{figure}
