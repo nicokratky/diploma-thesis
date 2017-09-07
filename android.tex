@@ -70,10 +70,8 @@ In order to build this Android application following components were used:
 	\item Service
 	\item NavigationDrawer
 	\item Toolbar
-	\item LineChart
-	\item GramocAlgorithmClient
 	\item Intent
-	\item Thread
+	\item Threads
 \end{itemize}
 
 \subsection{Activity}
@@ -97,15 +95,36 @@ A service is used to perform long-running operations in the background, because 
 \end{figure}
 
 \subsection{NavigationDrawer}
+To navigate to the different activities and views a navigation drawer was implemented. In other words this is a panel that swipes in from the left side of the screen to approximately 3 quarters of the screen width and consists of a header where general information is displayed and a body which is filled with different navigation items. A navigation drawer is part of the material design patterns and therefore commonly used in applications which implement this kind of design.
 
 \subsection{Toolbar}
-
-\subsection{LineChart}
-
-\subsection{GramocAlgorithmClient}
+This component is a widget from the Android \emph{appcompat support library} and is usually used as an app bar, also known as the action bar. The most important functions of such a bar is to make space for identification of an application and to create an easy way to perform important actions, like search or navigation.
 
 \subsection{Intent}
+An intent is an abstract description of an operation to be performed \cite{AndroidIntent}. It takes an action that has to be performed and data to operate on and handles the execution of this particular action. It's most used when launching a new activity.
 
-\subsection{Thread}
+\subsection{Threads}
+When an Android application component starts and no other component of the same application is already started Android will start a new Linux process. On the other hand if an application component is started and there is already a process of this application running, Android will launch the component in the main-thread of this application unless it's explicitly started in a new thread within this process. There are two essential rules to follow when dealing with threads in Android:
 
-\subsection{Problems}
+\begin{enumerate}
+	\item Do not block the UI Thread
+	\item Do not access the Android UI toolkit from outside the UI thread
+\end{enumerate}
+
+\noindent There are a few different ways how to execute tasks asynchronous in Android:
+
+	\subsubsection{Extended Threads}
+	The first possible solution is to create a subclass of the Java \emph{Thread} class. If this method is chosen the \emph{run} method of the superclass Thread needs to be overwritten. This method is recommended if the behavior of the threads needs to be modified or new functionalities needs to be implemented, otherwise implementing the Runnable interface would be more appropriate.
+
+	\subsubsection{Runnable}
+	Another way to accomplish asynchronous behavior is to create a class that implements the \emph{Runnable} interface. An Instance of this class can then be passed to the specific thread in which the tasks are executed. This method is preferred to use when running tasks without the need of modified thread behavior because a runnable class won't need to create a new thread every time it executes. Also a runnable class can be executed on different threads.
+
+	\subsubsection{AsyncTasks}
+	AsyncTasks are used to do work in the background and then update the UI accordingly. As AsyncTasks are defined to do blocking operations there can be only one running AsyncTask at a time. There are four steps that are executed when performing an AsyncTask:
+
+	\begin{enumerate}
+		\item onPreExecute: executed on the UI thread before the task is executed.
+		\item doInBackground: executed on the background thread, here the background work that needs to be done is executed.
+		\item onProgressUpdate: executed on the UI thread every time when \emph{publishProgress} is called in the background thread.
+		\item onPostExecute: executed on the UI thread when the background tasks are finished.
+	\end{enumerate}
