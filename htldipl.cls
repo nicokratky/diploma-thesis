@@ -352,7 +352,4 @@ Quellen und Hilfsmittel nicht benutzt und die den benutzten Quellen wörtlich un
 
 %%-------------------------------------------------------------
 
-
-
 \endinput
-
