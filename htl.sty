@@ -485,8 +485,6 @@ keepspaces=true,%
   \@modifydate{htl@date}{#1}{#2}{#3}
 }
 
-\newdateformat{germandateformat}{\THEDAY{. }\monthname[\THEMONTH] \THEYEAR}
-
 \newcommand{\htl@GetDateDay}{\getdateday{htl@date}}
 \newcommand{\htl@GetDateMonth}{\getdatemonth{htl@date}}
 \newcommand{\htl@GetDateYear}{\getdateyear{htl@date}}
@@ -554,3 +552,4 @@ keepspaces=true,%
 \flushbottom
 
 %% -------------------------------------------------------
+\newdateformat{germandateformat}{\THEDAY{. }\monthname[\THEMONTH] \THEYEAR}
