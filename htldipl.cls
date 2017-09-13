@@ -352,4 +352,8 @@ Quellen und Hilfsmittel nicht benutzt und die den benutzten Quellen wörtlich un
 
 %%-------------------------------------------------------------
 
+\newcommand{\todo}[1]{%
+	{\color{red}\textbf{TODO: }}#1 \\
+}
+
 \endinput
