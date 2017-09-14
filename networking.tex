@@ -32,7 +32,7 @@ If a client wants to disconnect from the server it will send a disconnect messag
 
 \subsection{Data Interchange Format}
 
-Every message consists of a header and the actual payload that is transmitted. The header includes additional information that is used by the other end to only read one message (see \ref{sec:messageframing}), to differentiate between different kinds of messages (see \ref{sec:channels}) and to rebuild the message data to its correct data type. As depicted in Figure \ref{fig:packet}, the header consists of 4 bytes Message Length and 2 bytes each for data type and channel.
+Every message consists of a header and the actual payload that is transmitted. The header includes additional information that is used by the other end to only read one message (see \ref{sec:messageframing}), to differentiate between different kinds of messages (see \ref{sec:channels}) and to rebuild the message data to its correct data type. As depicted in Figure \ref{fig:packet}, the header consists of 4 bytes message length and 2 bytes each for data type and channel.
 
 \begin{figure}[H]
 	\centering
@@ -100,7 +100,7 @@ Receiving one message is done by first reading into a buffer of specified length
 
 \paragraph{Sending}
 
-Messages can also be framed by using delimiters. This can be done by sending a special character between each message. This character can either be a character that does not show up in actual messages (e.g. a Null character), or a character that is present in a message. If the second approach is used, every message has to be run through a escaping process which replaces these characters in the messages.
+Messages can also be framed by using delimiters. This can be done by sending a special character between each message. This character can either be a character that does not show up in actual messages (e.g. a Null character), or a character that is present in a message. If the second approach is used, every message has to be run through an escaping process which replaces these characters in the messages.
 
 \paragraph{Receiving}
 
