@@ -352,8 +352,17 @@ Quellen und Hilfsmittel nicht benutzt und die den benutzten Quellen wörtlich un
 
 %%-------------------------------------------------------------
 
+\RequirePackage{tocloft}
+
+\newcommand{\todolistname}{TODO}
+
+\newlistof{todo}{td}{\todolistname}
+
 \newcommand{\todo}[1]{%
-	{\color{red}\textbf{TODO: }}#1 \\
+	\refstepcounter{todo}
+	\par\noindent {\color{red} \textbf{TODO \thetodo.}} #1
+	\addcontentsline{td}{todo}
+	{\protect\numberline{\thechapter.\thetodo}#1}\par
 }
 
 \endinput
