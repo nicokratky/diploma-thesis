@@ -3,10 +3,12 @@
 
 After extensive testing it was decided that this approach will not lead to successful project outcome. This decision was made while taking several factors into consideration.
 
-\section{Hardware limitations}
+\subsection{Android}
+Android is a great platform to create simple and even complex application systems that does not rely on heavy performance. Since the key element in this project is the ability to display the sensor data in real time, the Android development was discontinued due to the performance issues that come with it.
 
 \section{Software limitations}
-\subsection{Android}
+Android is designed to display the UI with 60 frames per second (fps), which results in redrawing frames every 16 milliseconds at best. The task of drawing frames will be executed by the main thread along with many other operations like system events, input events, application callbacks and so on. The system tries to update the screen every 16 milliseconds, if however other operations than the redrawing of the screen are pulled from the work queue when trying to update the screen these frames will simply be dropped and users will experience lacks of smoothness while using the application.
+
 \subsection{Plotting Libraries}
 
 \chapter{Conclusion}
