@@ -5,21 +5,6 @@ Android is a mobile operating system developed by Google, based on the Linux ker
 \section{History of Android}
 Android started as a startup Company under the name ``Android Inc.'' It was founded in Palo Alto, California in October 2003. It was meant to be an advanced operating system for digital cameras. In 2004 they changed their goals to expand their operating system to handheld devices that can compete against Symbian and other mobile operating systems which were state of the art at this time. In July 2005 Google bought the whole company along with its key employees for a huge amount of money, 50 Million U.S. dollar at least, according to rumors. They developed a prototype which had similarities with a BlackBerry phone, it had no touchscreen and a physical QWERTY keyboard. Due to the launch of the Apple iPhone in 2007, Google changed its Android specification documents to state that "Touchscreens will be supported", although "the Product was designed with the presence of discrete physical buttons as an assumption, therefore a touchscreen cannot completely replace physical buttons". The first commercially available smartphone using Android as its operating system was the HTC Dream announced in 2008. Since then Google launched numerous updates which improved the operating system bit by bit. They fixed bugs from prior releases and added new features along the way. Android major versions also have a naming scheme, they are all named after a dessert or a sugary treat. Each version starting with the next character in the alphabet starting with version 1.5 called ``Cupcake'', followed by 1.6 as ``Donut'' up to 7.0 as ``Nougat'' and the current version 8.0 as ``Oreo''. Google explained this naming scheme with the following sentence ``Since these devices make our lives so sweet, each Android version is named after a dessert''.
 
-\section{Overview of Android Application Development}
- Applications are often abbreviated as ``apps''. These Android apps are written using the Android software development kit (SDK). There are a small selection of programming languages available that can be used to develop a native Android app.
-
-\subsection{Java}
-Java is the most popular language to develop an Android application. The majority of apps and libraries are written in Java. These apps are compiled to bytecode for the Java virtual machine, which is then translated to Dalvik bytecode. The Dalvik virtual machine is a process virtual machine developed for the Android platform. Since Android 5.0 Dalvik is discontinued and the Android Runtime was introduced, which now translates the application's bytecode into native instructions.
-
-\subsection{C/C++}
-With C or C++ Code and the Android native development kit (NDK), a native library for Android, applications can get much better results in terms of performance. Because the C or C++ Code runs natively on the device it executes faster than the Java code run in the Android runtime environment. The only downside of this is that all of the C or C++ code needs to be handled through the Java native interface (JNI). This programming framework handles the interoperability of the Java code and the C/C++ Code.
-
-\subsection{Go}
-The Go programming language is an open source project developed by a team at Google and many contributers from the open source community \cite{GoProject}. This programming language is supported although there are limitations to the application programming interfaces (API).
-
-\subsection{Kotlin}
-In May 2017, Google announced official support for the Kotlin Programming language. Kotlin is a modern and powerful language and solved some issues addressed with Java (e.g. Null references). Kotlin is also interoperable with Java which means Kotlin can be used in already existing Java projects.
-
 \section{Design}
 Material Design is Google's visual design language that was first introduced in 2014. The goal was to develop a single underlying system that allows for a unified experience across all kinds of devices. It tries to support visual elements with the characteristics of real materials, hence Material Design. These guidelines help the users to interact and quickly understand different kinds of User Interface (UI) elements by using familiar tactile attributes.
 
@@ -40,6 +25,30 @@ GRAMOC's Android app uses these design principles for the user interface as show
 	\label{fig:appscreenshots}
 \end{figure}
 
+\section{Overview of Android Application Development}
+ Applications are often abbreviated as ``apps''. These Android apps are written using the Android software development kit (SDK). There are a small selection of programming languages available that can be used to develop a native Android app.
+
+\subsection{Java}
+Java is the most popular language to develop an Android application. The majority of apps and libraries are written in Java. These apps are compiled to bytecode which then will be translated to native instruction by the Android Runtime (ART). ART is an application runtime environment that replaced its predecessor Dalvik, a process virtual machine developed to run Android applications. Java was chosen to be used in this project because of the broad variety of third-party libraries available.
+
+\subsection{C/C++}
+With C or C++ Code and the Android native development kit (NDK), a native library for Android, applications can get much better results in terms of performance. Because the C or C++ Code runs natively on the device it executes faster than the Java code run in the Android runtime environment. The only downside of this is that all of the C or C++ code needs to be handled through the Java native interface (JNI). This programming framework handles the interoperability of the Java code and the C/C++ Code.
+
+\subsection{Go}
+The Go programming language is an open source project developed by a team at Google and many contributers from the open source community \cite{GoProject}. This programming language is supported although there are limitations to the application programming interfaces (API), therefore it was not considered a reasonable option for GRAMOC.
+
+\subsection{Kotlin}
+In May 2017, Google announced official support for the Kotlin Programming language. Kotlin is a modern and powerful language and solved some issues addressed with Java (e.g. Null references). Kotlin is also interoperable with Java which means Kotlin can be used in already existing Java projects. Kotlin was considered to be used in this project but the fact that the official support was only recently introduced and therefore the list of available third-party libraries is not as comprehensive as in Java, led to the decision that Java was the programming language of choice.
+
+\subsection{Runtime}
+A runtime refers a system that converts code written in a high level language like Java into CPU readable byte code. In Java the code is compiled to Java byte code and then converted to native code with the Java Virtual Machine (JVM). In Android however the Java code is compiled to Java byte code, then compiled again to Dalvik byte code and then given to the runtime. Two different types of a runtime were introduced in Android.
+
+	\subsubsection{Dalvik}
+	At the beginning of Android the Dalvik Virtual Machine (DVM) was used to execute Android applications. The main difference between the DVM and the JVM is that the DVM is register-based and the JVM is stack-based. Stack-based machines must use certain instructions to load and manipulate data on the stack. A register-based machine need less but more complex instructions than a stack-based machine. Dalvik uses just-in-time (JIT) compilation, so each time the application is run, Dalvik dynamically translates chunks of the Dalvik byte code into native machine code. These code parts are translated and cached if needed, therefore not the whole application is translated and this results in a smaller memory footprint.
+
+	\subsubsection{Android Runtime Environment}
+	The Android Runtime Environment (ART) was introduced in Android version 4.4 and later replaced Dalvik completely in version 5.0. The main difference to Dalvik is the use of an Ahead-of-Time (AOT) compiler instead of a JIT compiler. With AOT compilation the whole Dalvik byte code is translated to native machine code during the installation process of the application. This method improves the execution speed of the application because the CPU does not need to compile the Dalvik byte code during runtime. Also the startup time and battery consumption could be decreased with AOT compilation. The only drawbacks are that the installation time and the required storage space are increased.
+
 \section{Components}
 In order to build this Android application following Android components were used:
 
@@ -53,13 +62,13 @@ In order to build this Android application following Android components were use
 \end{itemize}
 
 \subsection{Intent}
-An intent is an abstract description of an operation to be performed \cite{AndroidIntent}. It takes an action that has to be performed and data to operate on and handles the execution of this particular action. It's most used when launching a new activity.
+An intent is an abstract description of an operation to be performed \cite{AndroidIntent}. It handles the execution of a specific action that it takes along with data to operate on. It's most used when launching a new activity.
 
 \subsection{Toolbar}
-This component is a widget from the Android \emph{appcompat support library} and is usually used as an app bar, also known as the action bar. The most important functions of such a bar is to make space for identification of an application and to create an easy way to perform important actions, like search or navigation.
+This component is a widget from the Android \emph{appcompat support library} and is usually used as an app bar, also known as the action bar. The most important functions of such a bar is to make space for identification of an application and to create an easy way to perform important actions, like searching or navigating.
 
 \subsection{Activity}
-``An activity is a single, focused thing that the user can do.'' \cite{AndroidActivity} An activity is the main entry point of an application, it takes care of creating a new window and loading all the User Interface (UI) elements. Activities are usually shown as a full-screen window, but they can also be used as a floating window or even be embedded inside of another activity by implementing an ActivityGroup. Inside the Android-system, activities are managed as a stack, this means when a new activity is started it will be placed on top of this stack and become the running activity, the other activities are placed below this one in the stack and therefore remain inactive. The lifecycle of such an activity can be described as in Figure \ref{fig:activitylifecycle}.
+``An activity is a single, focused thing that the user can do.'' \cite{AndroidActivity} An activity is the main entry point of an application, it takes care of creating a new window and loading all the User Interface (UI) elements. Activities are usually shown as a full-screen window, but they can also be used as a floating window or even be embedded inside of another activity by implementing an ActivityGroup. Inside the Android-system, activities are managed as a stack, this means when a new activity is started it will be placed on top of this stack and become the running activity. The other activities are placed below this one in the stack and therefore remain inactive. The lifecycle of such an activity can be described as shown in Figure \ref{fig:activitylifecycle}.
 
 \begin{figure}[H]
 	\centering
@@ -69,7 +78,7 @@ This component is a widget from the Android \emph{appcompat support library} and
 \end{figure}
 
 \subsection{Service}
-A service is used to perform long-running operations in the background, because it's there it does not need a user interface like an activity. Once started a service can persist even if the user switches to another application. If another component binds itself to the service, it enables the possibility of interprocess communication (IPC). A typical example for a service is to handle network connections through it. The lifecycle is described as in Figure \ref{fig:servicelifecycle}.
+A service is used to perform long-running operations in the background that do not need a user interface like an activity. Once started, a service can persist even if the user switches to another application. If another component binds itself to the service, it enables the possibility of interprocess communication (IPC). A typical example for a service is to handle network connections through it. The lifecycle is described as depicted in Figure \ref{fig:servicelifecycle}.
 
 \begin{figure}[H]
 	\centering
@@ -79,26 +88,26 @@ A service is used to perform long-running operations in the background, because 
 \end{figure}
 
 \subsection{NavigationDrawer}
-To navigate to the different activities and views a navigation drawer was implemented. In other words this is a panel that swipes in from the left side of the screen to approximately 3 quarters of the screen width and consists of a header where general information is displayed and a body which is filled with different navigation items. A navigation drawer is part of the material design patterns and therefore commonly used in applications which implement this kind of design.
+To navigate to the different activities and views a navigation drawer was implemented. In other words this is a panel that swipes in from the left side of the screen to approximately 3 quarters of the screen width and consists of a header where general information is displayed and a body which is filled with different navigation items. A navigation drawer is part of the material design pattern and is therefore commonly used in applications which implement this kind of design.
 
 \subsection{Threads}
 When an Android application component starts and no other component of the same application is already started Android will start a new Linux process. On the other hand if an application component is started and there is already a process of this application running, Android will launch the component in the main-thread of this application unless it's explicitly started in a new thread within this process. There are two essential rules to follow when dealing with threads in Android:
 
 \begin{enumerate}
-	\item Do not block the UI Thread
+	\item Do not block the UI thread
 	\item Do not access the Android UI toolkit from outside the UI thread
 \end{enumerate}
 
-\noindent There are a few different ways how to execute tasks asynchronous in Android:
+\noindent The reasons behind this two rules are quite simple. The point why the UI thread should never be blocked is simply because then no events could be dispatched, including events that update the UI itself. This means the application would appear to be stuck and thats really bad. Accessing the UI toolkit outside the UI thread is also a bad idea, since the UI toolkit is not thread-safe. If the access would not be protected by this rule a race condition could happen and therefore cause errors within the application. To avoid such errors there are a few different ways how to execute tasks asynchronously in Android:
 
 	\subsubsection{Extended Threads}
-	The first possible solution is to create a subclass of the Java \emph{Thread} class. If this method is chosen the \emph{run} method of the superclass Thread needs to be overwritten. This method is recommended if the behavior of the threads needs to be modified or new functionalities needs to be implemented, otherwise implementing the Runnable interface would be more appropriate.
+	The first possible solution is to create a subclass of the Java \emph{Thread} class. If this method is chosen the \emph{run} method of the superclass needs to be overwritten. This method is recommended if the behavior of the thread needs to be modified or new functionalities needs to be implemented, otherwise implementing the Runnable interface would be more appropriate.
 
 	\subsubsection{Runnable interface}
 	Another way to accomplish asynchronous behavior is to create a class that implements the \emph{Runnable} interface. An Instance of this class can then be passed to the specific thread in which the tasks are executed. This method is preferred to use when running tasks without the need of modified thread behavior because a runnable class won't need to create a new thread every time it executes. Also a runnable class can be executed on different threads.
 
 	\subsubsection{AsyncTasks}
-	AsyncTasks are used to do work in the background and then update the UI accordingly. As AsyncTasks are defined to do blocking operations there can be only one running AsyncTask at a time. There are four steps that will be executed when performing an AsyncTask:
+	AsyncTasks are used to do work in the background and then update the UI accordingly. As AsyncTasks are defined to do blocking operations there can only be one running AsyncTask at a time. There are four steps that will be executed when performing an AsyncTask:
 
 	\begin{enumerate}
 		\item \textbf{onPreExecute}: executed on the UI thread before the task is executed.
@@ -128,4 +137,4 @@ The Android client was implemented using a small number of libraries:
 \end{itemize}
 
 \section{Implementation}
-The entry point of this Android application is called the \emph{MainActivity}. When this Activity starts a background service is also started which is basically a wrapper for the GSDEP client, therefore it handles all the networking related tasks within the app. The service will be bound to the active activity, so every time another activity is launched the service will be unbound by the current activity and newly bound by the starting activity. The \emph{MainActivity's} goal is to give the user an easy way to connect to the server. Once the application successfully connects to the server, a new activity responsible for plotting the received sensor data will be launched, whether the 2 dimensional or the 3 dimensional plotting activity is launched depends on the selection made in the \emph{NavigationDrawer}, by default the 2 dimensional plotting activity will be launched. {\color{red} \textbf{(MAYBE REMOVE 3D ACTIVITY?)}} When the 2 dimensional plotting activity is launched the networking service will be bound and three \emph{LineCharts} contained within the library \emph{MPAndroidChart} will be created and properly set up. After these tasks are finished and the activity is ready to receive data the server will be notified. Now each data set received will be added to the data buffer of the respective chart. If the buffer of a chart is full, the values at the end will be truncated until there is enough space to add the new values.
+The entry point of this Android application is called the \emph{MainActivity}. When this Activity starts a background service is also started which is basically a wrapper for the GSDEP client, therefore it handles all the networking related tasks within the app. The service will be bound to the active activity, so every time another activity is launched the service will be unbound by the current activity and newly bound by the starting one. The \emph{MainActivity's} goal is to give the user an easy way to connect to the server. Once the application successfully connects to the server, a new activity responsible for plotting the received sensor data will be launched, whether the 2 dimensional or the 3 dimensional plotting activity is launched depends on the selection made in the \emph{NavigationDrawer}, by default the 2 dimensional plotting activity will be launched. When the 2 dimensional plotting activity is launched the networking service will be bound and three \emph{LineCharts} contained within the library \emph{MPAndroidChart} will be created and properly set up. After these tasks are finished and the activity is ready to receive data, the server will be notified. Now each data set received will be added to the data buffer of the respective chart. If the buffer of a chart is full, the values at the end will be truncated until there is enough space to add the new values. The 3 dimensional plotting activity however was not implemented at all, since the Android application was discontinued because of problems that appeared during the development of the 2 dimensional activity (see \autoref{ch:Problems}).
