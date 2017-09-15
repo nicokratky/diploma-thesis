@@ -19,4 +19,4 @@ After researching alternatives that still fit the purpose of GRAMOC a meeting wi
 The switch to developing a web application still offers a few advantages that were not existing while focusing on a Android application. This includes the flexibility as a web application can run on basically any devices the end user wishes. As of today many devices support network connections and can run a web browser. Another advantage is that JavaScript offers a tremendous amount of third party libraries, especially plotting libraries. There a also a few libraries that support scientific plotting, even VTK the visualization toolkit that is used by ParaView is available as a JS version \cite{VTK}.
 
 \section{Disadvantages}
-\todo{Describe disadvantages}
+The change of specifications also brings some disadvantages with it. For example the whole networking stack has to be rewritten because raw TCP streams are not supported in web environments. They were replaced be the WebSocket technology \cite{rfc6455}. Also a new third-party plotting library has to be chosen and read up on.
