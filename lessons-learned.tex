@@ -7,17 +7,15 @@ After extensive testing it was decided that this approach will not lead to succe
 Android is a great platform to create simple and even complex application systems that does not rely on heavy performance. Since the key element in this project is the ability to display the sensor data in real time, the Android development was discontinued due to the performance issues that come with it.
 
 \section{Software limitations}
-Android is designed to display the UI with 60 frames per second (fps), which results in redrawing frames every 16 milliseconds at best. The task of drawing frames will be executed by the main thread along with many other operations like system events, input events, application callbacks and so on. The system tries to update the screen every 16 milliseconds, if however other operations than the redrawing of the screen are pulled from the work queue when trying to update the screen these frames will simply be dropped and users will experience lacks of smoothness while using the application.
-\todo{describe actual latency(about 50ms)}
+Android is designed to render the UI with 60 frames per second (fps), which results in redrawing frames every 16 milliseconds at best. The task of drawing frames will be executed by the main thread along with many other operations like system events, input events, application callbacks and so on. The system tries to update the screen every 16 milliseconds, if however other operations than the redrawing of the screen are pulled from the work queue when trying to update the screen these frames will simply be dropped and users will experience lacks of smoothness while using the application. To be sure about how much milliseconds the rendering of one packet takes the time was stopped. The results showed that it took up to about 50 milliseconds to to render one update. These measurements were the prime factor that led to the decision to discontinue the work on Android.
 
 \section{Plotting Libraries}
-\todo{write plotting libraries}
+There are a lot of freely available plotting and charting libraries to use in Android development. Unfortunately most of them do not meet the requirements to be used in this project. There are many good libraries to plot 2 dimensional charts like pie charts or bar charts, but there is a lack of libraries that can display scientific plots (e.g. surface plots). The libraries that would meet all the requirements however are not originally designed to be used in Android development and therefore work only in specific version of Android or do not work at all because they rely on components that are not available in Android.
 
 \chapter{Conclusion}
 After researching alternatives that still fit the purpose of GRAMOC a meeting with the client was arranged to discuss these alternatives. This meeting resulted in redoing the specifications of the project. This now includes a web application instead of the mobile Android application.
 
 \section{Advantages}
-
 The switch to developing a web application still offers a few advantages that were not existing while focusing on a Android application. This includes the flexibility as a web application can run on basically any devices the end user wishes. As of today many devices support network connections and can run a web browser. Another advantage is that JavaScript offers a tremendous amount of third party libraries, especially plotting libraries. There a also a few libraries that support scientific plotting, even VTK the visualization toolkit that is used by ParaView is available as a JS version \cite{VTK}.
 
 \section{Disadvantages}
