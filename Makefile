@@ -5,7 +5,7 @@ SRC := _Diplomarbeit
 all: compile
 
 clean:
-	rm -f *.{aux,lof,log,lot,fls,out,toc,fmt,fot,cb,cb2,bbl,cbf,blg,glo,ist,pdfsync,gls,glg,todo,td}
+	rm -f *.{aux,lof,log,lot,fls,out,toc,fmt,fot,cb,cb2,bbl,cbf,blg,glo,ist,pdfsync,gls,glg,todo,td,fdb_latexmk,synctex.gz}
 
 compile: clean
 	pdflatex $(SRC) || true
