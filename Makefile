@@ -15,4 +15,4 @@ compile: clean
 	make clean
 
 watch:
-	fswatch -o ./*.tex | xargs -n1 make compile
+	fswatch -o **/*.tex | xargs -n1 make compile
