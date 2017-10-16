@@ -16,7 +16,11 @@ To process data there must be a source from which the program can obtain its dat
 
 \subsection{ADC Board}
 
+This is the component that handles analog to digital conversion, hence ADC board. This circuit board receives analog data from the sensor in six channels. The first three channels being the magnetic field and the last three the gradients.
+
 \subsection{Simulator}
+
+To simplify the whole development process a simple way of data generation had to be created. Therefore a small application written in C++ was built. The main feature of the so-called ADCSim, whichs stands for ADC Simulator, is the seamless interchangeability with the real ADC Board. 
 
 \section{Abstraction Layer}
 
