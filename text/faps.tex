@@ -1,22 +1,60 @@
-\chapter{Filtering and Preprocessing Layer}
+\chapter{Filtering and Preprocessing System}
 \label{ch:faps}
+
+The main task of GRAMOCs Filtering and Preprocessing System, also known as simply FaPS, is to read digital sensor output, preprocess it and forward it to another process that handles the distribution.
 
 \section{Command Line Parameter Parsing}
 
-\todo{Explain Boost::program\_options}
+As FaPS is a command line program arguments that are passed to it have to be parsed. This is done by Boosts program\_options \cite{BoostProgramOptions}. This module allows easy parsing and exception handling.
+
+Following arguments can be passed to FaPS:
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{| l | l | p{5cm} |}
+    \hline
+    \textbf{Flag} & \textbf{Argument} & \textbf{Meaning} \\ \hline
+    -h, --help & & Outputs the usage information \\ \hline
+    -i, --ip & \textit{ip\_adress} & Sets the IP address to which FaPS will connect to read sensor data \\ \hline
+    -p, --port & \textit{port} & Sets the Port to which FaPS will connect to read sensor data \\ \hline
+    -f, --file & \textit{filename} & Sets the filename to which the data will be saved \\
+    \hline
+    \end{tabular}
+    \caption{Arguments that can be passed to FaPS and what they do}
+    \label{tab:faps_arguments}
+\end{table}
 
 \section{Networking}
 
-\todo{Explain Boost::Asio}
+All networking related programming was done by utilizing Boosts Asio module. Asio is a cross-platform C++ library for network programming. The main feature is its asynchronous I/O model \cite{BoostAsio}.
+
+\todo{Explain Boost::Asio more precise}
 
 \section{Data Storage}
 
-\todo{Explain HDF5}
+To be able to offer a possibility for further data inspection all received data is saved to a HDF5 file. HDF stands for Hierarchical Data Format. It is a file format for storing large amounts of scientific data. Such a file is organized hierarchically as the name suggests. This is achieved by following a simple tree structure and dividing the data into groups and datasets. The format of a HDF file can be compared to a file system with the exception that HDF groups are linked as a directed graph. This means that a HDF file allows circular references.
 
 \section{Data Serialization}
 
-\todo{Explain protobuf}
+In order to send data so that the other end can interpret the message it has to be packed into a common format. To do this Googles protobuf libary is used \cite{Protobuf}. This is a language- and platform-independent data serialization library developed by Google. Data structure is defined in a \textit{.proto} file. With the help of special generated source code it is easy to interact with this specified data structure.
+
+\begin{lstlisting}[caption={The \textit{.proto} file used by GRAMOC}, captionpos=b]
+syntax = "proto3";
+
+package gramoc;
+
+message SensorPacket {
+    repeated sint32 channel_1 = 1;
+    repeated sint32 channel_2 = 2;
+    repeated sint32 channel_3 = 3;
+    repeated sint32 channel_4 = 4;
+    repeated sint32 channel_5 = 5;
+    repeated sint32 channel_6 = 6;
+}
+\end{lstlisting}
 
 \section{Data Forwarding}
 
-\todo{Explain IPC, more specific Unix sockets}
+When the data is packed to a binary format using protobufs it has to be passed to another process on the same host. This is a typical use case for inter-process communication. It was decided to use normal UNIX domain socket for this. In the case of GRAMOC FaPS has the server role and the processes that handle end-client connections are clients.
+
+\todo{describe unix domain sockets}
