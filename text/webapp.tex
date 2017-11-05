@@ -1,0 +1,56 @@
+\chapter{Webapp}
+\label{ch:Webapp}
+
+After the conclusion that an Android application would not satisfy all the requirements in the purpose of GRAMOC, the decision to build a Web application was made. A so called ``Webapp'' is an application that runs on a web server. To use a Webapp a user has to access it via a web browser(e.g. Google Chrome). The web server then will serve the content to the web browser, this enables the ability of a Webapp to be platform independent.
+
+\section{Framework}
+To develop a modern Webapp a developer should choose a framework to build this web application. A software framework can be identified as a software library, it provides basic functionality like rendering content or routing between views in the case of a web framework. The biggest advantage of a web framework is that the developer does not need to reinvent the wheel, because a framework already provides the basic functionalities, also most of the frameworks out there are open source, which means thousands of people can contribute to the project and also find and fix bugs as well as issues. Therefore the user gains a solid code base which is efficient, secure and in most cases well documented.
+
+\subsection{Vue.js}
+In the case of GRAMOC a framework called ``Vue.js'' \cite{Vue} was chosen because of the performance compared to other big frameworks and the ``simplicity and ease of use'' \cite{WhyVue}, as stated in a blog post written by the Frontend DC Lead of GitLab \cite{GitLab}. The performance was measured with the benchmark application from Stefan Krause \cite{FrameworkBenchmark}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=10cm,keepaspectratio]{framework_perf_mem}
+    \caption{The measured memory used by each framework}
+    \label{fig:framework_perf_mem}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=16cm,keepaspectratio]{framework_perf_dur}
+    \caption{The measured time cost of given operations by each framework}
+    \label{fig:framework_perf_dur}
+\end{figure}
+
+In order to use Vue.js it is recommended by the developers to use ``webpack'' \cite{webpack} as module bundler and ``Babel'' \cite{Babel} as JavaScript compiler.
+
+\subsubsection{webpack}
+webpack is a module bundler for modern JavaScript applications, that builds a dependency graph which includes every module needed to execute the application. It packages all the needed modules into one or more bundles which can be used as static asserts.
+
+\subsubsection{Babel}
+Babel is a JavaScript compiler that gives the developer the ability to write code in the latest version of JavaScript and if the targeted environment does not support these version, Babel compiles the code to a supported prior version.
+
+\section{Web Server}
+To make a web application accessible to a user, there needs to be a web server which serves the files to the web browser of the user. In the case of GRAMOC ``Node.js'' \cite{Node} with its built-in module HTTP was chosen to be used as a web server.
+
+\subsection{Node.js}
+Node.js \cite{Node} is a asynchronous event driven JavaScript runtime, designed to build network applications. To use Node as a web server a developer must use the built-in module HTTP, which allows to transfer data over the HTTP protocol, but there is also a module that can handle IPC connections. The main function of the Node server is to receive data from the Filtering and Preprocessing Layer (FAPS) and forward it to the web application via web sockets implemented through the ``socket.io'' \cite{socketio} library. The Webapp itself is served by ``Express'' \cite{express}.
+
+\subsection{socket.io}
+socket.io is a JavsScript client library to be used in combination with Node.js. This library was chosen because it aims to make real-time applications possible in every browser. Since GRAMOC was built with the intent of delivering sensor data in real-time to the user, socket.io helped a lot in the step of implementing real-time communication.
+
+\subsection{Express}
+Express is a minimal and flexible web application framework to be used with Node.js. It is build on top of the HTTP module thats included in the standard library from Node.js and its main focus is to handle the routing tasks of the HTTP server running. So it is not a web server itself, but a layer on top of it to provide some extra features.
+
+\section{Plotly}
+To visualize the data received from the sensor a graphing library called ``Plotly'' \cite{Plotly}, more specific the open source JavaScript library ``plotly.js'' \cite{PlotlyJS}. Plotly is build on top of state of the art JavaScript libraries like ``d3.js'' \cite{d3} and ``stackgl'' \cite{stackgl}. The library offers a broad variety of two and three dimensional charts in the categories statistical, financial, scientific and more. Plotly was chosen because of the capability to easily create custom, dynamic and real time charts.
+
+\section{Workflow}
+
+As shown in figure \textbf{<insert ref here>} the server asynchronously tries to connect with the IPC socket and starts listening for incoming connections on a specified port. The server keeps retrying to connect to the IPC socket until a connection is established because without this connection no data can be forwarded to the web application. If a client connects on the before specified port the connection will be immediately upgraded to a socket connection and the web application will be served to the user. When the Webapp launches it will display the Home page, then the user can navigate to the 2D, the 3D or the About page, through the navigation bar at the top. If the About page was selected the user simply gets a static about page. If the user navigates to the 2D page, three line charts will be initialized and the client emits a message to the server to start receive the sensor data. This data will be used to update the charts accordingly.
+\todo{explain what data the 2d charts display}
+\todo{explain the extra features like saving, stopping...}
+\todo{write about the 3d page}
+
+\todo{insert flowchart for the webapp workflow}
