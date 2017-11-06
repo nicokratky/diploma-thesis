@@ -13,6 +13,9 @@
 \usepackage{hyperref}
 \usepackage{float}
 \usepackage{listings}
+\usepackage{array}
+
+\newcolumntype{C}[1]{>{\centering\arraybackslash}m{#1}}
 
 \geometry{
 	a4paper,
@@ -89,7 +92,7 @@
 %%%----------------------------------------------------------
 
 \include{text/introduction}
-\include{text/projectmanagement}
+% \include{text/projectmanagement}
 
 \part{Implementationphase 1}
 \include{text/networking}
