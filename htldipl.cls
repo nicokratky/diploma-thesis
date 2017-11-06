@@ -365,4 +365,11 @@ Quellen und Hilfsmittel nicht benutzt und die den benutzten Quellen wörtlich un
 	{\protect\numberline{\thechapter.\thetodo}#1}\par
 }
 
+\renewcommand{\author}[1]{%
+	\vspace{5mm}
+	\textbf{Author:} #1
+	\vspace{5mm}
+	\\
+}
+
 \endinput
