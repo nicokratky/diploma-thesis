@@ -9,19 +9,13 @@
 
 \graphicspath{{images/}}    % wo liegen die Bilder?
 
-\usepackage{geometry}
 \usepackage{hyperref}
 \usepackage{float}
 \usepackage{listings}
 \usepackage{array}
+\usepackage[paper=a4paper,margin=3cm]{geometry}
 
-\newcolumntype{C}[1]{>{\centering\arraybackslash}m{#1}}
-
-\geometry{
-	a4paper,
-	margin=3cm,
-	top=1.5cm
-}
+\addbibresource{references}
 
 %%%----------------------------------------------------------
 \begin{document}
@@ -35,47 +29,33 @@
 \schule{HTBLuVA Wiener Neustadt}
 \schullogo{htl.jpeg}
 \abgabejahr{2017/18}
-
 \betreuerA{Dr. Michael Stifter}
 \betreuerB{}
 \betreuerC{}
-%\betreuerD{} leer lassen wenn nicht vorhanden
-
 \schuelerA{Nico Kratky}
 \evidenzA{5CHIF-13}
 \subthemaA{Entwicklung Server, Netzwerkprotokoll}
-
 \schuelerB{Nico Leidenfrost}
 \evidenzB{5CHIF-14}
 \subthemaB{Entwicklung App, Visualisierung}
-
 \schuelerC{}
 \evidenzC{}
 \subthemaC{}
-
 \schuelerD{}
 \evidenzD{}
 \subthemaD{}
-
 \schuelerE{}
 \evidenzE{}
 \subthemaE{}
 
-%\schuelerE{} leer lassen wenn nicht vorhanden
-%\evidenzE{}
-%\subthemaE{}
-
 %%%----------------------------------------------------------
 \frontmatter
 \maketitle
-\newgeometry{
-	a4paper,
-	margin=3cm
-}
 \listoftodo\clearpage
 \tableofcontents
 %%%----------------------------------------------------------
 
+\include{text/documentation}
 \include{text/abstract_de}
 \include{text/abstract_en}
 
@@ -111,11 +91,7 @@
 \clearpage
 \addcontentsline{toc}{chapter}{\bibname}
 
-\bibliographystyle{bababbrv}
-%options: babplain, babunsrt, bababbrv, babalpha
-%         babplain-fl etc: first/lastname
-%         babplain-lf etc: last/firstname
-\bibliography{references}     %BibTeX-Datei literatur.bib
+\printbibliography
 
 
 %%%----------------------------------------------------------

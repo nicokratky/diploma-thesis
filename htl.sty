@@ -2,10 +2,10 @@
 %% Modifiziert von: Wolfgang Schermann
 %% Ursprünglich: hgb.sty
 %% Ursprünglicher Autor: Wilhelm Burger (wilhelm.burger@fh-hagenberg.at)
-
+\PassOptionsToPackage{T1,hyphens,obeyspaces,spaces}{url}
 
 \NeedsTeXFormat{LaTeX2e}
-\newcommand{\htlDate}{2015/10/07}			%Versionsdatum
+\newcommand{\htlDate}{2015/10/09}           %Versionsdatum
 \ProvidesPackage{htl}[\htlDate]
 
 % options german/english are passed from the class file
@@ -42,9 +42,9 @@
 }
 
 % example:
-%\@savesymbol{EUR}	% shadows \EUR command defined in eurosym-Package
+%\@savesymbol{EUR}  % shadows \EUR command defined in eurosym-Package
 %\RequirePackage{marvosym} % package defines \EUR again
-%\@restoresymbol{eurosim}{EUR}	%original \EUR is now available as \eurosimEUR
+%\@restoresymbol{eurosim}{EUR}  %original \EUR is now available as \eurosimEUR
 
 %% ------------------ Required Packages ----------------------
 
@@ -62,27 +62,26 @@
 %\RequirePackage{marvosym} % provides \EUR and other unusual symbols!
 %\@ifundefined{euro}%
 %   {\newcommand*{\euro}{\EUR}}%
-%	 {}
+%    {}
 
 \@ifundefined{htl@MainLanguage}%
    {\newcommand*{\htl@MainLanguage}{german}}%
-	 {}
+     {}
 
 % Hauptsprache einstellen (babel):
 \ifthenelse{\equal{\htl@MainLanguage}{german}}%
-	{\main@language{ngerman}}{}
+    {\main@language{ngerman}}{}
 \ifthenelse{\equal{\htl@MainLanguage}{english}}%
-	{\main@language{english}}{}
+    {\main@language{english}}{}
 
-\RequirePackage[fixlanguage]{babelbib}
+% \RequirePackage[fixlanguage]{babelbib}
 %\RequirePackage{natbib}
+\usepackage[backend=bibtex,bibencoding=utf8,style=numeric,citestyle=ieee]{biblatex}
 
-\RequirePackage[dvips]{graphicx} % zur Einbindung von EPS-Grafiken
+\RequirePackage{graphicx}
 
-\RequirePackage[T1,hyphens,obeyspaces,spaces]{url}
+%\RequirePackage[T1,hyphens,obeyspaces,spaces]{url}
 \urlstyle{sf}
-
-\renewcommand{\UrlFont}{\small\tt}
 
 \RequirePackage{verbatim}
 \RequirePackage{moreverb}
@@ -222,7 +221,7 @@ H\"ohe $ = #2 {\rm\ mm}$
 %% ------------- Einstellungen fuer's Layout --------------
 
 %\nonfrenchspacing    % erzeugt breitere Abstände zwischen Sätzen
-\frenchspacing     	  % erzeugt normale Abstände zwischen Sätzen
+\frenchspacing        % erzeugt normale Abstände zwischen Sätzen
 %\pagestyle{headings}  % Normale Kopfzeilen
 
 %% div. Parameter: nur dann ändern, wenn man genau weiss was man tut!
@@ -259,7 +258,7 @@ H\"ohe $ = #2 {\rm\ mm}$
 % 'algorithm' liefert die Float-Umgebung f�r Algorithmen (\begin{algorithm}...)
 \@ifundefined{chapter}%
   {\RequirePackage[ruled]{algorithm}}%
-	{\RequirePackage[ruled,chapter]{algorithm}}
+    {\RequirePackage[ruled,chapter]{algorithm}}
 
 %\floatname{algorithm}{Algorithmus}
 %\DeclareCaptionLabelSeparator{colon}{: } % Anpassung an den standard caption style
@@ -278,19 +277,19 @@ H\"ohe $ = #2 {\rm\ mm}$
 % define the program float environment:
 \@ifundefined{chapter}%
    {\newfloat{program}{tbp}{lop}}%
-	 {\newfloat{program}{tbp}{lop}[chapter]}
+     {\newfloat{program}{tbp}{lop}[chapter]}
 %\floatname{program}{Programm}
 %\floatname{program}{\@ProgramName}
 \floatstyle{plain}
 \restylefloat*{program}
 
 \ifthenelse{\equal{\bbl@main@language}{german} \or \equal{\bbl@main@language}{ngerman}}%
-{	\floatname{program}{Programm}
+{   \floatname{program}{Programm}
   \floatname{algorithm}{Algorithmus}
 }{}
 
 \ifthenelse{\equal{\bbl@main@language}{english}}%
-{	\floatname{program}{Program}
+{   \floatname{program}{Program}
   \floatname{algorithm}{Algorithm}
 }{}
 
@@ -301,6 +300,16 @@ H\"ohe $ = #2 {\rm\ mm}$
 \newcommand{\@MissingArg}[1]{\textcolor{red}{#1}}
 
 \RequirePackage{listingsutf8}
+
+\lstset{literate=%
+{Ö}{{\"O}}1
+{Ä}{{\"A}}1
+{Ü}{{\"U}}1
+{ß}{{\ss}}2
+{ü}{{\"u}}1
+{ä}{{\"a}}1
+{ö}{{\"o}}1
+}
 
 \lstset{
 %language=Java,%
@@ -324,8 +333,8 @@ numberstyle=\normalfont\scriptsize,%
 stepnumber=1,%
 numberfirstline=true,%
 numberblanklines=true,%
-texcl=true,%		%important: read program comments as Latex content
-mathescape=false,	%set false by default?
+texcl=true,%        %important: read program comments as Latex content
+mathescape=false,   %set false by default?
 upquote=true,%
 keepspaces=true,%
 }
@@ -344,25 +353,25 @@ keepspaces=true,%
 }
 }{}
 
-\lstnewenvironment{JavaCode}	% code environment for Java
+\lstnewenvironment{JavaCode}    % code environment for Java
 {\lstset{%
-	language=Java,%
-	escapeinside={/+}{+/},% makes "/+" and "+/" available for Latex escapes (labels etc.)
-	}}
+    language=Java,%
+    escapeinside={/+}{+/},% makes "/+" and "+/" available for Latex escapes (labels etc.)
+    }}
 {}
 
-\lstnewenvironment{CCode}	% code environment for C (ANSI)
+\lstnewenvironment{CCode}   % code environment for C (ANSI)
 {\lstset{%
-	language=[ANSI]C,%
-	escapeinside={/+}{+/},% makes "/+" and "+/" available for Latex escapes (labels etc.)
-	}}
+    language=[ANSI]C,%
+    escapeinside={/+}{+/},% makes "/+" and "+/" available for Latex escapes (labels etc.)
+    }}
 {}
 
-\lstnewenvironment{CppCode}	% code environment for C++ (ISO)
+\lstnewenvironment{CppCode} % code environment for C++ (ISO)
 {\lstset{%
-	language=[ISO]C++,%
-	escapeinside={/+}{+/},% makes "/+" and "+/" available for Latex escapes (labels etc.)
-	}}
+    language=[ISO]C++,%
+    escapeinside={/+}{+/},% makes "/+" and "+/" available for Latex escapes (labels etc.)
+    }}
 {}
 
 \lstnewenvironment{PhpCode}
@@ -373,42 +382,42 @@ keepspaces=true,%
 {}
 
 
-\lstnewenvironment{LaTeXCode}	% code environment for Latex
+\lstnewenvironment{LaTeXCode}   % code environment for Latex
 {\lstset{%
-	language=[LaTeX]TeX,%
-	commentstyle={},%
-	texcl=false,%
-	escapechar={},%
-%	escapeinside={},%
-	escapeinside={/+}{+/}%
-%	mathescape=false,
-	}}
+    language=[LaTeX]TeX,%
+    commentstyle={},%
+    texcl=false,%
+    escapechar={},%
+%   escapeinside={},%
+    escapeinside={/+}{+/}%
+%   mathescape=false,
+    }}
 {}
 
-\lstnewenvironment{GenericCode}	% generic code environment
+\lstnewenvironment{GenericCode} % generic code environment
 {\lstset{%
-	language={},%
-	keepspaces=true,%
-	commentstyle={},%
-	texcl=false,%
-	escapechar={},%
-	escapeinside={},%
-%	mathescape=false,
-	}}
+    language={},%
+    keepspaces=true,%
+    commentstyle={},%
+    texcl=false,%
+    escapechar={},%
+    escapeinside={},%
+%   mathescape=false,
+    }}
 {}
 
-\lstnewenvironment{PythonCode}	% code environment for Python
+\lstnewenvironment{PythonCode}  % code environment for Python
 {\lstset{%
-	language=Python,%
-	escapeinside={/+}{+/}%
-	}}
+    language=Python,%
+    escapeinside={/+}{+/}%
+    }}
 {}
 
-\lstnewenvironment{CSharpCode}	% code environment for C#
+\lstnewenvironment{CSharpCode}  % code environment for C#
 {\lstset{%
-	language=[Sharp]C,%
-	escapeinside={/+}{+/}%
-	}}
+    language=[Sharp]C,%
+    escapeinside={/+}{+/}%
+    }}
 {}
 
 %% ------------- Experimental --------------
@@ -471,7 +480,7 @@ keepspaces=true,%
 %%% Date-related commands ----------------------------------
 
 \RequirePackage{datetime}
-\showdowfalse	% do not show day of week
+\showdowfalse   % do not show day of week
 
 % adapted from \newdate in datetime.sty
 \newcommand*{\@modifydate}[4]{%
@@ -481,7 +490,7 @@ keepspaces=true,%
 }
 
 \newdate{htl@date}{\the\day}{\the\month}{\the\year}
-\newcommand{\Date}[3]{%	example for use: \Date{16}{5}{2008}
+\newcommand{\Date}[3]{% example for use: \Date{16}{5}{2008}
   \@modifydate{htl@date}{#1}{#2}{#3}
 }
 
@@ -507,25 +516,25 @@ keepspaces=true,%
 \RequirePackage[novbox]{pdfsync} % notwendig für inverse Suche aus dem PDF viewer
 % novbox Option verhindert Konflikt u.a. mit array-Package
 
-\RequirePackage[noadjust]{cite} % vermeidet zusätzliches Spacing vor [..]
+%\RequirePackage[noadjust]{cite} % vermeidet zusätzliches Spacing vor [..]
 
 \RequirePackage{ifpdf}
 \ifpdf % LaTeX is in native PDF mode (pdflatex)
-  \RequirePackage{epstopdf}		% zur automatischen Konvertierung von EPS-Dateien nach PDF für pdflatex
-%  \pdfcompresslevel=0			  % 0 = keine Kompression, 9 = max. Kompression
+  \RequirePackage{epstopdf}     % zur automatischen Konvertierung von EPS-Dateien nach PDF für pdflatex
+%  \pdfcompresslevel=0            % 0 = keine Kompression, 9 = max. Kompression
 %  \pdfimageresolution=300
 \else % LaTeX is in emulation mode (DVI-PS-PDF)
-  \RequirePackage[hyphenbreaks]{breakurl}	% erlaubt Zeilenumbruch von URLs auch ohne pdflatex (DIV, PS, PDF)
+  \RequirePackage[hyphenbreaks]{breakurl}   % erlaubt Zeilenumbruch von URLs auch ohne pdflatex (DIV, PS, PDF)
 \fi
 
-\RequirePackage{enumitem}	% fix excessive vertical spacing in lists
+\RequirePackage{enumitem}   % fix excessive vertical spacing in lists
 \setlist{%
-	partopsep = .0ex plus .1ex,
-	topsep = .6ex plus .3ex,
-	itemsep = .0ex plus .1ex,
-	parsep = .4ex plus .2ex
+    partopsep = .0ex plus .1ex,
+    topsep = .6ex plus .3ex,
+    itemsep = .0ex plus .1ex,
+    parsep = .4ex plus .2ex
 }
-%\setlist{nolistsep}	% kein Spacing zwischen items
+%\setlist{nolistsep}    % kein Spacing zwischen items
 %\setlist{noitemsep}  % überhaupt kein vertik. Spacing
 
 
