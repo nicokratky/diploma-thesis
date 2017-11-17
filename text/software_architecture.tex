@@ -12,7 +12,7 @@ While reworking the whole project, a new fundamental software architecture was i
 
 \section{Readout}
 
-Sensor data is read from a gradient magnetometer. This input is already split into six channels and just has to be converted properly. There are two main inputs that can be used with GRAMOC. The real ADC board and a simulator which is called ADCSim.
+Sensor data is read from a gradient magnetometer. This input is already split into six channels and only has to be converted properly. There are two main inputs that can be used with GRAMOC. The real ADC board and ADCSim, which simulates the board.
 
 \subsection{ADC Board}
 
@@ -20,4 +20,4 @@ This is the component that handles analog to digital conversion, hence ADC board
 
 \subsection{Simulator}
 
-Because the ADC board and a real sensor was not available at all times a simple way of data generation had to be created. Therefore a small application written in C++ was built. This application generates random values and transmits it via UPD just like the real ADC board. Data range and frequency can be set by the user. Another feature that was very important during the development process was the seamless interchangeability with the ADC board.
+Because the ADC board and a real sensor was not available at all times a simple way of data generation had to be created. Therefore a small application written in C++ was built. This application generates random values and transmits it via UPD just like the real ADC board. Data range and frequency can be adjusted by the user. Another feature that was very important during the development process was the seamless interchangeability with the ADC board.
