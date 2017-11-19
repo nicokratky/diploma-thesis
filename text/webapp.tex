@@ -2,7 +2,7 @@
 \label{ch:Webapp}
 
 \author{Nico Leidenfrost}
-%
+
 After the conclusion that an Android application would not satisfy all the requirements of GRAMOC, the decision to build a Web application was made. A so called ``Webapp'' is an application that runs inside a web browser (e.g. Google Chrome) and is usually provided by a web server. After a user connects to the web server, the user will get application files and data, this enables the ability of a Webapp to be platform independent.
 
 \section{Framework}
@@ -12,8 +12,6 @@ To develop a modern Webapp a developer should choose a framework to build this w
 In the case of GRAMOC a framework called ``Vue.js'' was chosen because of the performance compared to other big frameworks and the ``simplicity and ease of use'', as stated in a blog post written by the Frontend DC Lead of GitLab \cite{Vue} \cite{WhyVue} \cite{GitLab}. The performance was measured with the benchmark application from Stefan Krause, the results are partitioned in keyed and non keyed implementations \cite{FrameworkBenchmark}. The distinct each other in the way the data items are bind to the DOM (Document Object Model) node. The keyed implementation assigns a key to each node and the non keyed just updates the data inside of that particular node, therefore the non keyed implementation can achieve a higher performance since costly DOM operations like constantly removing and adding nodes can be avoided.
 
 Following table shows the average time in milliseconds each operation takes:
-
-\newcolumntype{C}[1]{>{\centering\arraybackslash}m{#1}}
 
 \begin{table}[H]
     \centering
@@ -77,9 +75,14 @@ To visualize the data received from the sensor a graphing library called ``Plotl
 
 \section{Workflow}
 
-As shown in figure \textbf{<insert ref here>} the server asynchronously tries to connect with the IPC socket and starts listening for incoming connections on a specified port. The server keeps retrying to connect to the IPC socket until a connection is established because without this connection no data can be forwarded to the web application. If a client connects on the before specified port the connection will be immediately upgraded to a socket connection and the web application will be served to the user. When the Webapp launches it will display the Home page, then the user can navigate to the 2D, the 3D or the About page, through the navigation bar at the top. If the About page was selected the user simply gets a static about page. If the user navigates to the 2D page, three line charts will be initialized and the client emits a message to the server to start receive the sensor data. This data will be used to update the charts accordingly.
+As shown in figure \ref{fig:webserver-program-flow} the server asynchronously tries to connect with the IPC socket and starts listening for incoming connections on a specified port. The server keeps retrying to connect to the IPC socket until a connection is established because without this connection no data can be forwarded to the web application. If a client connects on the before specified port the connection will be immediately upgraded to a socket connection and the web application will be served to the user. When the Webapp launches it will display the Home page, then the user can navigate to the 2D, the 3D or the About page, through the navigation bar at the top. If the About page was selected the user simply gets a static about page. If the user navigates to the 2D page, three line charts will be initialized and the client emits a message to the server to start receive the sensor data. This data will be used to update the charts accordingly.
 \todo{explain what data the 2d charts display}
 \todo{explain the extra features like saving, stopping...}
 \todo{write about the 3d page}
 
-\todo{insert flowchart for the webapp workflow}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=15cm,keepaspectratio]{webserver-task}
+    \caption{Flowchart of web server and client program showing the procedure}
+    \label{fig:webserver-program-flow}
+\end{figure}
