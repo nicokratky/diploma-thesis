@@ -1,0 +1,40 @@
+\chapter{FaPS Networking}
+\label{ch:faps-networking}
+
+\author{Nico Kratky}
+%
+
+FaPS Networking is a custom UDP-based library that is mainly used for communication between FaPS (see \ref{ch:faps}) and different kinds of client, eg. FaPS-save (see \ref{ch:faps-save}) and the NodeJS server (see
+\ref{sec:webserver}).
+
+\section{TCP vs UDP in real time environments}
+
+% comparison between TCP Header and UDP Header -> more Overhead -> more Information
+% TCP -> feedback mechanism, not relevant in real time environments, when dropped packets are resent they are outdated and not relevant -> don't care when dropped
+% TCP is perfect for transferring big files bc when one byte is missing whole file is corrupt
+% reliability comes at cost -> much larger overhead!
+%
+% include images of headers!!!!
+
+\cite{TCPUDPRTlifesize}
+
+\todo{cite whole paragraph like this?}
+
+\section {Handling Connections}
+
+% UDP is connectionless!
+% Server does not even know if the other end exists
+% way of connection-handling had to be implemented
+% keepalive packets
+% sent every second
+
+% server manages a list of 'connected clients'
+% if client misses the timeframe of 1 second -> remove from list
+
+% server messages are almost always multicasted (-> sent to all clients) (exception: control messages)
+
+% include image of keepalive messages
+
+\section {Handshake}
+
+% include image of TCP-like three way handshake

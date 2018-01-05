@@ -1,0 +1,32 @@
+\chapter{Saving Sensor Data}
+\label{ch:faps-save}
+
+\author{Nico Kratky}
+%
+
+In order to be able to look up recent sensor readouts, all data that is received from the sensor has to be saved in a persistent way. This chapter introduces the program that was implemented to solve this task.
+
+\section{File Type}
+
+% what is HDF5
+% why was it chosen
+% structure of a HDF5 file
+% differences between HDF5 and HDF4
+
+\section{Structure}
+
+% each sensor readout has its own dataset
+% datasets are identified by timestamp
+
+\section {C++ Library}
+
+% library from HDF Group is complex
+% wrapper library for ease of use
+% HighFive
+
+\section{Implementation}
+
+% don't interrupt sensor reading
+% data has to be transmitted over network anyway
+% also act as client to faps
+% use faps-networking
