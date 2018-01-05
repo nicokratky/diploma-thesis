@@ -22,18 +22,17 @@ FaPS Networking is a custom UDP-based library that is mainly used for communicat
 
 \section {Handling Connections}
 
-% UDP is connectionless!
-% Server does not even know if the other end exists
-% way of connection-handling had to be implemented
-% keepalive packets
-% sent every second
+As UDP is a connectionless protocols, neither does it know if the other end of the communacation is ready to receive data nor if it is even existing. Therefor a way of handling connections using UDP had to implemented.
 
-% server manages a list of 'connected clients'
-% if client misses the timeframe of 1 second -> remove from list
+The core of this implementation is a map. A map is a associative container that is available through C++'s STL (Standard Template Library). This maps contains all clients as keys, and the associated timestamps of the last
+received keepalive message as values.
 
-% server messages are almost always multicasted (-> sent to all clients) (exception: control messages)
+After starting the server, two threads are started. The first one handles all incoming messages. If a received message is a keepalive message the timestamp of the client that sent this message is update
+to the current time. The second thread monitors these timestamps. If the difference between the current timestamp and the stored timestamp of a client exceeds 1.5 seconds, the client is declared disconnected and removed
+from the list.
 
-% include image of keepalive messages
+Also when a client is instantiaed a thread is started to handle the keepalive messages. The only task of this thread is to send a keepalive message to the server and then wait one second. All of this is done in a loop that
+only finishes when the clients deconstructor is called, thus disconnects.
 
 \section {Handshake}
 
