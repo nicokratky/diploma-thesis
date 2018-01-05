@@ -37,4 +37,74 @@ FaPS Networking is a custom UDP-based library that is mainly used for communicat
 
 \section {Handshake}
 
-% include image of TCP-like three way handshake
+The handshake procedure is a very important part of connecting. This makes sure that the server is notified whenever a client is waiting to connect.
+
+When the server receives a connection request (see \ref{fig:faps-networking-control-messages}), it has to check if it can accept further clients. This limit is set as a static constant in the \textit{Server} class. The
+default value is \textbf{8}. If this check is successful the server sends an acknowledgement message to the client. If the check fails, the client will receive a connection refused message. In this implementation the
+clients connect call will block until it is connected. This is done by a loop that will be exited once the server sends an acknowledgement. In between the connection attempts one second is waited.
+
+These two procedures can be both seen in the code listings (\ref{lst:faps-networking-handshake-server} and \ref{lst:faps-networking-handshake-client}) and the sequence diagram (\ref{fig:faps-networking-handshake}) below.
+
+\begin{minipage}{\linewidth}
+\begin{lstlisting}[caption={Server handshake method}, label=lst:faps-networking-handshake-server, captionpos=b, language=C++]
+void Server::shake_hands(boost::asio::ip::udp::endpoint& remote) {
+    if (endpoints_.size() < MAX_CLIENTS_) {
+        send(control_messages["ACKNOWLEDGE"], remote);
+        endpoints_[remote] = std::chrono::system_clock::now();
+    }
+    else {
+        send(control_messages["CONNECTION_REFUSED"], remote);
+    }
+}
+\end{lstlisting}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\begin{lstlisting}[caption={Client handshake method}, label=lst:faps-networking-handshake-client, captionpos=b, language=C++]
+void Client::connect() {
+    while (!connected) {
+        send(control_messages["CONNECTION_REQUEST"]);
+
+        std::string reply;
+        receive(reply);
+
+        if (reply.compare(control_messages["ACKNOWLEDGE"]) == 0) {
+            connected = true;
+
+            std::thread t_keepalive{&Client::keepalive, this};
+            t_keepalive.detach();
+        }
+        else {
+            std::this_thread::sleep_for(TIMEOUT_);
+        }
+    }
+}
+\end{lstlisting}
+\end{minipage}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=8cm,keepaspectratio]{faps-networking-handshake}
+    \caption{Handshake performed when a client tries to connect to server}
+    \label{fig:faps-networking-handshake}
+\end{figure}
+
+\section{Control Message}
+
+This table explains all control messages that can be exchanged.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{| l | l | p{5cm} |}
+    \hline
+    \textbf{Message} & \textbf{Sent to} & \textbf{Meaning} \\ \hline
+    CRQ & server & Tells the server that a new client is waiting for the connection procedure \\ \hline
+    ACK & client & Tells the client that the connection is acknowledged \\ \hline
+    CRF & client & Tells the client that the server can not accept the connection \\ \hline
+    KAV & server & Tells the server that the client is still alive and wants to stay connected \\ \hline
+    \hline
+    \end{tabular}
+    \caption{Commands sent by one of the connection partners and what they do}
+    \label{tab:commands}
+\end{table}
+
