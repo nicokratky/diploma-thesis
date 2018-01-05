@@ -38,7 +38,7 @@ only finishes when the clients deconstructor is called, thus disconnects.
 
 The handshake procedure is a very important part of connecting. This makes sure that the server is notified whenever a client is waiting to connect.
 
-When the server receives a connection request (see \ref{fig:faps-networking-control-messages}), it has to check if it can accept further clients. This limit is set as a static constant in the \textit{Server} class. The
+When the server receives a connection request (see \ref{tab:faps-networking-control-messages}), it has to check if it can accept further clients. This limit is set as a static constant in the \textit{Server} class. The
 default value is \textbf{8}. If this check is successful the server sends an acknowledgement message to the client. If the check fails, the client will receive a connection refused message. In this implementation the
 clients connect call will block until it is connected. This is done by a loop that will be exited once the server sends an acknowledgement. In between the connection attempts one second is waited.
 
@@ -100,10 +100,10 @@ This table explains all control messages that can be exchanged.
     CRQ & server & Tells the server that a new client is waiting for the connection procedure \\ \hline
     ACK & client & Tells the client that the connection is acknowledged \\ \hline
     CRF & client & Tells the client that the server can not accept the connection \\ \hline
-    KAV & server & Tells the server that the client is still alive and wants to stay connected \\ \hline
+    KAV & server & Tells the server that the client is still alive and wants to stay connected \\
     \hline
     \end{tabular}
     \caption{Commands sent by one of the connection partners and what they do}
-    \label{tab:commands}
+    \label{tab:faps-networking-control-messages}
 \end{table}
 
