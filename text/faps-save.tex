@@ -8,25 +8,47 @@ In order to be able to look up recent sensor readouts, all data that is received
 
 \section{File Type}
 
-% what is HDF5
-% why was it chosen
-% structure of a HDF5 file
-% differences between HDF5 and HDF4
+The Hierarchical Data Format (also called HDF) is a open source data format that allows storing large amounts of heterogenous data. Heterogenous in this context means that each entry in a dataset can itself be a complex type. This
+format is often used in scientific fields because it is a very flexible format.
+
+There are two very important terms that are used when dealing with HDF files. Groups and Datasets.
+
+\subsection{Groups}
+
+A group is a container that can contain other groups and/or datasets. Datasets are often stored in a group, but that does not mean that this has to be.
+
+\subsection{Datasets}
+
+A dataset is a the actual data that is contained. Datasets can contain multidimensional, complex and heterogenous data.
+
+\subsection{Metadata}
+
+It is possible to associate every file, group or dataset with metadata. This makes HDF self-describing.
+
+\subsection{HDF4 and HDF5}
+
+\todo{Differences between HDF4 and HDF5}
 
 \section{Structure}
 
-% each sensor readout has its own dataset
-% datasets are identified by timestamp
+In this case the structure of the HDF file are kept rather simple.
+
+Every file represents a measuring process. Files do not have any groups. Datasets are identified by a number that represents a timestamp as microseconds since 1.1.1970 (also known as Unix Time or epoch).
+
+\subsection{Example}
+
+A dataset recorded on 1.1.2018 00:00:00 would have the identifier 1514764800000000. This dataset would contain a 6 dimensional integer array where each one would contain 100 values.
 
 \section {C++ Library}
 
-% library from HDF Group is complex
-% wrapper library for ease of use
-% HighFive
+Although the HDF Group, which are the maintainers of the HDF project, offer a C++ API, it was decided against this library as it is quite complex. Instead a library developed by the Blue Brain Project, called HighFive was
+used \cite{HighFive}. This library allows for easy creation and modification of HDF5 files.
 
 \section{Implementation}
 
-% don't interrupt sensor reading
-% data has to be transmitted over network anyway
-% also act as client to faps
-% use faps-networking
+To save the sensor data to HDF5 files a seperate command-line program was developed. This application acts as another client to FaPS, which transmitts the sensor data over the network anyways. This approach yields two
+major advantages. \textbf{Perfomance} and \textbf{hidden complexity}.
+
+Perfomance is increased as FaPS can finish one iteration of its loop faster as it does not have to save the data and can carry on receiving data from the sensor.
+
+Also each application is kept simple. Therefor maintainability is increased.
