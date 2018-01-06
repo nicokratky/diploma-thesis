@@ -9,16 +9,40 @@ FaPS Networking is a custom UDP-based library that is mainly used for communicat
 
 \section{TCP vs UDP in real time environments}
 
-% comparison between TCP Header and UDP Header -> more Overhead -> more Information
-% TCP -> feedback mechanism, not relevant in real time environments, when dropped packets are resent they are outdated and not relevant -> don't care when dropped
-% TCP is perfect for transferring big files bc when one byte is missing whole file is corrupt
-% reliability comes at cost -> much larger overhead!
-%
-% include images of headers!!!!
+Both TCP and UDP are members of the transport layer of the internet protocol suite, commonly known as the TCP/IP stack \cite{rfc1122}.
 
-\cite{TCPUDPRTlifesize}
+\subsection{Connection-Oriented and Connectionless Protocols}
 
-\todo{cite whole paragraph like this?}
+There are two groups of protocols. The ones that require setting up a logical connection before data can be exchanged and the ones that don't require a link between the two communication partners. They are also called
+\textit{connection-oriented transport services} (COTS) and \textit{connectionless transport services} (CLTS) \cite{connectionbased-vs-connectionless}. The advantages and disadvantes of both are important to know when choosing one of these types of protocols.
+The main feature of COTS is that it is reliable, meaning that the protocol will ensure that sent messages are received reliably and in order. As discussed in \ref{ch:realtimesystems} it is not that big of a deal for
+real-time applications if packets are dropped, therefor a CLTS was chosen.
+
+\subsection{Perfomance}
+
+As perfomance is a critical component of real-time applications, some research had to be conducted to get the best possible result.
+
+This research included the comparison of the packet headers. As seen in figures \ref{fig:tcp-header} and \ref{fig:udp-header} it is clearly visible that the TCP header is much larger the the UDP header. In fact, TCP requires 20 bytes and UDP requires only 8 bytes for the header information.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=8cm,keepaspectratio]{tcp-header}
+    \caption{Header found in a TCP packet}
+    \label{fig:tcp-header}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=8cm,keepaspectratio]{udp-header}
+    \caption{Header found in a UDP datagram}
+    \label{fig:udp-header}
+\end{figure}
+
+TCP also has a built-in feedback mechanism which checks if all packets are received by the communication partner and if they are received in order. This mechanisms not only produces a lot of overhead, but also is the data
+most likely outdated when it is resent. Therefor it is not a problem if such packets are dropped.
+
+Considering all these factors the decision to use UDP over TCP was made. TCP is a great protocol for example for sending large files where it is necessary that all bytes come in order and reliably. If one byte is missing
+then the whole file would be corrupt. UDP however is a lot better for transferring time critical information as it produces less overhead \cite{TCPUDPRTlifesize}.
 
 \section {Handling Connections}
 
