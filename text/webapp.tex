@@ -8,8 +8,8 @@ After the conclusion that an Android application would not satisfy all the requi
 \section{Framework}
 To create a modern Webapp a developer should choose a framework to build this web application. A software framework can be classified as a huge software library, it provides basic functionality like rendering content or routing between views in the context of a web framework. The biggest benefit of a web framework is that the developer does not have to reinvent the wheel, because a framework already implements the basic functionalities, also the majority of frameworks out there are open source, which means thousands of people can help to enhance the project and also resolve issues. Therefore the user gains a solid code base which is efficient, secure and usually well documented.
 
-\subsection{Vue.js}
-In the case of GRAMOC, a framework called ``Vue.js'' was used because of the performance compared to other big frameworks and the ``simplicity and ease of use'', as stated in a blog post published by the Frontend DC Lead of GitLab \cite{Vue} \cite{WhyVue} \cite{GitLab}. The performance was measured with the benchmark application from Stefan Krause, the results are partitioned in keyed and non keyed implementations \cite{FrameworkBenchmark}. The distinct each other in the way the data items are bind to the DOM (Document Object Model) node. The keyed implementation assigns a key to each node and the non keyed just updates the data inside of that particular node, therefore the non keyed implementation can achieve a higher performance since costly DOM operations like constantly removing and adding nodes can be avoided.
+\section{Vue.js}
+In the case of GRAMOC, a framework called ``Vue.js'' was used because of the performance compared to other big frameworks and the ``simplicity and ease of use'', as stated in a blog post published by the Frontend DC Lead of GitLab \cite{Vue} \cite{WhyVue} \cite{GitLab}. The performance was measured with the benchmark application from Stefan Krause, the results are partitioned in keyed and non keyed implementations \cite{FrameworkBenchmark}. They distinct each other in the way the data items are bind to the DOM (Document Object Model) node. The keyed implementation assigns a key to each node and the non keyed just updates the data inside of that particular node, therefore the non keyed implementation can achieve a higher performance since costly DOM operations like constantly removing and adding nodes can be avoided.
 
 Following table shows the average time in milliseconds each operation takes:
 
@@ -52,13 +52,91 @@ Following table shows the average memory allocation in Megabyte:
     \label{tab:framework_perf_mem}
 \end{table}
 
-In order to use Vue.js it is recommended by the developers to use ``webpack''  as module bundler and ``Babel'' as JavaScript compiler \cite{webpack} \cite{Babel}.
+In order to use Vue.js it is recommended by the developers to use ``webpack''  as module bundler and ``Babel'' as JavaScript compiler, this can be done by using the vue-cli tool \cite{webpack} \cite{Babel} \cite{vuecli}. A detailed description on how to use this tool and create a new Vue.js application can be found on the GitHub page of the vue-cli tool.
 
-\subsubsection{webpack}
+\subsection{webpack}
 webpack is a module bundler for modern JavaScript applications, that builds a dependency graph which includes every module needed to run the application. It packages all the needed modules into several bundles which will be commonly served as static asserts.
 
-\subsubsection{Babel}
+\subsection{Babel}
 Babel is a JavaScript compiler that is capable of converting up to date JavaScript code into correct JavaScript code of a prior version. This is especially useful when a developer needs to work in an environment where the most recent version of JavaScript is not supported, but still wants to be able to write up to date JavaScript code.
+
+\subsection{Vue Instance}
+Every Vue.js application begins with the initialization of a Vue instance, this is done by calling the ``Vue'' function. In most of the cases the Vue instance is bound to an element within the DOM, which usually is a div element with the id ``app''. Since this part needs to be done in Javascript, most of the time there is also a ``App'' component imported, which will be the so to say ``main component'' of the application. This can be done by writing following code:
+
+\begin{lstlisting}[caption={Creating a Vue instance}, label=lst:vue-instance, captionpos=b, style=htmlcssjs]
+new Vue({
+    el: '#app',
+    template: '<App/>',
+    components: { App }
+})
+\end{lstlisting}
+
+\subsection{Components}
+Components in Vue.js are very important and powerful because with this feature it is possible to create custom elements that can be reused within the application. These components contain three sections, first the template, which is basically the HTML part of a component, second the script section, where all the JavaScript code is written and at last the style section, to add custom styling to the component. These components are then used like ordinary HTML elements in another template section or in the HTML code itself. There are two ways to implement components, either the ``Vue.component'' function has to be called to create a new component object, or all the components are separated into distinct ``.vue'' files. The latter method is preferred, especially in larger projects like GRAMOC, because the code is much easier to maintain and it also solves some problems like for example the scoped CSS styling is only possible when using single file components, but in order to use these a build tool like Webpack or Browserify. The two ways of using components are shown below.
+
+\noindent\begin{minipage}{.45\textwidth}
+\begin{lstlisting}[caption={Creating a Vue instance and adding a component to it}, label=lst:vue-component, captionpos=b, style=htmlcssjs]
+<div id="app">
+  <hello-comp></hello-comp>
+</div>
+
+new Vue({
+  el: '#app'
+})
+
+Vue.component('hello-comp', {
+  template: '<div>{{msg}}</div>',
+  data: {
+    msg: 'Hello World'
+  }
+})
+\end{lstlisting}
+\end{minipage}\hfill
+\begin{minipage}{.45\textwidth}
+\begin{lstlisting}[caption={Example for a simple single file component}, label=lst:vue-sf-component, captionpos=b, style=htmlcssjs]
+<template>
+  <div> <p>{{msg}}</p> </div>
+</template>
+
+<script>
+  export default {
+    name: 'name',
+    data () {
+      return { msg: 'Hello World' }
+    }
+  }
+</script>
+
+<style scoped>
+  p { color: red; }
+</style>
+\end{lstlisting}
+\end{minipage}
+
+\subsection{Router}
+Vue.js itself only supports single-page applications, but the Vue.js team is maintaining a few core libraries that work in direct correlation to the base core system \cite{vuerouter}. This library enables the creation of multi-page applications, through binding Vue.js components to the individual routes. This routing technique is very useful in this project since GRAMOC is designed to be a multi-page application to show the different representations of the sensor data. A router can be created as shown in listing \ref{lst:vue-router}.
+
+\begin{lstlisting}[caption={Creating a Vue instance}, label=lst:vue-router, captionpos=b, style=htmlcssjs]
+import Vue from 'vue'
+import Router from 'vue-router'
+import Home from '@/components/Home'
+
+Vue.use(Router)
+
+export default new Router({
+    mode: 'history',
+    routes: [
+        {
+            path: '/',
+            name: 'Home',
+            component: Home
+        }
+    ]
+})
+\end{lstlisting}
+
+\subsection{WebSockets}
+WebSockets are used to communicate and rapidly sending data between the Webapp and the web server. In GRAMOC a library called \nameref{subsec:socketio} was chosen because of their focus on reliable real-time communication. In order to use socket.io within a Vue.js application the npm package Vue-Socket.io must be included and a socket object must be added to the Vue instance in which the socket will be used \cite{vuesocketio}.
 
 \section{Web Server}
 \label{sec:webserver}
@@ -67,21 +145,55 @@ To make a web application accessible to a user, there needs to be a web server w
 A web server is a server dedicated to provide information, web sites or web applications. To achieve that goal the web server transmits first the files needed to run the web application and then sends information whenever they are requested. In this project, ``Node.js'' with its built-in module HTTP was selected to be utilized as a web server \cite{Node}.
 
 \subsection{Node.js}
-Node.js is an asynchronous event driven JavaScript runtime, designed to build network applications \cite{Node}. The built-in HTTP module can be used to create a web server based on Node. This module can either communicate over the HTTP protocol or establish an IPC connection. In terms of GRAMOC, this is utterly useful because the sensor data needs to be received over an IPC connection and then transmitted over HTTP to the web application. Therefore the primary function of the Node server is to receive data which is emitted by the Filtering and Preprocessing Layer (FAPS) and forward it, to the web application via web sockets implemented through the ``socket.io'' library \cite{socketio}. The Webapp itself is served by ``Express'' \cite{express}.
+\label{subsec:nodejs}
+Node.js is an asynchronous event driven JavaScript runtime, designed to build network applications \cite{Node}. The built-in HTTP module can be used to create a web server based on Node. This module can either communicate over the HTTP protocol or establish an IPC connection. In terms of GRAMOC, this is utterly useful because the sensor data needs to be received over an IPC connection and then transmitted over HTTP to the web application. Therefore the primary function of the Node server is to receive data which is emitted by the Filtering and Preprocessing Layer (FAPS) and forward it, to the web application via WebSockets implemented through the ``socket.io'' library \cite{socketio}. The Webapp itself is served by ``Express'' \cite{express}.
 
 \subsection{socket.io}
-socket.io is a JavsScript library that implements real-time communication via web sockets. This library was chosen because it aims to make real-time applications possible in every browser and can be used in a Node.js application. Since GRAMOC was built with the intent of delivering sensor data in real-time to the user, socket.io helped a lot in the step of implementing real-time communication.
+\label{subsec:socketio}
+socket.io is a JavsScript library that implements real-time communication via WebSockets. This library was chosen because it aims to make real-time applications possible in every browser and can be used in a Node.js application. Since GRAMOC was built with the intent of delivering sensor data in real-time to the user, socket.io helped a lot in the step of implementing real-time communication.
 
 \subsection{Express}
 Express is a minimal and flexible web application framework to be used with Node.js. It is based on the HTTP module, which is a part of the standard library of Node.js and its main focus is to manage the routing tasks associated with the running HTTP server. So Express is just a layer on top of a web server, but not a web server itself.
 
 \section{Plotly}
-To visualize the data received from the sensor a graphing library called ``Plotly'', more specific the open source JavaScript library ``plotly.js'' \cite{Plotly} \cite{PlotlyJS}. Plotly is build on top of state of the art JavaScript libraries like ``d3.js''  and ``stackgl'' \cite{d3} \cite{stackgl}. The library offers a broad variety of two and three dimensional charts in the categories statistical, financial, scientific and more. In GRAMOC the chosen graphing library is Plotly, because of the capability to easily create custom, dynamic and real time charts.
+\label{sec:Plotly}
+To visualize the data received from the sensor a graphing library called ``Plotly'', more specific the open source JavaScript library ``plotly.js'' is used \cite{Plotly} \cite{PlotlyJS}. Plotly is build on top of state of the art JavaScript libraries like ``D3.js''  and ``stackgl'' \cite{d3} \cite{stackgl}. The library offers a broad variety of two and three dimensional charts in the categories statistical, financial, scientific and more. In GRAMOC one of the chosen graphing libraries is Plotly, because of the capability to easily create custom and dynamic charts.
+
+\subsection{Line Chart}
+To achieve the 2D visualization of the sensor data, a combination of a line chart provided by Plotly and a simple canvas chart was implemented. Plotly offers a huge variety of options to configure a line chart, like changing the style of the lines or adding markers and text. There are also a few predefined events, through which a user can interact with the chart. These events cover interactions like clicking, dragging, zooming, scrolling and more.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=15cm,keepaspectratio]{line_chart_2}
+    \caption{line chart used to visualize sensor data in 2D and provide an interactive way to analyze the data}
+    \label{fig:plotlylinechart}
+\end{figure}
+
+In GRAMOC the Plotly line chart was configured to hold three traces, one for each axis as shown in figure \ref{fig:plotlylinechart}. Plotly is designed to provide a convenient way to create interactive charts and not to provide high performance real-time charts, therefore it is used in the archive mode of GRAMOC and not in the real-time display.
+
+\subsection{3D Surface Plot}
+\todo{write about 3d surface plots after implementing it}
+
+\section{D3.js}
+The name ``D3'' is an abbreviation of Data-Driven Documents, thats a very precise description of what this framework has to offer, namely the manipulation of documents based on data. The goal of D3 is not to visualize data on documents and at the same time be able to handle all the things around the objects as well as implementing every imaginable feature, it is build to be perfect at one thing: ``efficient manipulation of documents based on data'' as stated on their website \cite{d3}. Since one of the key features of GRAMOC is real-time representation of the data that is provided by a sensor, this framework was chosen to be used within the real-time display. D3 has advantages as well as a few disadvantages, the probably biggest advantage is that this framework is very lightweight, this means there is only a minimal overhead and therefore it is very fast compared to other frameworks or libraries like \nameref{sec:Plotly}. A disadvantage of D3 would definitely be the lack of convenient high-level functions to create or modify objects. This means that a developer must write a lot of code to create for example, a simple line chart, in most high-level frameworks a developer just have to call one function to create a chart and another to add data to it. High-level functions are great to begin with, but to squeeze every last bit of performance out of the code, low-level functions are much better, also to understand what is happening behind the code low-level functions would be superior because the developer has to do nearly every step on his own and not just call a magic function that does a lot of processing on its own. Therefore the lack of high-level functions could be seen as an advantage, because programmers that use low-level functions instead of high-level functions often have more knowledge about how the system works and thats clearly a good thing.
+
+\subsection{Line Chart}
+In GRAMOC D3 was used to create a simple line chart to be able to visualize scientific sensor data in real-time. The chart is based on the line chart provided by Plotly, but with the distinction that the D3 chart can render the given data faster, and therefore sustain the real-time support of the application. The design should be similar to the Plotly line chart to maintain a uniform design within the application.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=15cm,keepaspectratio]{d3_line_chart}
+    \caption{line chart used to visualize sensor data in 2D and be able to render in real-time}
+    \label{fig:d3linechart}
+\end{figure}
+
+\todo{implement canvas along with the d3 svg chart and write about it}
+\todo{explain init and update process of d3 chart}
 
 \section{Workflow}
 
-As shown in figure \ref{fig:webserver-program-flow} the server asynchronously tries to connect with the IPC socket and starts listening for incoming connections on a specified port. The server keeps retrying to connect to the IPC socket until a connection is established because without this connection no data can be forwarded to the web application. If a client connects on the before specified port the connection will be immediately upgraded to a socket connection and the web application will be served to the user. When the Webapp launches it will display the Home page, then the user can navigate to the 2D, the 3D or the About page, through the navigation bar at the top. If the About page was selected the user simply gets a static about page. If the user navigates to the 2D page, three line charts will be initialized and the client emits a message to the server to start receive the sensor data. This data will be used to update the charts accordingly.
-\todo{explain what data the 2d charts display}
+As shown in figure \ref{fig:webserver-program-flow} the server asynchronously tries to connect with the IPC socket and starts listening for incoming connections on a specified port. The server keeps retrying to connect to the IPC socket until a connection is established because without this connection no data can be forwarded to the web application. If a client connects on the before specified port the connection will be immediately upgraded to a socket connection and the web application will be served to the user. When the Webapp launches it will display the Home page, then the user can navigate to the 2D, the 3D or the About page, through the navigation bar at the top. If the About page was selected the user simply gets a static about page. If the user navigates to the 2D page, a line chart with 3 traces, one for each axis and a density chart which is represented by an ellipse will be initialized and the client emits a message to the server to start receive the sensor data. This data will be used to update the charts accordingly.
+\todo{explain what data the 2d charts display(final sensor)}
 \todo{explain the extra features like saving, stopping...}
 \todo{write about the 3d page}
 
