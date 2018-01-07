@@ -1,2 +1,37 @@
 \chapter{Real Time Systems}
 \label{ch:realtimesystems}
+
+\section{Programming Language}
+There are a broad variety of programming languages available today, some are used worldwide and others are only used by a few people, but to build an application that is capable of streaming data in real-time only a few languages are commonly used. Reasons why people used a particular programming language are often the speed of the native implementation or the ease of use, another important factor to decide which language should be used is the popularity of that language, because the more popular a language is, the more libraries and community support will be available for that language.
+
+\subsection{Java}
+Java was a long time a major language for developing real-time web applications because of their ``Write once Run everywhere'' principle. Thats possible because of the Java Virtual Machine(JVM), all the code written in Java is compiled to run inside this virtual machine, therefore every system that can run the JVM, can also run the same Java code as all the other systems. The client side development was early replaced by Adobe's Flash project, since then Java is disabled per default in most of the web browsers.
+
+But Java did find its place at the server side, the so called back-end, especially because the Java Database Connectivity(JDBC) was developed in the early stages of Java and enabled an easy way to interact with databases. One of the most crucial points in why somebody would use Java was because it was easy to integrate third-party packages as a result of many available package management systems, but also the deployment of the finished application was easier than the deployment of an application from their main competitor C++.
+
+\subsubsection{Scala and Clojure}
+A variety of languages were designed to also run inside the JVM, two of the more popular ones in real-time programming are Scala and Clojure. Both these languages can use Java packages as they run in the same environment. Scala is mostly used for academic projects, but as of their rich standard library it is also used in high performance server applications. The distinction to Java is that Scala utilizes features from functional programming languages although it is declared as a object-oriented language. Clojure is a dialect of Lisp that can also make use of Java packages.
+
+\subsection{JavaScript}
+JavaScript is the most popular programming language in terms of web development, it is supported by every browser and during the development every browser developer wanted to have the fastest JavaScript engine. Thanks to that JavaScript is now incredibly fast and capable of implementing web applications on its own. The only similarities between JavaScript and Java are the name, which was a marketing gag and the syntax, because they both inherit some parts of it from C/C++, all other aspects of these two languages are distinct from each other. JavaScript is a functional programming language which means functions are treated the same way as data. In JavaScript a function can be assigned to a variable and be passed to another function, a lot of JavaScript frameworks and libraries rely on that feature. Since JavaScript quickly gained a lot popularity in the front-end development it is also capable of running in the back-end, most of the time as a \nameref{subsec:nodejs} server.
+
+\subsection{C/C++}
+These two languages are known for their efficiency and therefore are often considered to be used within real-time projects. C is widely used in embedded system programming while C++ is used in all kinds of programming. C++ is a superset of C, regardless of that fact C is still used in low-level system programming because of the simplicity. C++ is more complex than C but it also offers features from object-oriented programming. C as well as C++ were first introduced way before the other languages mentioned here, therefore the developers had enough time to optimize the compilers for these languages, which resulted in very efficient code at runtime. Since these languages are considered as low-level programming languages a developer can gain control over system resources more easily and use them efficiently, but this can also be seen as a huge problem when used by people that do not have the required skills to use it correctly or people how exploit this feature on purpose. High performance applications like video games, as well as real-time applications rely heavily on C++ because of its performance.
+
+\subsection{Go}
+Go is a language developed at Google based on the C language but with mechanisms included that provide concurrency. This language is still under development and therefore the variety of available libraries and community support is not as great as with the other languages, but its benchmark performance on web server development is still very good.
+
+\section{Push data to the Webapp}
+In order to build a Webapp thats capable of displaying sensor data in real-time like GRAMOC it is crucial to find the optimal way to push data from the server to the Webapp. There are a lot of solutions to this problem, but two of them are especially popular when it comes to real-time communication:
+
+\begin{itemize}
+    \item Sever Sent Events
+    \item WebSockets
+\end{itemize}
+
+\subsection{Server Sent Events}
+\label{subsec:sse}
+Server Sent Events(SSE) were introduced in 2006 as a protocol to push data from a server to a client \cite{sse}. Before SSE was introduced many client server communications relied on polling, a technique where the server was asked for new information by the client in a constant interval. This technique obviously created an enormous amount of overhead, because every time a request for new data was send there had to be a new HTTP connection to be established and afterwards destroyed. SSE was build to be efficient, it only creates one HTTP connection where all the data from the server is pushed and then received by the client through events. The biggest advantage of SSE is of course the long lived connection between the server and the client, but there are also a few downsides of this protocol. The main problem is that the communication is unidirectional, which means the server can send data to the client, but the client can not send data back to the server. Since GRAMOC relies on bidirectional communication between client and server this method is unqualified to be used in this project. A few use cases of SSE would be notifications, status updates or the streaming of stock tickers.
+
+\subsection{WebSockets}
+In 2011 the WebSocket protocol was standardized by the RFC6455 \cite{rfc6455}. WebSockets offer instead of unidirectional communication like \nameref{subsec:sse}, bidirectional communication between server and client. WebSockets communicate per default over port 80, therefore there are no problems with the firewall, but unlike the protocols before they perform a handshake on connection to upgrade the connection. The WebSocket protocol is way more complicated than the SSE protocol, but at the time of writing most browsers offer solid native WebSocket support and a lot of libraries that implement WebSockets are existing and well maintained. The probably most popular WebSocket library is called \nameref{subsec:socketio}, this library is also used within GRAMOC to communicate between the Node server and the Webapp. Other use cases of WebSockets would be applications that rely on bidirectional real-time updates like games or chat applications.
