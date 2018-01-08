@@ -63,6 +63,7 @@ Babel is a JavaScript compiler that is capable of converting up to date JavaScri
 \subsection{Vue Instance}
 Every Vue.js application begins with the initialization of a Vue instance, this is done by calling the ``Vue'' function. In most of the cases the Vue instance is bound to an element within the DOM, which usually is a div element with the id ``app''. Since this part needs to be done in Javascript, most of the time there is also a ``App'' component imported, which will be the so to say ``main component'' of the application. This can be done by writing following code:
 
+\begin{minipage}{\linewidth}
 \begin{lstlisting}[caption={Creating a Vue instance}, label=lst:vue-instance, captionpos=b, style=htmlcssjs]
 new Vue({
     el: '#app',
@@ -70,6 +71,7 @@ new Vue({
     components: { App }
 })
 \end{lstlisting}
+\end{minipage}
 
 \subsection{Components}
 Components in Vue.js are very important and powerful because with this feature it is possible to create custom elements that can be reused within the application. These components contain three sections, first the template, which is basically the HTML part of a component, second the script section, where all the JavaScript code is written and at last the style section, to add custom styling to the component. These components are then used like ordinary HTML elements in another template section or in the HTML code itself. There are two ways to implement components, either the ``Vue.component'' function has to be called to create a new component object, or all the components are separated into distinct ``.vue'' files. The latter method is preferred, especially in larger projects like GRAMOC, because the code is much easier to maintain and it also solves some problems like for example the scoped CSS styling is only possible when using single file components, but in order to use these a build tool like Webpack or Browserify. The two ways of using components are shown below.
@@ -116,6 +118,7 @@ Vue.component('hello-comp', {
 \subsection{Router}
 Vue.js itself only supports single-page applications, but the Vue.js team is maintaining a few core libraries that work in direct correlation to the base core system \cite{vuerouter}. This library enables the creation of multi-page applications, through binding Vue.js components to the individual routes. This routing technique is very useful in this project since GRAMOC is designed to be a multi-page application to show the different representations of the sensor data. A router can be created as shown in listing \ref{lst:vue-router}.
 
+\begin{minipage}{\linewidth}
 \begin{lstlisting}[caption={Creating a Vue instance}, label=lst:vue-router, captionpos=b, style=htmlcssjs]
 import Vue from 'vue'
 import Router from 'vue-router'
@@ -134,6 +137,7 @@ export default new Router({
     ]
 })
 \end{lstlisting}
+\end{minipage}
 
 \subsection{WebSockets}
 WebSockets are used to communicate and rapidly sending data between the Webapp and the web server. In GRAMOC a library called \nameref{subsec:socketio} was chosen because of their focus on reliable real-time communication. In order to use socket.io within a Vue.js application the npm package Vue-Socket.io must be included and a socket object must be added to the Vue instance in which the socket will be used \cite{vuesocketio}.
