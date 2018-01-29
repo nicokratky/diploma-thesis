@@ -24,9 +24,12 @@ A dataset is a the actual data that is contained. Datasets can contain multidime
 
 It is possible to associate every file, group or dataset with metadata. This makes HDF self-describing.
 
-\subsection{HDF4 and HDF5}
+\subsection{HDF and HDF5}
 
-\todo{Differences between HDF4 and HDF5}
+Although these two formats share a similiar name, they are two completely different file formats.
+
+The biggest difference is that only HDF5 uses a true hierarchical structure similiare to the UNIX file system. Every object has to belong to one group. Only one group does not have a parent group, the so-called root group.
+HDF uses a pseudo-flat structure using Vgroups. Objects do not necessarily have to belong to a group and there is also no root group.
 
 \section{Structure}
 
