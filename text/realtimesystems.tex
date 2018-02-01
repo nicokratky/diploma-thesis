@@ -1,6 +1,25 @@
 \chapter{Real Time Systems}
 \label{ch:realtimesystems}
 
+\author{Nico Kratky}
+%
+\section{Definition}
+
+Real-time systems (RTS) have one big constraint that normal computer programs don't have, time. Contrary to normal applications, where the correctness of the data only depends on the made computation, RTS also depend on the timing of these computations. This time limit that has to be adhered to is also often called deadline.
+Types of RTS are mostly differentiated between what happens when the deadline is not met. There are three basic types of real-time systems.
+
+\subsection{Hard Real-time Systems}
+
+In hard real-time systems an overrun in response time will lead to failure \cite{RealTimeHermannKopetz}. This can mean big finiancial losses of even danger to life. AN example for a hard RTS would be the ECU (Electronic Control Unit) of a modern car. If the timing of the fuel injection or ignition is not correct, the engine could fail and lead to a crash. Another example would be the control unit for airbags. This unit has to constantly monitor the cars crash sensors and decide wether to trigger the airbags or not. This system would have to fulfill the hard criteria because if the airbags trigger to late, then human safety can not be guaranteed.
+
+\subsection{Soft Real-time systems}
+
+A soft real-time system still does have a deadline but it is not that big of a deal if it is not met \cite{RealTimeHermannKopetz}. There are some consequences to not meeting the time limit but they are tolerable. A video-stream is a example for a soft real-time system. If some frames are not delivered in time the video will stutter, but the content will still be delivered.
+
+\subsection{Firm Real-time systems}
+
+In firm real-time systems the data wil be useless if the time limit is overrun \cite{RealTimeHermannKopetz}. The data will then be discarded.
+
 \author{Nico Leidenfrost}
 %
 \section{Programming Language}
