@@ -3,18 +3,36 @@
 
 \author{Nico Leidenfrost}
 %
-After extensive testing it was decided that this approach will not lead to successful project outcome. This decision was made while taking several factors into consideration.
+After extensive testing as described in section \ref{sec:Tests}, it was decided that this approach will not lead to a successful project outcome. This decision was made while taking several factors into consideration.
 
 \section{Android}
-Android is a great platform to create simple and even complex application systems that does not rely on heavy performance. Since the key element in this project is the ability to display the sensor data in real time, the Android development was discontinued due to the performance issues that come with it.
+Android is a great platform to create simple and even complex application systems that does not rely on heavy performance. Since the key element in this project is the ability to display the sensor data in real-time, the Android development was discontinued due to the performance issues that come with it.
 
 \section{Software limitations}
-Android is designed to render the UI with 60 frames per second (fps), which results in redrawing frames every 16 milliseconds at best. The task of drawing frames will be executed by the main thread along with many other operations like system events, input events, application callbacks and so on. The system tries to update the screen every 16 milliseconds, if however other operations than the redrawing of the screen are pulled from the work queue when trying to update the screen these frames will simply be dropped and users will experience lacks of smoothness while using the application. To be sure about how much milliseconds the rendering of one packet takes the time was stopped. The results showed that it took up to about 50 milliseconds to to render one update. These measurements were the prime factor that led to the decision to discontinue the work on Android.
+Android is designed to render the UI with 60 frames per second (fps), which results in redrawing frames every 16 milliseconds at best. The task of drawing frames will be executed by the main thread along with many other operations like system events, input events, application callbacks and so on. The system tries to update the screen every 16 milliseconds, if however other operations than the redrawing of the screen are pulled from the work queue when trying to update the screen, these frames will simply be dropped and users will experience lacks of smoothness while using the application. To be sure about how much milliseconds the rendering of one packet takes the time was stopped. The results showed that it took up to about 50 to 60 milliseconds to render one update. These measurements were the prime factor that led to the decision to discontinue the work on Android.
 
 \section{Plotting Libraries}
-There are a lot of freely available plotting and charting libraries to use in Android development. Unfortunately most of them do not meet the requirements to be used in this project. There are many good libraries to plot 2 dimensional charts like pie charts or bar charts, but there is a lack of libraries that can display scientific plots (e.g. surface plots). The libraries that would meet all the requirements however are not originally designed to be used in Android development and therefore work only in specific version of Android or do not work at all because they rely on components that are not available in Android.
+There are a lot of freely available plotting and charting libraries to use in Android development. Unfortunately most of them do not meet the requirements to be used in this project. There are many good libraries to plot 2 dimensional charts like pie charts or bar charts, but there is a lack of libraries that can display scientific plots (e.g. surface plots). The libraries that would meet all the requirements however are not originally designed to be used in Android development and therefore work only in specific versions of Android or do not work at all because they rely on components that are not available in Android.
 
-\chapter{Conclusion}
+\section{Networking}
+The first basic networking approach on how to send sensor data to the plotting application was to use the self-developed \nameref{sec:GSDEP} protocol. The goal of this protocol was to send sensor data reliable to clients such as the GRAMOC Android application. As it was meant to send data reliable, the TCP/IP stack was used as underlying technology \cite{rfc793,rfc791}. This approach worked well with small amounts of data, but since GRAMOC requires to send an enormous amount of data this approach failed, because the data was stuck in a buffer and could not be displayed in real-time.
+
+\section{Tests}
+\label{sec:Tests}
+The two main test factors that lead to discontinuing the Android development in conjunction with the \nameref{sec:GSDEP} protocol are:
+
+\begin{itemize}
+    \item The time of one chart update
+    \item The time to empty the data buffer
+\end{itemize}
+
+\subsection{Update Test}
+This test was used to determine the redraw or update performance of the Android application. To measure that, two time points were taken one at the beginning of the update and the other at the end. The start time was then subtracted form the end time and the result was the time of one update cycle. These durations were measured in milliseconds. Results showed that one update took 50 to 60 milliseconds, that corresponds to 16 to 20 frames per second (fps). The goal was to achieve a smooth experience with about 50 to 60 fps and thats far away from what the test results revealed.
+
+\subsection{Buffer Test}
+During the testing phase it occurred that the displayed data values did not match the given data input at the time. Also the application kept displaying new data after the sensor stopped transmitting. These anomalies indicated that the huge amounts of data could not be plotted in real-time and ended up in a buffer. To measure the time it takes to fully empty the buffer of the not drawn data, the sensor was constantly sending data for about five minutes and then stopped. The time between the sensor stopped transmitting data and the last chart update was taken and evaluated. The results showed that the application stopped updating the chart roughly about two minutes after the sensor stopped sending new data. Based on this test the whole networking stack was rebuild on top of UDP to achieve the desired speed.
+
+\chapter{Resume}
 
 \author{Nico Kratky}
 %
