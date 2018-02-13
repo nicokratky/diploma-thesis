@@ -9,53 +9,12 @@ After the conclusion that an Android application would not satisfy all the requi
 To create a modern Webapp a developer should choose a framework to build this web application. A software framework can be classified as a huge software library, it provides basic functionality like rendering content or routing between views in the context of a web framework. The biggest benefit of a web framework is that the developer does not have to reinvent the wheel, because a framework already implements the basic functionalities, also the majority of frameworks out there are open source, which means thousands of people can help to enhance the project and also resolve issues. Therefore the user gains a solid code base which is efficient, secure and usually well documented.
 
 \section{Vue.js}
-In the case of GRAMOC, a framework called ``Vue.js'' was used because of the performance compared to other big frameworks and the ``simplicity and ease of use'', as stated in a blog post published by the Frontend DC Lead of GitLab \cite{Vue, WhyVue, GitLab}. The performance was measured with the benchmark application from Stefan Krause, the results are partitioned in keyed and non keyed implementations \cite{FrameworkBenchmark}. They distinct each other in the way the data items are bind to the DOM (Document Object Model) node. The keyed implementation assigns a key to each node and the non keyed just updates the data inside of that particular node, therefore the non keyed implementation can achieve a higher performance since costly DOM operations like constantly removing and adding nodes can be avoided.
-
-Following table shows the average time in milliseconds each operation takes:
-
-\newcolumntype{C}[1]{>{\centering\arraybackslash}m{#1}}
-
-\begin{table}[H]
-    \centering
-    \begin{tabular}{| C{2.2cm} | C{1.5cm} | C{1.5cm} | C{1.5cm} | C{1.5cm} | C{1.5cm} | C{1.5cm} |}
-    \hline
-    \textbf{Name} & \textbf{Vue v2.4.4 non-keyed} & \textbf{Angular v4.4.3 non-keyed} & \textbf{React v15.5.4 non-keyed} & \textbf{Vue v2.4.4 keyed} & \textbf{Angular v4.4.3 keyed} & \textbf{React v15.5.4 keyed} \\ \hline
-    \textbf{create 1000 rows after the page loaded} & 176.1 & 189.4 & 192.0 & 178.2 & 208.8 & 189.7 \\ \hline
-    \textbf{update all 1000 rows of the table} & 63.6 & 61.0 & 75.7 & 172.6 & 194.0 & 185.7 \\ \hline
-    \textbf{update every 10th row for a table with 10000 rows} & 131.6 & 79.9 & 106.4 & 136.8 & 77.4 & 106.1 \\ \hline
-    \textbf{highlight a row in response to a click on the row} & 12.0 & 9.9 & 8.2 & 10.1 & 5.9 & 9.9 \\ \hline
-    \textbf{swap two rows on a table with 1000 rows} & 17.8 & 13.9 & 14.5 & 20.9 & 17.8 & 17.4 \\ \hline
-    \textbf{remove a row} & 41.0 & 36.8 & 47.7 & 50.9 & 46.8 & 48.3 \\ \hline
-    \textbf{create 10000 rows} & 1622.0 & 1713.4 & 1768.1 & 1610.7 & 1665.3 & 1767.0 \\ \hline
-    \textbf{add 1000 rows to a table with 10000 rows} & 329.2 & 283.2 & 294.8 & 339.0 & 270.6 & 298.0 \\ \hline
-    \textbf{clear a table filled with 10000 rows} & 260.4 & 375.5 & 393.1 & 251.3 & 350.4 & 362.4 \\ \hline
-    \textbf{time for loading, parsing and starting up} & 48.7 & 92.6 & 58.6 & 48.2 & 92.2 & 60.4 \\ \hline
-    \textbf{slowdown geometric mean} & 1.11 & 1.14 & 1.19 & 1.28 & 1.31 & 1.30 \\
-    \hline
-    \end{tabular}
-    \caption{The measured time cost of given operations by each framework (slowdown = duration / fastest)}
-    \label{tab:framework_perf_dur}
-\end{table}
-
-Following table shows the average memory allocation in Megabyte:
-
-\begin{table}[H]
-    \centering
-    \begin{tabular}{| C{2.2cm} | C{1.5cm} | C{1.5cm} | C{1.5cm} | C{1.5cm} | C{1.5cm} | C{1.5cm} |}
-    \hline
-    \textbf{Name} & \textbf{Vue v2.4.4 non-keyed} & \textbf{Angular v4.4.3 non-keyed} & \textbf{React v15.5.4 non-keyed} & \textbf{Vue v2.4.4 keyed} & \textbf{Angular v4.4.3 keyed} & \textbf{React v15.5.4 keyed} \\ \hline
-    \textbf{Memory usage after page load} & 3.2 & 7.3 & 3.9 & 3.2 & 7.2 & 4.0 \\ \hline
-    \textbf{Memory usage after adding 1000 rows} & 7.0 & 14.9 & 8.8 & 7.0 & 12.9 & 8.9 \\
-    \hline
-    \end{tabular}
-    \caption{The measured memory used by each framework}
-    \label{tab:framework_perf_mem}
-\end{table}
+In the case of GRAMOC, a framework called ``Vue.js'' was used because of the convenience compared to other big frameworks and the ``simplicity and ease of use'', as stated in a blog post published by the Frontend DC Lead of GitLab \cite{Vue, WhyVue, GitLab}.
 
 In order to use Vue.js it is recommended by the developers to use ``webpack''  as module bundler and ``Babel'' as JavaScript compiler, this can be done by using the vue-cli tool \cite{webpack, Babel, vuecli}. A detailed description on how to use this tool and create a new Vue.js application can be found on the GitHub page of the vue-cli tool.
 
 \subsection{webpack}
-webpack is a module bundler for modern JavaScript applications, that builds a dependency graph which includes every module needed to run the application. It packages all the needed modules into several bundles which will be commonly served as static asserts.
+webpack is a module bundler for modern JavaScript applications, that builds a dependence graph which includes every module needed to run the application. It packages all the needed modules into several bundles which will be commonly served as static asserts.
 
 \subsection{Babel}
 Babel is a JavaScript compiler that is capable of converting up to date JavaScript code into correct JavaScript code of a prior version. This is especially useful when a developer needs to work in an environment where the most recent version of JavaScript is not supported, but still wants to be able to write up to date JavaScript code.
