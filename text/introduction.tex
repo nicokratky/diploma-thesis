@@ -14,9 +14,11 @@
 % highly sensitive MEMS gradient magnetometer
 % try to predict faulty material in real time
 
-Industry is ever-changing. Especially people working in the information technology branch know that. The rise of the so-called Industry 4.0 is the perfect example. This means that mechanical processes are combined with modern information- communication technology.
+Industry is ever-changing. Especially people working in the information technology branch know that. The latest industry-changing milestone was the rise of the so-called Industry 4.0, which combines regular mechanical processes with moder information and communication technology.
 
-Industry 4.0 is a term that was coined by Germany's research-union. It describes the fourth industrial revolution. As many people know the first industrial revolution took place with the rise of water- and steam-powered machines, the second revolution happened with the introduction of labour division and mass production. The third industrial revolution occured with the invention of computers, robots and computer automation. The fourth and final one basically just refines the third revolution. This revolution includes the term "cyper-physical systems", which are systems that are controlled by computers, algorithms and sensors. This also means that there has to be some kind of communication between these systems which happens mostly over the internet. Figure \ref{fig:industry40} depicts this sequence of revolutions.
+Industry 4.0 is a term that was coined by the german government \cite{Industrie4.0Paper}. It describes the fourth industrial revolution. The first industrial revolution took place around 1800 with the rise of steam and water-powered machines. One century later electricity heralded the start of the second industrial revolution, production lines being on of the biggest milestones. Also division of labour was first practiced. The third industrial revolution occured with the invention of computers, robots and computer automation. The fourth and final one basically just refines the third revolution. This revolution includes the term "cyper-physical systems", which are systems that are controlled by computers, algorithms and sensors. This also means that there has to be some kind of communication between these systems which happens mostly over the internet. Figure \vref{fig:industry40} depicts this sequence of revolutions.
+
+\todo{Cite Industry 4.0 history (https://www.lmis.de/im-wandel-der-zeit-von-industrie-1-0-bis-4-0/)}
 
 \begin{figure}[H]
     \centering
@@ -25,18 +27,29 @@ Industry 4.0 is a term that was coined by Germany's research-union. It describes
     \label{fig:industry40}
 \end{figure}
 
+This drastic change means that many companies have to adapt. These adaptions have to be made to keep up with the competing companies.
+
+The invention of a gradient magnetometer that can effectively characterize steel belts the foundation for this diploma thesis were laid.
+
+\todo{cite patent? lol}
+
 \section{Task}
 
-The task of this diploma-thesis is to develop a system to read data from a sensor, process it and visualize it from a highly sensitive MEMS gradient magnetometer. This process should be as close to real-time as possible. This system should also be able to predict parameters of the measured material on the basis of the available data.
+The task of this diploma thesis is to develop a system to read sensor data, process it and visualize the results. Sensor data is continuously read from a highly sensitive MEMS gradient magnetometer. This data is structured as raw binary data and has to be processed by the system. The processed data will also undergoe statistical analysis to predict parameters on the basis of this data. After this processing step the data has to be sent wirelessly to a mobile app. This mobile app acts as the client-side of the system. The app visualizes the sensor data and its predicted parameters. The app should also offer a way of browsing through historical data that was saved prior.
 
-The specification of GRAMOC was defined together with the client as follows:
+\todo{refactor paragraph, tenses, should}
+
+Server side requirements:
 
 \begin{itemize}
-    \item Receive sensor data from the sensor over UDP
-    \item Save the data to HDF5 files for further processing
-    \item Calculate regression parameters from the data
-    \item Send the data and additional information to connected clients
-    \item Visualize the received data
+    \item test
+\end{itemize}
+
+
+Client side requirements:
+
+\begin{itemize}
+    \item test
 \end{itemize}
 
 \section{Current Solutions}
