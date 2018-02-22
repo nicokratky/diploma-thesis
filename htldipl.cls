@@ -376,10 +376,12 @@ Quellen und Hilfsmittel nicht benutzt und die den benutzten Quellen wörtlich un
 }
 
 \renewcommand{\author}[1]{%
-	\vspace{5mm}
-	\textbf{Author:} #1
-	\vspace{5mm}
-	\\
+	% \vspace{5mm}
+	% \textbf{Author:} #1
+	% \vspace{5mm}
+	% \\
+    \textbf{Author:} #1
+    \SuperPar
 }
 
 \endinput

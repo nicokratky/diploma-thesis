@@ -3,39 +3,45 @@
 
 \author{Nico Kratky}
 %
-A server is a computer program that supplies clients with services. The term 'server' often refers to the machine on which the program is running on.
-
-\section{Tasks}
-The tasks of the server are to manage incoming connections and their requests. It should always be prepared to send sensor data to a client if it is requested.
+A server is a computer program that supplies clients with services. The term 'server' often refers to the machine on which the program is running on. In this project the server has to accomplish several tasks. It has to read data from the sensor that is used, and distribute this data to clients. To do this it also has to manage clients and incoming connection requests.
 
 \section{Hardware}
 \subsection{Raspberry Pi 3 Model B}
-The Raspberry Pi is a small single-board computer originally created to teach children how to program \cite{RasPi}. It was developed by the Raspberry Pi Foundation. There are numerous options for expanding the capabilities of the Raspberry Pi. One being the use of General-purpose input/output (GPIO) pins. They can be used to connect so-called HAT's (Hardware Attached on Top) or Shields (this term evolved from Arduino-land). These add-on boards are mounted to the Raspberry Pi by connecting the GPIO pins to the board and screwing them together. They mostly provide additional hardware to extend the application possibilites and to achieve the desired goal. Further advantages are its relatively small footprint and its low cost. Also, a wide variety of Linux distributions have been adapted to the hardware. Having these advantages was the decisive factor for choosing the Raspberry Pi 3 Model B.\\
-The specifications of the Raspberry Pi 3 Model B are:
+% The Raspberry Pi is a small single-board computer originally created to teach children how to program \cite{RasPi}. It was developed by the Raspberry Pi Foundation. There are numerous options for expanding the capabilities of the Raspberry Pi. One being the use of General-purpose input/output (GPIO) pins. They can be used to connect so-called HAT's (Hardware Attached on Top) or Shields (this term evolved from Arduino-land). These add-on boards are mounted to the Raspberry Pi by connecting the GPIO pins to the board and screwing them together. They mostly provide additional hardware to extend the application possibilites and to achieve the desired goal. Further advantages are its relatively small footprint and its low cost. Also, a wide variety of Linux distributions have been adapted to the hardware. Having these advantages was the decisive factor for choosing the Raspberry Pi 3 Model B.\\
+% The specifications of the Raspberry Pi 3 Model B are:
 
-\begin{itemize}
-	\item \textbf{SoC} Broadcom BCM2837
-	\item \textbf{CPU} 4x ARM Cortex-A53, 1.2GHz
-	\item \textbf{GPU} Broadcom VideoCore IV
-	\item \textbf{RAM} 1GB LPDDR2 (900 MHz)
-	\item \textbf{Networking} 10/100 Ethernet, 2.4GHz 802.11n wireless
-	\item \textbf{Bluetooth} Bluetooth 4.1 Classic, Bluetooth LE
-	\item \textbf{Storage} microSD
-	\item \textbf{GPIO} 40-pin header, populated
-	\item \textbf{Ports} HDMI, 3.5mm analogue audio-video jack, 4x USB 2.0, Ethernet, Camera Serial Interface (CSI), Display Serial Interface (DSI)
-\end{itemize}
+The Raspberry Pi is a small single-board computer, developed by the Raspberry Pi Foundation \cite{RasPi}. Originally it was created to teach children how to use computers and more importantly, how to program them. The biggest advantage of these mini-computers is the variety of extension possibilities. These extension are so-called HAT's (Hardware Attached on Top) or Shields (which is a term that is more often used when talking about Arduinos). They are connected by using the on-board General-purpose input/output (GPIO) pins. They mostly provide additional hardware to extend the application possibilities and to achieve the desired goal. Further advantages are its relatively small footprint, low cost and wide-variety of available Linux distributions. Having these advantages was the decisive factor for choosing the Raspberry Pi. In this project the latest available version, which is the Raspberry Pi 3 Model B, was used. Specifications of this computer are listed in table \vref{tab:raspispec}.
+
+\begin{table}[h]
+    \centering
+    \begin{tabularx}{\linewidth}{| l | X |}
+    \hline
+    \textbf{SoC} & Broadcom BCM2837 \\ \hline
+    \textbf{CPU} & 4x ARM Cortex-A53, 1.2GHz \\ \hline
+    \textbf{GPU} & Broadcom VideoCore IV \\ \hline
+    \textbf{RAM} & 1GB LPDDR2 (900MHz) \\ \hline
+    \textbf{Networking} & 10/100 Ethernet, 2.4GHz 802.11n wireless \\ \hline
+    \textbf{Bluetooth} & Bluetooth 4.1 Classic, Bluetooth LE \\ \hline
+    \textbf{Storage} & microSD \\ \hline
+    \textbf{GPIO} & 40-pin header, populated \\ \hline
+    \textbf{Ports} & HDMI, 3.5 analogue audio-video jack, 4x USB 2.0, Ethernet, Camera Serial Interface (CSI), Display Serial Interface (DSI) \\ \hline
+    \end{tabularx}
+    \caption{Raspberry Pi 3 Model B specifications}
+    \label{tab:raspispec}
+\end{table}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=10cm,keepaspectratio]{raspberrypi3b}
-	\caption{Raspberry Pi 3 Model B}
+	\caption{Raspberry Pi 3 Model B \cite{img:raspi}}
 	\label{fig:raspberrypi3b}
 \end{figure}
 
 \subsection{Raspberry Pi SenseHAT}
-During the first implementation phase a Raspberry Pi SenseHAT add-on board was used the get real sensor data \cite{SenseHAT}. This HAT was made especially for the Astro Pi mission, where student could create and code projects, which were then run on the International Space Station by astronaut Tim Peake \cite{AstroPiMission}. This board was chosen because it offers a wide variety of sensors and therefore offers many possibilities in terms of testing GRAMOC.
 
-The Raspberry Pi Sense HAT includes following sensors and inputs/outputs:
+The SenseHAT was made especially for the Astro Pi mission, where student could create and code projects, which were then run on the International Space Station by astronaut Tim Peake \cite{AstroPiMission}. This board was chosen because it offers a wide variety of sensors and therefore offers many possibilities in terms of testing GRAMOC. Figure \vref{fig:sensehat} shows a SenseHAT that is not attached to a Raspberry Pi.
+
+The Raspberry Pi Sense HAT includes following sensors and inputs/outputs \cite{SenseHAT}:
 
 \begin{itemize}
 	\item ST LSM9DS1 Inertial measurement sensor
@@ -49,34 +55,33 @@ The Raspberry Pi Sense HAT includes following sensors and inputs/outputs:
 	\item Alps SKRHABE010 5-button mini-joystick
 	\item 8x8 RGB LED matrix
 \end{itemize}
-\bigskip
-The RGB LED matrix and the joystick are both driven by a Atmel ATTINY88 microcontroller-unit.\\
-Because this project focuses on data from magnetic field sensors, the focus was put onto the 3D magnetometer of the SenseHAT. This sensor has a magnetic measurement range of $\pm$ 4/8/12/16 gauss \cite{InertialSensorsManual}.
+
+Although GRAMOCs main task is to charactarize steel belts using a magnetometer, a Raspberry Pi SenseHAT add-on board was used to get sensor data. It was dicided to use the now available accelerometer to perform measurements because it's easier to control the sensor data than by using the magnetometer. Different sensor values can be generated by simply moving around the Raspberry Pi with the attached SenseHAT.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=8cm,keepaspectratio]{sensehat}
-	\caption{Raspberry Pi SenseHAT}
-	\label{fig:raspberrypi3b}
+	\caption{Raspberry Pi SenseHAT \cite{img:sensehat}}
+	\label{fig:sensehat}
 \end{figure}
 
 \section{Implementation}
 
-The server program of GRAMOC is written in Python. This allows for great compatibility as Python comes preinstalled on many systems.
+The server program of GRAMOC is completely written in Python. This allows for great compatibility as Python comes preinstalled on many systems.
 
 \subsection{Programming Language}
 
 Python is a simple yet powerful, modern programming language and supports both procedure-oriented as well as object-oriented programming. It was developed by Guido van Rossum at Centrum Wiskunde \& Informatica (CWI) in the Netherlands in 1989 and first released in 1991 \cite{HistoryOfPython}. It was meant to be a successor to the ABC programming language. Python is a high-level language and therefore includes features such as automatic memory management.
 
-Python is currently available in version 3.6.2. Nevertheless version 2.7 is still available as the Python Software Foundation announced that it will be supportet until 2020, effectivly making it an Long-term support version. Despite that Python 3.6.2 was chosen for GRAMOC as the Foundation also encourages users to use the newest version if possible. Another reason for choosing the newer version is that GRAMOC does not have to be backwards compatible to any existing software.
+Python is currently available in version 3.6.2. Nevertheless version 2.7 is still available as the Python Software Foundation announced that it will be supportet until 2020, effectivly making it an Long-term support version. Despite that, Python 3.6.2 was chosen for GRAMOC as the Foundation also encourages users to use the newest version if possible. Another reason for choosing the newer version is that GRAMOC does not have to be backwards compatible to any existing software.
 
 \section{Program Flow}
 
-As depicted in figure \ref{fig:server-program-flow}, the server starts accepting new connections right after is has started. It then performs the handshake that is required by GSDEP (further explained in \ref{sec:networking_data-flow}). If this handshake is performed without errors, the server starts listening for data from this now connected client on a separate thread. While this thread is running it receives one message and checks if it is a command (see \ref{sec:networking_command}). If it is, the message is interpreted and the appropriate function is executed. This thread is kept alive until the client disconnects or the server is shutdown by the user.
+As depicted in figure \vref{fig:server-program-flow}, the server starts accepting new connections right after is has started. It then performs the handshake that is required by GSDEP (further explained in \vref{sec:networking_data-flow}). If this handshake is performed without errors, the server starts listening for data from this now connected client on a separate thread. While this thread is running it receives one message and checks if it is a command (see \vref{sec:networking_command}). If it is, the message is interpreted and the appropriate function is executed. This thread is kept alive until the client disconnects or the server is shutdown by the user.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=8cm,keepaspectratio]{server-task}
+	\includegraphics[width=13cm,keepaspectratio]{server-task}
 	\caption{Flowchart of server program showing the procedure}
 	\label{fig:server-program-flow}
 \end{figure}

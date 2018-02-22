@@ -15,11 +15,11 @@ Android is designed to render the UI with 60 frames per second (fps), which resu
 There are a lot of freely available plotting and charting libraries to use in Android development. Unfortunately most of them do not meet the requirements to be used in this project. There are many good libraries to plot 2 dimensional charts like pie charts or bar charts, but there is a lack of libraries that can display scientific plots (e.g. surface plots). The libraries that would meet all the requirements however are not originally designed to be used in Android development and therefore work only in specific versions of Android or do not work at all because they rely on components that are not available in Android.
 
 \section{Networking}
-The first basic networking approach on how to send sensor data to the plotting application was to use the self-developed \nameref{sec:GSDEP} protocol. The goal of this protocol was to send sensor data reliable to clients such as the GRAMOC Android application. As it was meant to send data reliable, the TCP/IP stack was used as underlying technology \cite{rfc793, rfc791}. This approach worked well with small amounts of data, but since GRAMOC requires to send an enormous amount of data this approach failed, because the data was stuck in a buffer and could not be displayed in real-time.
+The first basic networking approach on how to send sensor data to the plotting application was to use the self-developed GSDEP protocol (see section \vref{ch:networking}). The goal of this protocol was to send sensor data reliable to clients such as the GRAMOC Android application. As it was meant to send data reliable, the TCP/IP stack was used as underlying technology \cite{rfc793, rfc791}. This approach worked well with small amounts of data, but since GRAMOC requires to send an enormous amount of data this approach failed, because the data was stuck in a buffer and could not be displayed in real-time.
 
 \section{Tests}
 \label{sec:Tests}
-The two main test factors that lead to discontinuing the Android development in conjunction with the \nameref{sec:GSDEP} protocol are:
+The two main test factors that lead to discontinuing the Android development in conjunction with the GSDEP protocol are:
 
 \begin{itemize}
     \item The time of one chart update
@@ -32,14 +32,14 @@ This test was used to determine the redraw or update performance of the Android 
 \subsection{Buffer Test}
 During the testing phase it occurred that the displayed data values did not match the given data input at the time. Also the application kept displaying new data after the sensor stopped transmitting. These anomalies indicated that the huge amounts of data could not be plotted in real-time and ended up in a buffer. To measure the time it took to fully empty the buffer of the not drawn data, the sensor was constantly sending data for about five minutes and then stopped. The time between the sensor stopped transmitting data and the last chart update was taken and evaluated. The results showed that the application stopped updating the chart roughly about two minutes after the sensor stopped sending new data. Based on this test the whole networking stack was rebuild on top of UDP to achieve the desired speed.
 
-\chapter{Resume}
+\chapter{Résumé}
 
 \author{Nico Kratky}
 %
 After researching alternatives that still fit the purpose of GRAMOC a meeting with the client was arranged to discuss these alternatives. This meeting resulted in new goals and expected results. This new project specification now includes a web application instead of the mobile Android application.
 
 \section{Advantages}
-The switch to developing a web application still offers a few advantages that were not existing while focusing on a Android application. This includes the flexibility as a web application can run on basically any devices the end user wishes. As of today many devices support network connections and can run a web browser. Another advantage is that JavaScript offers a tremendous amount of third party libraries, especially plotting libraries. There a also a few libraries that support scientific plotting, even VTK the visualization toolkit that is used by ParaView is available as a JS version \cite{VTK}.
+The switch to developing a web application still offers a few advantages that were not existing while focusing on a Android application. This includes the flexibility that a web application can run on basically any device the end user wishes. As of today many devices support network connections and can run a web browser. Another advantage is that JavaScript offers a tremendous amount of third party libraries, especially plotting libraries. A few of these libraries even support scientific plotting, like for example VTK, the visualization toolkit that is used by ParaView \cite{VTK}.
 
 \section{Disadvantages}
 The change of specifications also brings some disadvantages with it. For example the whole networking stack has to be rewritten because raw TCP streams are not supported in web environments. They were replaced be the WebSocket technology \cite{rfc6455}. Also a new third-party plotting library has to be chosen and read up on.
