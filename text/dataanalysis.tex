@@ -1,0 +1,71 @@
+\chapter{Data Analysis}
+\label{ch:dataanalysis}
+
+% Warum Daten predicten?
+% Was hat man davon? (testablaeufe verschnellern)
+
+% Was gibts fuer Moeglichkeiten?
+
+% Lineare Regressioin
+% Wie funktioniert das? y = kx+d
+
+% einfache vs multiple
+
+% Methode de kleinsten Quadrate (least squares)
+
+% Schwierigkeiten mit Datenstreams
+
+% Beispiel: Ringgroesse bei Frauen
+
+% C++ implementation: tux Eigen, ...
+
+% R squared Test (moving Avg)
+
+\section {Regression Analysis}
+
+Regression Analysis is a statistical method to determine relationships between one dependent variable $ y $ and one or more independent variables $ x_i $. There are multiple types of regression, depending on how the values are related. In this chapter the \textit{linear} regression analysis is discussed.
+
+\begin{equation}
+    y = k*x + d
+\end{equation}
+
+\subsection{Simple Linear Regression}
+
+Simple Linear Regression is a regression model that can only build a relationship between one dependent and one independant variable. To find the best fit for this linear model the \textit{Ordinary Least Squares} method is used.
+
+\begin{gather}
+    y = \beta_0 + \beta_1*x \\
+    \beta_1 = \frac{\sum_{i=1}^{n} (x_i - \bar{x}) * (y_i - \bar{y}))}{\sum_{i=1}^{n} (x_i - \bar{x})^2} \\
+    \beta_0 = \bar{y} - \beta_1 * \bar{x}
+\end{gather}
+
+\subsection{Multiple Linear Regression}
+
+When the dependent variable depends on not just one variable, multiple linear regression analysis is used. This method uses two or more independent variables to describe the dependent variable. To calculate the regression coefficients the independent variable have to be put into a $ n \times p $ matrix, where $ n $ is the amount of datasets and $ p $ is the amount of independent variables. Also, a vector of all dependent variables has to be formed.
+
+\begin{equation}
+    X_{n,p} =
+        \begin{bmatrix}
+            x_{1,1} & x_{1,2} & \cdots & x_{1,p} \\
+            x_{2,1} & x_{2,2} & \cdots & x_{2,p} \\
+            \vdots & \vdots & \ddots & \vdots \\
+            x_{n,1} & x_{n,2} & \cdots & x_{n,p} \\
+        \end{bmatrix}
+\end{equation}
+
+
+\begin{equation}
+    y_{n} =
+        \begin{pmatrix}
+            y_{1} \\
+            y_{2} \\
+            \vdots \\
+            y_{n}
+        \end{pmatrix}
+\end{equation}
+
+\subsection{Example - Ringsize of Women}
+
+\subsection{Working with Streaming Data}
+
+\section{Implementation}
