@@ -23,49 +23,151 @@
 
 \section {Regression Analysis}
 
-Regression Analysis is a statistical method to determine relationships between one dependent variable $ y $ and one or more independent variables $ x_i $. There are multiple types of regression, depending on how the values are related. In this chapter the \textit{linear} regression analysis is discussed.
-
-\begin{equation}
-    y = k*x + d
-\end{equation}
+Regression analysis is a statistical method to determine relationships between one dependent variable $ y $ and one or more independent variables $ x_i $. There are multiple types of regression, depending on how the values are related. In this chapter the \textit{linear} regression analysis is discussed.
 
 \subsection{Simple Linear Regression}
 
-Simple Linear Regression is a regression model that can only build a relationship between one dependent and one independant variable. To find the best fit for this linear model the \textit{Ordinary Least Squares} method is used.
+Simple Linear Regression is a regression model that can only build a relationship between one dependent and one independant variable. Also it is asummed that the relation is linear. To find the best fit for this linear model the \textit{Ordinary Least Squares} method is used. Equation \vref{eq:line} shows the formula which describes basic linear functions, which is also the basis for the simple linear regression model, as seen in equation \vref{eq:slr}.
 
-\begin{gather}
-    y = \beta_0 + \beta_1*x \\
-    \beta_1 = \frac{\sum_{i=1}^{n} (x_i - \bar{x}) * (y_i - \bar{y}))}{\sum_{i=1}^{n} (x_i - \bar{x})^2} \\
+\begin{equation}
+\label{eq:line}
+    y = k * x + d
+\end{equation}
+
+\begin{equation}
+\label{eq:slr}
+    y = \beta_0 + \beta_1 * x
+\end{equation}
+
+The two regression parameters that are used in this regression model are calculated using the least squares method. This method tries to minimize the gap between the actual data that was recorded and the predicted values on the line. The following equations show this calculations.
+
+\begin{equation}
+\label{eq:beta1}
+    \beta_1 = \frac{\sum_{i=1}^{n} (x_i - \bar{x}) * (y_i - \bar{y}))}{\sum_{i=1}^{n} (x_i - \bar{x})^2}
+\end{equation}
+
+\begin{equation}
+    \label{eq:beta0}
     \beta_0 = \bar{y} - \beta_1 * \bar{x}
-\end{gather}
+\end{equation}
 
 \subsection{Multiple Linear Regression}
 
-When the dependent variable depends on not just one variable, multiple linear regression analysis is used. This method uses two or more independent variables to describe the dependent variable. To calculate the regression coefficients the independent variable have to be put into a $ n \times p $ matrix, where $ n $ is the amount of datasets and $ p $ is the amount of independent variables. Also, a vector of all dependent variables has to be formed.
+When the dependent variable depends on not just one variable, multiple linear regression analysis is used. This method uses two or more independent variables to describe the dependent variable. To calculate the regression coefficients the independent variable have to be put into a $ n \times p $ matrix,
 
 \begin{equation}
     X_{n,p} =
         \begin{bmatrix}
-            x_{1,1} & x_{1,2} & \cdots & x_{1,p} \\
-            x_{2,1} & x_{2,2} & \cdots & x_{2,p} \\
-            \vdots & \vdots & \ddots & \vdots \\
-            x_{n,1} & x_{n,2} & \cdots & x_{n,p} \\
+            1 & x_{1,1} & x_{1,2} & \cdots & x_{1,p} \\
+            1 & x_{2,1} & x_{2,2} & \cdots & x_{2,p} \\
+            1 & \vdots & \vdots & \ddots & \vdots \\
+            1 & x_{n,1} & x_{n,2} & \cdots & x_{n,p}
         \end{bmatrix}
 \end{equation}
 
+where $ n $ is the amount of datasets and $ p $ is the amount of independent variables. Also, a vector of all dependent variables has to be formed.
 
 \begin{equation}
     y_{n} =
-        \begin{pmatrix}
+        \begin{bmatrix}
             y_{1} \\
             y_{2} \\
             \vdots \\
             y_{n}
-        \end{pmatrix}
+        \end{bmatrix}
+\end{equation}
+
+These two matrices can be used to describe the basic multiple linear regression model
+
+\begin{equation}
+    y = X\beta
+\end{equation}
+
+, where $ \beta $ are the regression coeffecients. Or shorter
+
+\begin{equation}
+    \begin{bmatrix}
+        y_{1} \\
+        y_{2} \\
+        \vdots \\
+        y_{p}
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+            1 & x_{1,1} & x_{1,2} & \cdots & x_{1,p} \\
+            1 & x_{2,1} & x_{2,2} & \cdots & x_{2,p} \\
+            1 & \vdots & \vdots & \ddots & \vdots \\
+            1 & x_{n,1} & x_{n,2} & \cdots & x_{n,p}
+    \end{bmatrix}
+    \begin{bmatrix}
+        \beta_{0} \\
+        \beta_{1} \\
+        \vdots \\
+        \beta_{p}
+    \end{bmatrix}
+\end{equation} .
+
+\todo{describe what leads to the formula below}
+
+\begin{equation}
+\label{eq:mlr}
+    \hat{\beta} = (X^TX)^{-1} X^Ty
 \end{equation}
 
 \subsection{Example - Ringsize of Women}
 
+A good example for multiple linear regression analysis is the ringsize of women. If somebody wants to know the ringsize of his or her girlfriend, but does not want to ask her it is possible to predict her size. To be able to do this a data basis has to be formed. Decisive factors for someones ringsize are for example: body weight, height and age. These variables can be used to form said data basis as shown in figure \vref{tab:mlr_ringsize}.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|}
+    \hline
+    \textbf{Person i}   & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} & \textbf{10} \\ \hline
+    \textbf{Ringsize y} & 47.1       & 46.8       & 49.3       & 53.2       & 47.7       & 49.0       & 50.6       & 47.1       & 51.7       & 47.8        \\ \hline
+    \textbf{Height x1}  & 156.3      & 158.9      & 160.8      & 179.6      & 156.6      & 165.1      & 165.9      & 156.7      & 167.8      & 160.8       \\ \hline
+    \textbf{Weight x2}  & 62         & 52         & 83         & 69         & 74         & 52         & 77         & 65         & 79         & 51          \\ \hline
+    \textbf{Age x3}     & 24         & 34         & 26         & 51         & 43         & 33         & 22         & 21         & 19         & 34          \\ \hline
+    \end{tabular}
+    \caption{Ringsizes of example persons and the appropriate body parameters}
+    \label{tab:mlr_ringsize}
+\end{table}
+
+This dataset can now be used to form the previously explained matrices.
+
+\begin{equation}
+    X_{10, 3} =
+    \begin{bmatrix}
+        1 & 156.3 & 62 & 24 \\
+        1 & 158.9 & 52 & 34 \\
+        \vdots & \vdots & \vdots & \vdots \\
+        1 & 160.8 & 51 & 34
+    \end{bmatrix}
+\end{equation}
+
+\begin{equation}
+    y_{10} =
+    \begin{bmatrix}
+        47.1 \\
+        46.8 \\
+        \vdots \\
+        47.8
+    \end{bmatrix}
+\end{equation}
+
+Using the regression parameter formula (see equation \vref{eq:mlr}) we get the following regression parameters:
+
+\begin{equation}
+    \hat{\beta} = (X^TX)^{-1} X^Ty =
+    \begin{bmatrix}
+        0.66 \\
+        0.28 \\
+        0.06 \\
+        -0.02
+    \end{bmatrix}
+\end{equation}
+
 \subsection{Working with Streaming Data}
+
+\subsection{$ R^2 $ - Coefficient of Determination}
 
 \section{Implementation}
