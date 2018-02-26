@@ -9,7 +9,54 @@ After the conclusion that an Android application would not satisfy all the requi
 To create a modern Webapp a developer should choose a framework to build this web application. A software framework can be classified as a huge software library, it provides basic functionality like rendering content or routing between views in the context of a web framework. The biggest benefit of a web framework is that the developer does not have to reinvent the wheel, because a framework already implements the basic functionalities, also the majority of frameworks out there are open source, which means thousands of people can help to enhance the project and also resolve issues. Therefore the user gains a solid code base which is efficient, secure and usually well documented.
 
 \section{Vue.js}
-In the case of GRAMOC, a framework called ``Vue.js'' was used because of the convenience compared to other big frameworks and the ``simplicity and ease of use'', as stated in a blog post published by the Frontend DC Lead of GitLab \cite{Vue, WhyVue, GitLab}.
+In the case of GRAMOC, a framework called ``Vue.js'' was used because of the convenience compared to other big frameworks and the ``simplicity and ease of use'', as stated in a blog post published by the Frontend DC Lead of GitLab \cite{Vue, WhyVue, GitLab}. Another factor in choosing Vue.js as the Framework for the GRAMOC web application was the performance compared to other big Frameworks. The Benchmark application to measure the performance of the Frameworks was created by Stefan Krause and is available on GitHub \cite{FrameworkBenchmark}. The results are depicted below in Figures \ref{fig:slowdownresults} and \ref{fig:memoryresults}.
+
+\pgfplotstableread[row sep=\\,col sep=&]{
+    interval & slowdown & memory \\
+    Vue.js  & 1.195 & 7    \\
+    Angular & 1.225 & 13.9 \\
+    React   & 1.245 & 8.85 \\
+}\frameworkdata
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+                width=10cm,
+                ybar,
+                bar width=1cm,
+                symbolic x coords={Vue.js,Angular,React},
+                xtick=data,
+                ymin=0, ymax=1.5,
+                nodes near coords
+            ]
+            \addplot table[x=interval,y=slowdown]{\frameworkdata};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Benchmark results: average slowdown in milliseconds}
+    \label{fig:slowdownresults}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+                width=10cm,
+                ybar,
+                bar width=1cm,
+                symbolic x coords={Vue.js,Angular,React},
+                xtick=data,
+                ymin=0,
+                nodes near coords
+            ]
+            \addplot table[x=interval,y=memory]{\frameworkdata};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Benchmark results: average memory usage when running in MB}
+    \label{fig:memoryresults}
+\end{figure}
+
+Although the performance of all three competitors is almost equal, Vue.js is slightly ahead of the others. All these results lead to the decision that Vue.js will be used as the Web Framework in GRAMOC.
 
 In order to use Vue.js it is recommended by the developers to use ``webpack''  as module bundler and ``Babel'' as JavaScript compiler, this can be done by using the vue-cli tool \cite{webpack, Babel, vuecli}. A detailed description on how to use this tool and create a new Vue.js application can be found on the GitHub page of the vue-cli tool.
 
@@ -103,20 +150,26 @@ WebSockets are used to communicate and rapidly sending data between the Webapp a
 
 \section{Web Server}
 \label{sec:webserver}
-To make a web application accessible to a user, there needs to be a web server which serves the files to the web browser of the user. In the case of GRAMOC, ``Node.js'' with its built-in module HTTP was chosen to be used as a web server \cite{Node}.
+To make a web application accessible to a user, there needs to be a web server which serves the files to the web browser of the user. In the case of GRAMOC, Nginx was chosen to be used as a web server \cite{nginx}.
 
-A web server is a server dedicated to provide information, web sites or web applications. To achieve that goal the web server transmits first the files needed to run the web application and then sends information whenever they are requested. In this project, ``Node.js'' with its built-in module HTTP was selected to be utilized as a web server \cite{Node}.
+A web server is a server dedicated to provide information, web sites or web applications. To achieve that goal the web server transmits first the files needed to run the web application and then sends information whenever they are requested. In this project, NGINX was selected to be utilized as a web server \cite{nginx}.
+
+\subsection{Nginx}
+Nginx is a lightweight web server that was initially created to solve the ``c10K'' problem. The goal of this challenge was to create a web server that is able to handle ten thousand concurrent client connections at once. In GRAMOC Nginx is used to provide only the core features of a web server. This means to provide the static web application content and basic routing between the web server, the Node servers. Any other functionality will be passed on to components that can handle the specific tasks. Nginx was chosen over Apache because of its lightweight and speed. This is mainly achieved through passing on tasks to other programs and not trying to handle everything on its own like Apache does.
 
 \subsection{Node.js}
 \label{subsec:nodejs}
-Node.js is an asynchronous event driven JavaScript runtime, designed to build network applications \cite{Node}. The built-in HTTP module can be used to create a web server based on Node. This module can either communicate over the HTTP protocol or establish an IPC connection. In terms of GRAMOC, this is utterly useful because the sensor data needs to be received over an IPC connection and then transmitted over HTTP to the web application. Therefore the primary function of the Node server is to receive data which is emitted by the Filtering and Preprocessing Layer (FAPS) and forward it, to the web application via WebSockets implemented through the ``socket.io'' library \cite{socketio}. The Webapp itself is served by ``Express'' \cite{express}.
+Node.js is an asynchronous event driven JavaScript runtime, designed to build network applications \cite{Node}. The built-in HTTP module can be used to create a web server based on Node. This module is used to utilize communication over the HTTP protocol. In terms of GRAMOC the sensor data is received via a UDP connection and then transmitted over HTTP to the web application. Therefore the primary function of the Node server is to receive data which is emitted by the Filtering and Preprocessing Layer (FAPS) and forward it, to the web application via WebSockets implemented through the ``socket.io'' library \cite{socketio}. In order to use socket.io the HTTP module in combination with the express framework must be used.
+
+Another function of the Node server is to provide an application programming interface(API) to request the saved sensor data. This is achieved by using the express framework. This API is needed to display historical sensor data within the GRAMOC web application.
+
+\subsection{Express}
+Express is a minimal and flexible web application framework to be used with Node.js. It is based on the HTTP module, which is a part of the standard library of Node.js and its main focus is to manage the routing tasks associated with the running HTTP server. So Express is just a layer on top of a web server, but not a web server itself.
 
 \subsection{socket.io}
 \label{subsec:socketio}
 socket.io is a JavsScript library that implements real-time communication via WebSockets. This library was chosen because it aims to make real-time applications possible in every browser and can be used in a Node.js application. Since GRAMOC was built with the intent of delivering sensor data in real-time to the user, socket.io helped a lot in the step of implementing real-time communication.
 
-\subsection{Express}
-Express is a minimal and flexible web application framework to be used with Node.js. It is based on the HTTP module, which is a part of the standard library of Node.js and its main focus is to manage the routing tasks associated with the running HTTP server. So Express is just a layer on top of a web server, but not a web server itself.
 
 \section{Plotly}
 \label{sec:Plotly}
@@ -134,9 +187,6 @@ To achieve the 2D visualization of the sensor data, a combination of a line char
 
 In GRAMOC the Plotly line chart was configured to hold three traces, one for each axis as shown in figure \ref{fig:plotlylinechart}. Plotly is designed to provide a convenient way to create interactive charts and not to provide high performance real-time charts, therefore it is used in the archive mode of GRAMOC and not in the real-time display.
 
-\subsection{3D Surface Plot}
-\todo{write about 3d surface plots after implementing it}
-
 \section{D3.js}
 The name ``D3'' is an abbreviation of Data-Driven Documents, thats a very precise description of what this framework has to offer, namely the manipulation of documents based on data. The goal of D3 is not to visualize data on documents and at the same time be able to handle all the things around the objects as well as implementing every imaginable feature, it is build to be perfect at one thing: ``efficient manipulation of documents based on data'' as stated on their website \cite{d3}. Since one of the key features of GRAMOC is real-time representation of the data that is provided by a sensor, this framework was chosen to be used within the real-time display. D3 has advantages as well as a few disadvantages, the probably biggest advantage is that this framework is very lightweight, this means there is only a minimal overhead and therefore it is very fast compared to other frameworks or libraries like \nameref{sec:Plotly}. A disadvantage of D3 would definitely be the lack of convenient high-level functions to create or modify objects. This means that a developer must write a lot of code to create for example, a simple line chart, in most high-level frameworks a developer just have to call one function to create a chart and another to add data to it. High-level functions are great to begin with, but to squeeze every last bit of performance out of the code, low-level functions are much better, also to understand what is happening behind the code low-level functions would be superior because the developer has to do nearly every step on his own and not just call a magic function that does a lot of processing on its own. Therefore the lack of high-level functions could be seen as an advantage, because programmers that use low-level functions instead of high-level functions often have more knowledge about how the system works and thats clearly a good thing.
 
@@ -151,14 +201,22 @@ In GRAMOC D3 was used to create a simple line chart to be able to visualize scie
 \end{figure}
 
 \todo{implement canvas along with the d3 svg chart and write about it}
-\todo{explain init and update process of d3 chart}
 
-\section{Workflow}
+\section{Implementation}
+As shown in figure \ref{fig:webserver-program-flow} the server asynchronously tries to connect with the IPC socket and starts listening for incoming connections on a specified port. The server keeps retrying to connect to the UDP socket until a connection is established. Without this connection no live data form the sensor can be forwarded to the web application. If a client connects on the before specified port the connection will be immediately upgraded to a socket connection and the web application will be served to the user. When the Webapp launches it will display the Home page, then the user can navigate to the 2D, the Archive or the About page, through the navigation bar at the top.
 
-As shown in figure \ref{fig:webserver-program-flow} the server asynchronously tries to connect with the IPC socket and starts listening for incoming connections on a specified port. The server keeps retrying to connect to the IPC socket until a connection is established because without this connection no data can be forwarded to the web application. If a client connects on the before specified port the connection will be immediately upgraded to a socket connection and the web application will be served to the user. When the Webapp launches it will display the Home page, then the user can navigate to the 2D, the 3D or the About page, through the navigation bar at the top. If the About page was selected the user simply gets a static about page. If the user navigates to the 2D page, a line chart with 3 traces, one for each axis and a density chart which is represented by an ellipse will be initialized and the client emits a message to the server to start receive the sensor data. This data will be used to update the charts accordingly.
+\subsection{2D Page}
+If the user navigates to the 2D page, a line chart created with D3.js will be loaded. This chart consists of 3 traces, one for each axis of the sensor. The second chart displayed is a density chart created with HTML5 Canvas. This chart is represented by an ellipse, which is bent or stretched according to the received sensor data. Both these charts will be initialized and then the client emits a message to the server to start receiving the sensor data. This data will be used to update the charts accordingly. This page is responsible for visualizing the sensor data in real time and therefore its components are optimized to provide the necessary performance.
+
+\subsection{Archive Page}
+The Archive page displays a line chart similar to the line chart at the 2D page, but with the focus on convenience rather than real-time performance. Therefore Plotly is chosen to be used within this component. Along with the chart, a form will be available which is responsible to request the already recorded sensor data selected by the user.
+
+\subsection{About Page}
+The About page is simply a static page that displays a few informations about the project.
+
 \todo{explain what data the 2d charts display(final sensor)}
 \todo{explain the extra features like saving, stopping...}
-\todo{write about the 3d page}
+\todo{create divided flowcharts for each component}
 
 \begin{figure}[H]
     \centering
