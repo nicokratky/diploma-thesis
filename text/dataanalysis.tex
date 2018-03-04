@@ -1,11 +1,14 @@
 \chapter{Data Analysis}
 \label{ch:dataanalysis}
 
+\author{Nico Kratky}
+%
 \section {Regression Analysis}
 
 Regression analysis is a statistical method to determine relationships between a response variable $ y $ and one or more predictor variables $ x_i $, where $ i = 1, 2, ..., p $. Linear regression analysis assumes that these predictor variables are related linear to the response variable.
 
 \subsection{Simple Linear Regression}
+\label{sec:slr}
 
 Simple Linear Regression is a regression model that can only build a relationship between one predictor variable and one response variable. To find the best fit for this linear model the \textit{Ordinary Least Squares} method is used. The linear regression model builds a linear function
 
@@ -34,6 +37,86 @@ The two regression parameters that are used in this regression model are calcula
     \label{eq:beta0}
     \beta_0 = \bar{y} - \beta_1 * \bar{x}
 \end{equation}
+
+\subsubsection{Example}
+
+A good example for linear regression analysis is the ringsize of women. This example was taken from the website \url{http://www.crashkurs-statistik.de}.
+
+If somebody wants to know the ringsize of his or her cohabitant, but does not want to ask him/her it is possible to predict the size. To be able to do this a data basis has to be formed. A decisive factor for someones ringsize is for example the body height.
+
+\todo{cohabitant?}
+
+The data, which is depicted in table \vref{tab:slr_ringsize} can be used to calculate the regression coefficients using the formulae discussed in section \vref{sec:slr}. These calculations result in the two regression coefficients
+
+\begin{equation}
+    \beta_1 = \frac{\sum_{i=1}^{n} (x_i - \bar{x}) * (y_i - \bar{y}))}{\sum_{i=1}^{n} (x_i - \bar{x})^2} = 0.2838
+\end{equation}
+
+\begin{equation}
+    \beta_0 = \bar{y} - \beta_1 * \bar{x} = 2.8457,
+\end{equation}
+
+which are slope and intercept, respectively.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|}
+    \hline
+    \textbf{Person $ i $}    & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} & \textbf{10} \\ \hline
+    \textbf{Ringsize $ y $}  & 47.1       & 46.8       & 49.3       & 53.2       & 47.7       & 49.0       & 50.6       & 47.1       & 51.7       & 47.8        \\ \hline
+    \textbf{Height $ x $}    & 156.3      & 158.9      & 160.8      & 179.6      & 156.6      & 165.1      & 165.9      & 156.7      & 167.8      & 160.8       \\ \hline
+    \end{tabular}
+    \caption{Ringsizes of example persons and their body heights}
+    \label{tab:slr_ringsize}
+\end{table}
+
+After these calculations, the regression line can be plotted as shown in figure \vref{fig:slr_ringsize}.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    axis lines = left,
+    xlabel = {Height ($x$)},
+    ylabel = {Ringsize ($y$)},
+]
+\addplot [
+    domain=155:180,
+    color=red
+]
+{2.8457 + 0.2836 * x};
+
+\addplot[
+    only marks
+]
+table {
+    x       y
+    156.3   47.1
+    158.9   46.8
+    160.8   49.3
+    179.6   53.2
+    156.6   47.7
+    165.1   49.0
+    165.9   50.6
+    156.7   47.1
+    167.8   51.7
+    160.8   47.8
+};
+
+\end{axis}
+\end{tikzpicture}
+
+\caption{Ringsizes of women. The single data points represents the gathered data. The red line depicts the regression line.}
+\label{fig:slr_ringsize}
+\end{figure}
+
+To predict a persons ringsize, two options are available. The first option, which is not as accurate as the second one, is to simple read the predicted value from the regression line. If, for example, a person is 165cm tall, the proper ringsize would be a little bit less than 50. To be more precise, the second option can be used, which is to calculate the size using the regression coefficients. This can be done by applying the regression line to the height
+
+\begin{equation}
+    y = 2.8457 + 0.2836 * 165,
+\end{equation}
+
+which yields $ y = 49.64 $.
 
 \subsection{Multiple Linear Regression}
 
@@ -82,27 +165,29 @@ has to be formed. These two matrices can be used to describe the basic multiple 
         \beta_{1} \\
         \vdots \\
         \beta_{p}
-    \end{bmatrix}
+    \end{bmatrix},
 \end{equation}
 
 where $ \beta $ are the regression coeffecients. Or shorter
 
 \begin{equation}
-    y = X\beta,
+    y = X\beta.
 \end{equation}
 
 \todo{describe what leads to the formula below}
+
+The problem with this equation is that it is possible that this equation does not have a solution. The reason for this is that the line produced by regression analysis is only a estimation.
 
 \begin{equation}
 \label{eq:mlr}
     \hat{\beta} = (X^TX)^{-1} X^Ty
 \end{equation}
 
-\subsection{Example - Ringsize of Women}
+\subsubsection{Example}
 
-A good example for multiple linear regression analysis is the ringsize of women. If somebody wants to know the ringsize of his or her girlfriend, but does not want to ask her it is possible to predict her size. To be able to do this a data basis has to be formed. Decisive factors for someones ringsize are for example: body weight, height and age. These variables can be used to form said data basis as shown in figure \vref{tab:mlr_ringsize}.
+With this in mind, the example from section \vref{sec:slr} can be extended by more body parameters like weight and age, as they may also have an impact on the accuracy of the regression model. Figure \vref{tab:mlr_ringsize} depicts the ringsizes and body heights from the previous example, plus the weight and age of these people.
 
-\begin{table}[h]
+\begin{table}[H]
     \centering
     \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|}
     \hline
@@ -138,7 +223,7 @@ This dataset can now be used to form the previously explained matrices.
     \end{bmatrix}
 \end{equation}
 
-Using the regression parameter formula (see equation \vref{eq:mlr}) we get the following regression parameters:
+Using the regression parameter formula (see equation \vref{eq:mlr}) we get the regression parameters
 
 \begin{equation}
     \hat{\beta} = (X^TX)^{-1} X^Ty =
@@ -147,16 +232,18 @@ Using the regression parameter formula (see equation \vref{eq:mlr}) we get the f
         0.28 \\
         0.06 \\
         -0.02
-    \end{bmatrix}
+    \end{bmatrix}.
 \end{equation}
 
-Using these parameters it is now possible to form the regression function which allows for data prediction
+Using these parameters it is now possible to form the regression function
 
 \begin{equation}
-    y = 0.66 + 0.28 * x_1 + 0.06 * x_2 - 0.02 * x_3
+    y = 0.66 + 0.28 * x_1 + 0.06 * x_2 - 0.02 * x_3,
 \end{equation}
 
-Lets assume that a woman is 170cm tall, weighs 68kg and is 29 years old. Inserting these values into the calculated model
+which allows for data prediction.
+
+In multiple linear regression analysis the predicted value can no longer be read off a graph, as the line is multi-dimensional. Lets assume that a woman is 170cm tall, weighs 68kg and is 29 years old. Inserting these values into the calculated model
 
 \begin{equation}
     y = 0.66 + 0.28 * 170 + 0.06 * 68 - 0.02 * 29
