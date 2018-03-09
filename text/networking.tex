@@ -7,7 +7,7 @@
 
 Because GRAMOC is based on basic a client-server architecture, a common way of communication had to be developed. This development process resulted in GSDEP, which stands for \textbf{G}RAMOC \textbf{S}ensor \textbf{D}ata \textbf{E}xchange \textbf{P}rotocol.
 
-As sensor data is received over the internet and it should also be delivered to clients wirelessly, a common way of communication had to be developed. This development process resulted in GSDEP, GRAMOC's networking protocol. It is a TCP-based networking protocol that is used for sending large amounts of sensor data \cite{rfc793}.
+As sensor data is received over the internet and it should also be delivered to clients wirelessly, a common way of communication had to be developed. This development process resulted in GSDEP, GRAMOC's networking protocol. It is a TCP-based networking protocol that is used for sending large amounts of sensor data \autocite{rfc793}.
 
 \section{Data Flow}
 \label{sec:networking_data-flow}
@@ -83,7 +83,7 @@ In the case of GRAMOC, where large amounts of data are received in short periods
 \section{Message framing}
 \label{sec:messageframing}
 
-A common mistake that many developers make is to assume that TCP operates with messages and that TCP can tell apart these messages \cite{MessageFramingCleary,MessageFramingSkotzko}. Sadly this is not true as TCP operates with continous streams of data. Therefore the differentiation of messages has to be done by the developers. This can be achieved in two ways.
+A common mistake that many developers make is to assume that TCP operates with messages and that TCP can tell apart these messages \autocite{MessageFramingCleary} \autocite{MessageFramingSkotzko}. Sadly this is not true as TCP operates with continous streams of data. Therefore the differentiation of messages has to be done by the developers. This can be achieved in two ways.
 
 \subsection{Delimiters}
 

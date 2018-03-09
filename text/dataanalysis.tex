@@ -26,25 +26,23 @@ that represents the predicted values. This function can also be denoted as
 
 where $ \beta_0 $ is the intercept and $ \beta_1 $ is the slope of the line.
 
-The two regression parameters that are used in this regression model are calculated using the least squares method. This method tries to minimize the sum of squared residuals. Equations \vref{eq:beta1} and \vref{eq:beta0} show these procedures.
+The two regression parameters,
 
 \begin{equation}
-\label{eq:beta1}
     \beta_1 = \frac{\sum_{i=1}^{n} (x_i - \bar{x}) * (y_i - \bar{y}))}{\sum_{i=1}^{n} (x_i - \bar{x})^2}
 \end{equation}
 
 \begin{equation}
-    \label{eq:beta0}
-    \beta_0 = \bar{y} - \beta_1 * \bar{x}
+    \beta_0 = \bar{y} - \beta_1 * \bar{x},
 \end{equation}
+
+that are used in this regression model are calculated using the least squares method. This method tries to minimize the sum of squared residuals.
 
 \subsubsection{Example}
 
-A good example for linear regression analysis is the ringsize of women. This example was taken from the website \url{http://www.crashkurs-statistik.de}.
+A good example for linear regression analysis is the ringsize of women. This example was taken from the website \url{http://www.crashkurs-statistik.de} \autocite{CrashkursSLR} \autocite{CrashkursMLR}.
 
-If somebody wants to know the ringsize of his or her cohabitant, but does not want to ask him/her it is possible to predict the size. To be able to do this a data basis has to be formed. A decisive factor for someones ringsize is for example the body height.
-
-\todo{cohabitant?}
+If somebody wants to know the ringsize of his girlfriend, but does not want to ask her, it is possible to predict the size. To be able to do this a data basis has to be formed. A decisive factor for someones ringsize is for example the body height.
 
 The data, which is depicted in table \vref{tab:slr_ringsize} can be used to calculate the regression coefficients using the formulae discussed in section \vref{sec:slr}. These calculations result in the two regression coefficients
 
@@ -119,6 +117,7 @@ To predict a persons ringsize, two options are available. The first option, whic
 which yields $ y = 49.64 $.
 
 \subsection{Multiple Linear Regression}
+\label{sec:mlr}
 
 When the dependent variable depends on not just one variable, multiple linear regression analysis is used. This method uses two or more independent variables to describe the dependent variable. To calculate the regression coefficients the predictor variables have to be put into a $ n \times p $ matrix,
 
@@ -176,7 +175,7 @@ where $ \beta $ are the regression coeffecients. Or shorter
 
 \todo{describe what leads to the formula below}
 
-The problem with this equation is that it is possible that this equation does not have a solution. The reason for this is that the line produced by regression analysis is only a estimation.
+The problem with this equation is that it is possible that this equation does not have a solution. Therefore the $ y $ and $ X $ matrices are multiplied with the transpose of $ X $.
 
 \begin{equation}
 \label{eq:mlr}
@@ -253,23 +252,37 @@ gives us the predicted ringsize $ y = 51.76 $.
 
 \subsection{Working with Streaming Data}
 
-% schwieriger weil nicht immer alle daten zur verfuegung stehen
-% coefficienten muessen laufen geaendert werden
+As GRAMOC uses streaming data a few adjustements had to be made. The ordinary multiple linear regression model assumes that all observations are available when calculating the regression coefficients. Therefore a way of calculating these regression coefficients in a streaming way had to be found. To accomplish this the regression parameters have to be calculated incrementally. This means that the two parts of the regression parameter calculation, $ X^T X $ and $ X^T y $ have to be recalculated every time a new observation is made. These two matrices are then added up, since matrix addition between two $ n \times n$ matrices also result in a $ n \times n$ matrix. The sum of these matrices are named $ M $ and $ V $. This is possible as $ X^T X $ always returns a $ p \times p $ matrix and $ X^T y $ always returns a $ p $-dimensional vector.
 
-% M und V
-
-As GRAMOC uses streaming data a few adjustements had to be made. The ordinar multiple linear regression model assumes that all observations are available when calculating the regression coefficients. Therefore a way of calculating these regression coefficients in a streaming way had to be found. To accomplish this the regression parameters have to be calculated incrementally. This means that the two parts of the regression parameter calculation, $ X^T X $ and $ X^T y $ have to be recalculated every time a new observation is made. These results then have to be added to the existing matrices. This is possible as $ X^T X $ always returns a $ p \times p $ matrix and $ X^T y $ always returns a $ p $-dimensional vector.
-
-\todo{cite StreamFitter}
+When the regression coefficients are calculated,
 
 \begin{equation}
-    \hat{\beta_k} = (M + {X_k}^T X_k)^{-1}(V + {X_k}^T y_k)
+    \hat{\beta_k} = (M + {X_k}^T X_k)^{-1}(V + {X_k}^T y_k),
 \end{equation}
 
-\subsection{$ R^2 $ - Coefficient of Determination}
+the sum of previous observation data is added to the current data, and then the procedure described in \vref{sec:mlr} can be applied.
+
+This procedure was introduced in a regression calculation programm called StreamFitter, which also works with streaming data \autocite{StreamFitter}.
+
+\subsection{$ r^2 $ - Coefficient of Determination}
+
+$ r^2 $ is the quotient of the explained variation
 
 \begin{equation}
-    R^2 = \frac{\sum_{i=1}^{n} (\hat{y}_i - \bar{y})^2}{\sum_{i=1}^{n} (y_i - \bar{y})^2}
+    ESS = \sum_{i=1}^{n} (\hat{y}_i - \bar{y})^2
 \end{equation}
+
+and the total variation
+
+\begin{equation}
+    TSS = \sum_{i=1}^{n} (y_i - \bar{y})^2,
+\end{equation}
+
+\begin{equation}
+    r^2 = \frac{ESS}{TSS}
+\end{equation}
+
+It is a measure for how much variation of the data can be explained with this regression model. $ r^2 $ values are ranged between $ 0 $ and $ 1 $, where $ 1 $ is considered a perfect fit and $ 0 $ says that no data can be explained using this regressino model.
 
 \section{Implementation}
+

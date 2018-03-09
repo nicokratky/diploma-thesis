@@ -3,11 +3,11 @@
 
 \author{Nico Kratky}
 %
-FaPS, which stands for Filtering and Preprocessing System, is an application that reads digital sensor output, preprocesses it and forwards it to another process to distribute it to the final clients. It also saves the readout to HDF5 files \cite{HDF5}.
+FaPS, which stands for Filtering and Preprocessing System, is an application that reads digital sensor output, preprocesses it and forwards it to another process to distribute it to the final clients. It also saves the readout to HDF5 files \autocite{HDF5}.
 
 \section{Command Line Parameter Parsing}
 
-As FaPS is a command line program, arguments that are passed to it have to be parsed. This is done by Boosts program\_options \cite{BoostProgramOptions}. This module allows easy parsing and exception handling.
+As FaPS is a command line program, arguments that are passed to it have to be parsed. This is done by Boosts program\_options \autocite{BoostProgramOptions}. This module allows easy parsing and exception handling.
 
 Following arguments can be passed to FaPS:
 
@@ -31,7 +31,7 @@ Following arguments can be passed to FaPS:
 
 \section{Networking}
 
-All networking related programming was done by utilizing Boosts Asio module. Asio is a cross-platform C++ library for network programming. \cite{BoostAsio}.
+All networking related programming was done by utilizing Boosts Asio module. Asio is a cross-platform C++ library for network programming. \autocite{BoostAsio}.
 
 \section{Data Storage}
 
@@ -51,7 +51,7 @@ Every sensor readout is saved as a dataset that is identified by a number. This 
 % BIG advantage of json => easy usage in JS (json is a js object)
 
 
-In order to send data so that the other end can interpret the message it has to be packed into a common format. To do this JSON is used \cite{rfc8259}. It is a language- and platform-independent data serialization format
+In order to send data so that the other end can interpret the message it has to be packed into a common format. To do this JSON is used \autocite{rfc8259}. It is a language- and platform-independent data serialization format
 originally specified by Douglas Crockford in the early 2000s. JSON is uses text in a human-readable form stores data in key-value pairs. Originally it was derived from JavaScript but as of today many programming languages
 include methods and functions to en- and decode JSON.
 
