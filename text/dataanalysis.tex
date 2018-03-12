@@ -75,8 +75,8 @@ After these calculations, the regression line can be plotted as shown in figure 
 \begin{tikzpicture}
 \begin{axis}[
     axis lines = left,
-    xlabel = {Height ($x$)},
-    ylabel = {Ringsize ($y$)},
+    xlabel = {Height ($x$) in cm},
+    ylabel = {Ringsize ($y$), circumference in mm},
 ]
 \addplot [
     domain=155:180,
@@ -285,4 +285,71 @@ and the total variation
 It is a measure for how much variation of the data can be explained with this regression model. $ r^2 $ values are ranged between $ 0 $ and $ 1 $, where $ 1 $ is considered a perfect fit and $ 0 $ says that no data can be explained using this regressino model.
 
 \section{Implementation}
+
+These procedures were implemented as a C++ class. The two most important methods from this class are \lstinline{void push(std::vector<double> X, double y)} and \lstinline{double predict(std::vector<double> X)}. The first method adds new observations to the model, and the second one tries to predict the response variable from the given predictor variables using the current linear regression model.
+
+\begin{minipage}{\textwidth}
+\begin{lstlisting}[caption={Push},captionpos=b,label={code:mlr_push}]
+void MLR::push(std::vector<double> X, double y) {
+    if (X.size() != p_) {
+        return;
+    }
+
+    avg_y.add(y);
+    sw_.add(std::make_pair(y, X));
+
+    Eigen::Matrix<double, 1, Eigen::Dynamic> X2{p_ + 1};
+
+    X.insert(X.begin(), 1);
+    for (std::size_t i{0}; i < X.size(); ++i) {
+        X2(0, i) = X[i];
+    }
+
+    auto X2T = X2.transpose();
+
+    M_ = M_ + X2T * X2;
+
+    V_ = V_ + X2T * y;
+
+    // inserting new observations invalidates the coefficients
+    coefficients_.clear();
+}
+\end{lstlisting}
+\end{minipage}
+
+\begin{minipage}{\textwidth}
+\begin{lstlisting}[caption={Predict},captionpos=b,label={code:mlr_predict}]
+double MLR::predict(std::vector<double> X) {
+    if (X.size() != p_) {
+        return 0;
+    }
+
+    if (coefficients_.empty()) {
+        calculate_coefficients();
+    }
+
+    double prediction = coefficients_[0];
+
+    for (std::size_t i{0}; i < p_; ++i) {
+        prediction += coefficients_[i + 1] * X[i];
+    }
+
+    return prediction;
+}
+\end{lstlisting}
+\end{minipage}
+
+\subsection{Working with Matrices}
+
+As the mathematical side of regression analysis requires a lot of calculations to be made using matrices. As C++ does not have an equivalent to matrices, a third party library had to be chosen to compensate this. After comparing several libraries that offer matrix calculations, it was decided to use Eigen.
+
+\subsection{Eigen}
+
+Eigen is a header-only C++ library, that was designed for doing basic linear algebra. This include matrix operations, vector calculations and numerical solvers. Its benefits include a very clean API which is fairly easy to use and a low memory overhead.
+
+Perfomance-wise, Eigen is also better than its competitors.
+
+\subsubsection{Benchmarks}
+
+\todo{Include Eigen Benchmarks}
 
