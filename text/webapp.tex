@@ -159,7 +159,7 @@ Nginx is a lightweight web server that was initially created to solve the ``c10K
 
 \subsection{Node.js}
 \label{subsec:nodejs}
-Node.js is an asynchronous event driven JavaScript runtime, designed to build network applications \autocite{Node}. The built-in HTTP module can be used to create a web server based on Node. This module is used to utilize communication over the HTTP protocol. In terms of GRAMOC the sensor data is received via a UDP connection and then transmitted over HTTP to the web application. Therefore the primary function of the Node server is to receive data which is emitted by the Filtering and Preprocessing Layer (FAPS) and forward it, to the web application via WebSockets implemented through the ``socket.io'' library \autocite{socketio}. In order to use socket.io the HTTP module in combination with the express framework must be used.
+Node.js is an asynchronous event driven JavaScript runtime, designed to build network applications \autocite{Node}. The built-in HTTP module can be used to create a web server based on Node. This module is used to utilize communication over the HTTP protocol. In terms of GRAMOC the sensor data is received via a UDP connection and then transmitted over HTTP to the web application. Therefore, the primary function of the Node server is to receive data which is emitted by the Filtering and Preprocessing Layer (FAPS) and forward it, to the web application via WebSockets implemented through the ``socket.io'' library \autocite{socketio}. In order to use socket.io the HTTP module in combination with the express framework must be used.
 
 Another function of the Node server is to provide an application programming interface(API) to request the saved sensor data. This is achieved by using the express framework. This API is needed to display historical sensor data within the GRAMOC web application.
 
@@ -176,7 +176,7 @@ socket.io is a JavsScript library that implements real-time communication via We
 To visualize the data received from the sensor a graphing library called ``Plotly'', more specific the open source JavaScript library ``plotly.js'' is used \autocite{Plotly} \autocite{PlotlyJS}. Plotly is build on top of state of the art JavaScript libraries like ``D3.js''  and ``stackgl'' \autocite{d3} \autocite{stackgl}. The library offers a broad variety of two and three dimensional charts in the categories statistical, financial, scientific and more. In GRAMOC one of the chosen graphing libraries is Plotly, because of the capability to easily create custom and dynamic charts.
 
 \subsection{Line Chart}
-To achieve the 2D visualization of the sensor data, a combination of a line chart provided by Plotly and a simple canvas chart was implemented. Plotly offers a huge variety of options to configure a line chart, like changing the style of the lines or adding markers and text. There are also a few predefined events, through which a user can interact with the chart. These events cover interactions like clicking, dragging, zooming, scrolling and more.
+To achieve the 2D visualization of the sensor data, a combination of a line chart provided by Plotly and a simple canvas chart was implemented. Plotly offers a huge variety of options to configure a line chart, like changing the style of the lines or adding markers and text. There are also a few predefined events, through which a user can interact with the chart. These events cover interactions like clicking, dragging, zooming, scrolling and more. An example is shown in figure \ref{fig:plotlylinechart}
 
 \begin{figure}[H]
     \centering
@@ -191,7 +191,7 @@ In GRAMOC the Plotly line chart was configured to hold three traces, one for eac
 The name ``D3'' is an abbreviation of Data-Driven Documents, thats a very precise description of what this framework has to offer, namely the manipulation of documents based on data. The goal of D3 is not to visualize data on documents and at the same time be able to handle all the things around the objects as well as implementing every imaginable feature, it is build to be perfect at one thing: ``efficient manipulation of documents based on data'' as stated on their website \autocite{d3}. Since one of the key features of GRAMOC is real-time representation of the data that is provided by a sensor, this framework was chosen to be used within the real-time display. D3 has advantages as well as a few disadvantages, the probably biggest advantage is that this framework is very lightweight, this means there is only a minimal overhead and therefore it is very fast compared to other frameworks or libraries like \nameref{sec:Plotly}. A disadvantage of D3 would definitely be the lack of convenient high-level functions to create or modify objects. This means that a developer must write a lot of code to create for example, a simple line chart, in most high-level frameworks a developer just have to call one function to create a chart and another to add data to it. High-level functions are great to begin with, but to squeeze every last bit of performance out of the code, low-level functions are much better, also to understand what is happening behind the code low-level functions would be superior because the developer has to do nearly every step on his own and not just call a magic function that does a lot of processing on its own. Therefore the lack of high-level functions could be seen as an advantage, because programmers that use low-level functions instead of high-level functions often have more knowledge about how the system works and thats clearly a good thing.
 
 \subsection{Line Chart}
-In GRAMOC D3 was used to create a simple line chart to be able to visualize scientific sensor data in real-time. The chart is based on the line chart provided by Plotly, but with the distinction that the D3 chart can render the given data faster, and therefore sustain the real-time support of the application. The design should be similar to the Plotly line chart to maintain a uniform design within the application.
+In GRAMOC D3 was used to create a simple line chart to be able to visualize scientific sensor data in real-time. The chart is based on the line chart provided by Plotly, but with the distinction that the D3 chart can render the given data faster, and therefore sustain the real-time support of the application. The design should be similar to the Plotly line chart to maintain a uniform design within the application. The chart with example data is shown below in figure \ref{fig:d3linechart}.
 
 \begin{figure}[H]
     \centering
@@ -203,24 +203,36 @@ In GRAMOC D3 was used to create a simple line chart to be able to visualize scie
 \todo{implement canvas along with the d3 svg chart and write about it}
 
 \section{Implementation}
-As shown in figure \ref{fig:webserver-program-flow} the server asynchronously tries to connect with the IPC socket and starts listening for incoming connections on a specified port. The server keeps retrying to connect to the UDP socket until a connection is established. Without this connection no live data form the sensor can be forwarded to the web application. If a client connects on the before specified port the connection will be immediately upgraded to a socket connection and the web application will be served to the user. When the Webapp launches it will display the Home page, then the user can navigate to the 2D, the Archive or the About page, through the navigation bar at the top.
+As shown in figure \ref{fig:webserver-program-flow} the server asynchronously tries to connect with the UDP socket and starts listening for incoming connections on a specified port. The server keeps retrying to connect to the UDP socket until a connection is established. Without this connection no live data from the sensor can be forwarded to the web application. If a client connects on the before specified port the connection will be immediately upgraded to a socket connection and the web application will be served to the user. When the Webapp launches it will display the Home page, then the user can navigate to the 2D, the Archive or the About page, through the navigation bar at the top.
 
 \subsection{2D Page}
-If the user navigates to the 2D page, a line chart created with D3.js will be loaded. This chart consists of 3 traces, one for each axis of the sensor. The second chart displayed is a density chart created with HTML5 Canvas. This chart is represented by an ellipse, which is bent or stretched according to the received sensor data. Both these charts will be initialized and then the client emits a message to the server to start receiving the sensor data. This data will be used to update the charts accordingly. This page is responsible for visualizing the sensor data in real time and therefore its components are optimized to provide the necessary performance.
+If the user navigates to the 2D page, a line chart created with D3.js will be loaded. This chart consists of 3 traces, one for each axis of the sensor. The second chart displayed is a density chart created with HTML5 Canvas. This chart is represented by an ellipse, which is bent or stretched according to the received sensor data. Both these charts will be initialized and then the client emits a message to the server to start receiving the sensor data. This data will be used to update the charts accordingly. This page is responsible for visualizing the sensor data in real time and therefore its components are optimized to provide the necessary performance. The exact procedure is shown in figure \ref{fig:2d-page-flow}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=5cm,keepaspectratio]{2d_page_flow}
+    \caption{Flowchart of the procedure when 2D page is selected}
+    \label{fig:2d-page-flow}
+\end{figure}
 
 \subsection{Archive Page}
-The Archive page displays a line chart similar to the line chart at the 2D page, but with the focus on convenience rather than real-time performance. Therefore Plotly is chosen to be used within this component. Along with the chart, a form will be available which is responsible to request the already recorded sensor data selected by the user.
+The Archive page displays a line chart similar to the line chart on the 2D page, but with the focus on convenience rather than real-time performance. Therefore, Plotly is chosen to be used within this component. Along with the chart, a form will be available which is responsible to request the already recorded sensor data selected by the user. The execution flow of this component is depicted in figure \ref{fig:archive-page-flow}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=7cm,keepaspectratio]{archive_page_flow}
+    \caption{Flowchart of the procedure when Archive page is selected}
+    \label{fig:archive-page-flow}
+\end{figure}
 
 \subsection{About Page}
 The About page is simply a static page that displays a few informations about the project.
 
-\todo{explain what data the 2d charts display(final sensor)}
-\todo{explain the extra features like saving, stopping...}
 \todo{create divided flowcharts for each component}
 
-\begin{figure}[H]
+\begin{figure}[h]
     \centering
-    \includegraphics[width=15cm,keepaspectratio]{webserver-task}
+    \includegraphics[width=15cm,keepaspectratio]{node_server_flow}
     \caption{Flowchart of web server and client program showing the procedure}
     \label{fig:webserver-program-flow}
 \end{figure}
