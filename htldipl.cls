@@ -44,6 +44,8 @@ der HTL Wiener Neustadt]
 
 \RequirePackage[toc]{glossaries}
 
+\RequirePackage[paper=a4paper,margin=3cm]{geometry}
+
 %-------------- Setup für Seiten im Front-Teil --------------------
 
 \newcommand{\@abteilung}{\@MissingArg{Abteilung??}}
@@ -341,22 +343,22 @@ Quellen und Hilfsmittel nicht benutzt und die den benutzten Quellen wörtlich un
                 {\markboth{\thechapter.\ #1}{}}
         }}
 
-\addtolength{\headheight}{\baselineskip}
-\renewcommand{\headrulewidth}{0pt} %% thin line under header
-%\renewcommand{\headrulewidth}{0.4pt} %% no line under header
-\renewcommand{\footrulewidth}{0pt}
+%\addtolength{\headheight}{\baselineskip}
+%\renewcommand{\headrulewidth}{0pt} %% thin line under header
+%%\renewcommand{\headrulewidth}{0.4pt} %% no line under header
+%\renewcommand{\footrulewidth}{0pt}
 \fancyhf{}                            %% Clear all fields.
-%\fancyhead[LE,RO]{\sffamily\thepage} %{\bf \rightmark}
-%\fancyhead[LO,RE]{\sffamily\nouppercase{\leftmark}}  %{\slshape \leftmark}
-\fancyhead[R]{\sffamily\thepage} %{\bf \rightmark}
-\fancyhead[L]{\sffamily\nouppercase{\leftmark}}  %{\slshape \leftmark}
+\fancyhead[LE,RO]{\thepage} %{\bf \rightmark}
+\fancyhead[LO,RE]{\nouppercase{\leftmark}}  %{\slshape \leftmark}
+\fancyhead[R]{\thepage} %{\bf \rightmark}
+\fancyhead[L]{\nouppercase{\leftmark}}  %{\slshape \leftmark}
 
-\fancypagestyle{plain}{%
-    \fancyhf{} % clear all header and footer fields
-    \fancyfoot[C]{\sffamily\thepage} % except the center
-    \renewcommand{\headrulewidth}{0pt}
-    \renewcommand{\footrulewidth}{0pt}
-}
+%\fancypagestyle{plain}{%
+%    \fancyhf{} % clear all header and footer fields
+%    \fancyfoot[C]{\sffamily\thepage} % except the center
+%    \renewcommand{\headrulewidth}{0pt}
+%    \renewcommand{\footrulewidth}{0pt}
+%}
 
 
 
