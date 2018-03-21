@@ -346,6 +346,38 @@ double MLR::predict(std::vector<double> X) {
 \end{lstlisting}
 \end{minipage}
 
+\subsection{Coefficient of Determination}
+
+To calculation of the coefficient of determination in FaPS a queue-like structure had to be implemented as the calculation formula needs the response variable, the predictor variables and the predicted $ y $ value. As GRAMOC works with streaming data, not all data can be stored for this calculation. Therefore only the last 100 values are stored.
+
+The implemented method is depicted in code listing \vref{code:mlr_rsquared}.
+
+\begin{minipage}{\textwidth}
+\begin{lstlisting}[caption={C++ method to calculate the coefficient of determination},captionpos=b,label={code:mlr_rsquared},language=C++]
+double MLR::r_squared1() {
+    // initialise variables
+    double ess{0};
+    double tss{0};
+
+    // get last 100 observations
+    auto data{data_.data()};
+    // calculate average y value from the last 100 observations
+    double avg_y{data_.average_y()};
+
+    for (std::size_t i{0}; i < data.first.size(); ++i) {
+        // calculate explained sum of squares
+        ess += std::pow(predict(data.second[i]) - avg_y, 2);
+
+        // calculate total sum of squares
+        tss += std::pow(data.first[i] - avg_y, 2);
+    }
+
+    // return coefficient of determination
+    return ess / tss;
+}
+\end{lstlisting}
+\end{minipage}
+
 \subsection{Matrix Calculations}
 
 As the mathematical side of regression analysis requires a lot of calculations to be made using matrices and C++ does not have an equivalent to matrices, a third party library had to be chosen to compensate this. After comparing several linear algebra libraries that offer matrix calculations, it was decided to use Eigen.
