@@ -343,7 +343,7 @@ Quellen und Hilfsmittel nicht benutzt und die den benutzten Quellen wörtlich un
                 {\markboth{\thechapter.\ #1}{}}
         }}
 
-%\addtolength{\headheight}{\baselineskip}
+\addtolength{\headheight}{\baselineskip}
 %\renewcommand{\headrulewidth}{0pt} %% thin line under header
 %%\renewcommand{\headrulewidth}{0.4pt} %% no line under header
 %\renewcommand{\footrulewidth}{0pt}
