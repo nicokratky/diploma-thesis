@@ -173,7 +173,7 @@ where $ \beta $ are the regression coeffecients. Or shorter
     y = X\beta.
 \end{equation}
 
-\todo{describe what leads to the formula below}
+\todo{describe what leads to the formula below (pseudoinverse, cite german uni paper)}
 
 The problem with this equation is that it is possible that this equation does not have a solution. Therefore the $ y $ and $ X $ matrices are multiplied with the transpose of $ X $.
 
@@ -265,6 +265,7 @@ the sum of previous observation data is added to the current data, and then the 
 This procedure was introduced in a regression calculation programm called StreamFitter, which also works with streaming data \autocite{StreamFitter}.
 
 \subsection{$ r^2 $ - Coefficient of Determination}
+\label{sec:rsquared}
 
 $ r^2 $ is the quotient of the explained variation
 
@@ -288,18 +289,25 @@ It is a measure for how much variation of the data can be explained with this re
 
 These procedures were implemented as a C++ class. The two most important methods from this class are \lstinline{void push(std::vector<double> X, double y)} and \lstinline{double predict(std::vector<double> X)}. The first method adds new observations to the model, and the second one tries to predict the response variable from the given predictor variables using the current linear regression model.
 
+Code listing \vref{code:mlr_push} shows the \lstinline{push} method. Additionally to computing the $ M $ and $ V $ values, this method adds the variables to a queue-like data structure. This is necessary as the coefficient of determination needs the average of the response variable $ \bar{y} $ and the last few datasets to test this fit (see \vref{sec:rsquared}). The size of this structure is set to 100. This means that if the structure contains 100 datasets, the oldest one is removed before a new one is inserted.
+
 \begin{minipage}{\textwidth}
-\begin{lstlisting}[caption={Push},captionpos=b,label={code:mlr_push}]
+\begin{lstlisting}[caption={C++ method to add new observations to the regression model},captionpos=b,label={code:mlr_push}]
 void MLR::push(std::vector<double> X, double y) {
     if (X.size() != p_) {
+        // not the correct amount of predictor variables
         return;
     }
 
+    // add the values to a moving average and sliding window
+    // this is used for calculating the coefficient of determination
     avg_y.add(y);
     sw_.add(std::make_pair(y, X));
 
+    // create a 1x(p+1) matrix
     Eigen::Matrix<double, 1, Eigen::Dynamic> X2{p_ + 1};
 
+    // insert values into matrix
     X.insert(X.begin(), 1);
     for (std::size_t i{0}; i < X.size(); ++i) {
         X2(0, i) = X[i];
@@ -308,7 +316,6 @@ void MLR::push(std::vector<double> X, double y) {
     auto X2T = X2.transpose();
 
     M_ = M_ + X2T * X2;
-
     V_ = V_ + X2T * y;
 
     // inserting new observations invalidates the coefficients
@@ -317,19 +324,25 @@ void MLR::push(std::vector<double> X, double y) {
 \end{lstlisting}
 \end{minipage}
 
+Code listing \vref{code:mlr_predict} show the \lstinline{predict} method. This method initializes the result variable with the line intercept and then adds up the products of the predictor variable and the corresponding regression coefficient.
+
 \begin{minipage}{\textwidth}
-\begin{lstlisting}[caption={Predict},captionpos=b,label={code:mlr_predict}]
+\begin{lstlisting}[caption={C++ method to predict the response variable using the passed predictor variables},captionpos=b,label={code:mlr_predict}]
 double MLR::predict(std::vector<double> X) {
     if (X.size() != p_) {
+        // not the correct amount of predictor variables
         return 0;
     }
 
     if (coefficients_.empty()) {
+        // calculate coefficients if necessary
         calculate_coefficients();
     }
 
+    // start prediction with the intercept
     double prediction = coefficients_[0];
 
+    // add each predictor variable with its coefficient
     for (std::size_t i{0}; i < p_; ++i) {
         prediction += coefficients_[i + 1] * X[i];
     }
@@ -339,9 +352,9 @@ double MLR::predict(std::vector<double> X) {
 \end{lstlisting}
 \end{minipage}
 
-\subsection{Working with Matrices}
+\subsection{Matrix Calculations}
 
-As the mathematical side of regression analysis requires a lot of calculations to be made using matrices. As C++ does not have an equivalent to matrices, a third party library had to be chosen to compensate this. After comparing several libraries that offer matrix calculations, it was decided to use Eigen.
+As the mathematical side of regression analysis requires a lot of calculations to be made using matrices and C++ does not have an equivalent to matrices, a third party library had to be chosen to compensate this. After comparing several linear algebra libraries that offer matrix calculations, it was decided to use Eigen.
 
 \subsection{Eigen}
 
@@ -351,5 +364,19 @@ Perfomance-wise, Eigen is also better than its competitors.
 
 \subsubsection{Benchmarks}
 
-\todo{Include Eigen Benchmarks}
+Figures \vref{fig:eigen_benchmark_ataT} and \vref{fig:eigen_benchmark_atv} depict the computational performance of Eigen. These two tests were done by computing the products of a matrix and its transpose and a matrix and a vector. When multiplying a matrix with its transponse, the GOTO BLAS library has a slight advantage over all matrix sizes but when multiplying matrices with vectors even the older version of eigen outperforms all competitors.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{eigen_benchmark_ataT}
+    \caption{$ A \times A^T $ \autocite{EigenBenchmark}}
+    \label{fig:eigen_benchmark_ataT}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{eigen_benchmark_atv}
+    \caption{$ matrix^T \times vector $ \autocite{EigenBenchmark}}
+    \label{fig:eigen_benchmark_atv}
+\end{figure}
 
