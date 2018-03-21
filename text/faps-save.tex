@@ -49,8 +49,31 @@ used \autocite{HighFive}. This library allows for easy creation and modification
 \section{Implementation}
 
 To save the sensor data to HDF5 files a seperate command-line program was developed. This application acts as another client to FaPS, which transmitts the sensor data over the network anyways. This approach yields two
-major advantages. \textbf{Perfomance} and \textbf{hidden complexity}.
+major advantages: Perfomance and hidden complexity.
 
 Perfomance is increased as FaPS can finish one iteration of its loop faster as it does not have to save the data and can carry on receiving data from the sensor.
 
-Also each application is kept simple. Therefor maintainability is increased.
+\subsection{Command Line Interface}
+
+As described in chapter \vref{ch:faps}, Boosts Program\_Options were used in this project to parse command line arguments. This program has only a few parameters that are depicted in table \vref{tab:faps-save_arguments}.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{| l | l | l | p{5cm} |}
+    \hline
+    \textbf{Flag} & \textbf{Argument} & \textbf{Default value} & \textbf{Description} \\ \hline
+    -h, --help & & & Outputs the usage information \\ \hline
+    --version & & & Prints version information \\ \hline
+    -l, --loglevel & \textit{loglevel} & info & Information granularity during runtime \\ \hline
+    --ip & \textit{ip\_adress} & 127.0.0.1 & IP address of FaPS \\ \hline
+    --port & \textit{port number} & 9760 & Port of FaPS \\ \hline
+    -f, --filename & \textit{filename} & & Filename to which the data will be saved \\ \hline
+    -i, --interval & \textit{seconds} & 1 & Compression level \\ \hline
+    \end{tabular}
+    \caption{Flags that can be set, which arguments they take, their default values and what they do or change}
+    \label{tab:faps-save_arguments}
+\end{table}
+
+\subsection{Compression}
+
+As GRAMOC handles a lot of sensor data it is not very practical to save each sensor readout as seperate HDF5 dataset. Therefore readouts in a specified time frame are consolidated and stored in a mutual dataset. This dataset's ID is set to the timestamp of the first sensor readout that is stored in this dataset.

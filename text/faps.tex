@@ -3,65 +3,60 @@
 
 \author{Nico Kratky}
 %
-FaPS, which stands for Filtering and Preprocessing System, is an application that reads digital sensor output, preprocesses it and forwards it to another process to distribute it to the final clients. It also saves the readout to HDF5 files \autocite{HDF5}.
+FaPS, which stands for Filtering and Preprocessing System, is the main application of the GRAMOC backend. It is an application that reads digital sensor output, preprocesses it and forwards it to another process to distribute it to the final clients. It also saves the readout to HDF5 files \autocite{HDF5}.
 
-\section{Command Line Parameter Parsing}
+The preprocessing consists of regression analysis (see \vref{ch:dataanalysis} for further details.)
+
+\section{Command Line Interface}
 
 As FaPS is a command line program, arguments that are passed to it have to be parsed. This is done by Boosts program\_options \autocite{BoostProgramOptions}. This module allows easy parsing and exception handling.
 
-Following arguments can be passed to FaPS:
+The arguments that FaPS can handle are depicted in table \vref{tab:faps_arguments}.
 
-\begin{table}[H]
+\begin{table}[h]
     \centering
-    \begin{tabular}{| l | l | p{5cm} |}
+    \begin{tabular}{| l | l | l | p{5cm} |}
     \hline
-    \textbf{Flag} & \textbf{Argument} & \textbf{Meaning} \\ \hline
-    -h, --help & & Outputs the usage information \\ \hline
-    --ip & \textit{ip\_adress} & Sets the IP address to which FaPS will connect to read sensor data \\ \hline
-    --in-port & \textit{port number} & Sets the port to which FaPS will connect to read sensor data \\ \hline
-    --out-port & \textit{port nuymber} & Sets the port for the started UDP Server \\ \hline
-    --file & \textit{filename} & Sets the filename to which the data will be saved \\ \hline
-    --size & \textit{Filesize in MB} & Maximum file size that the log file will have \\ \hline
-    -l, --level & \textit{loglevel} & Which log messages are logged \\
-    \hline
+    \textbf{Flag} & \textbf{Argument} & \textbf{Default value} & \textbf{Description} \\ \hline
+    -h, --help & & & Outputs the usage information \\ \hline
+    --version & & & Prints version information \\ \hline
+    -l, --loglevel & \textit{loglevel} & info & Information granularity during runtime \\ \hline
+    --ip & \textit{ip\_adress} & 127.0.0.1 & IP address to which FaPS will connect to read sensor data \\ \hline
+    --in-port & \textit{port number} & 9760 & Port to which FaPS will connect to read sensor data \\ \hline
+    --out-port & \textit{port number} & 1337 & Port for the started UDP Server \\ \hline
+    -s, --save & \textit{path to faps-save} & & Path to the faps-save executable \\ \hline
+    -f, --filename & \textit{filename} & & Filename to which the data will be saved \\ \hline
+    -p, --predict & & & Enter predict mode \\ \hline
+    -c, --config & \textit{filename} & & Regression config file (only needed when -p is supplied)  \\ \hline
+    -d, --driver & \textit{Driver ID} & 1 & Only needed when -p is not supplied \\ \hline
     \end{tabular}
-    \caption{Flags that can be set, which arguments they take and what they do or change}
+    \caption{Flags that can be set, which arguments they take, their default values and what they do or change}
     \label{tab:faps_arguments}
 \end{table}
 
-\section{Networking}
-
-All networking related programming was done by utilizing Boosts Asio module. Asio is a cross-platform C++ library for network programming. \autocite{BoostAsio}.
-
 \section{Data Storage}
 
-To be able to offer a possibility for further data inspection all received data is saved to HDF5 files. HDF stands for Hierarchical Data Format. It is a file format for storing large amounts of scientific data. A HDF5 file is organized hierarchically as the name suggests. This is achieved by following a tree structure and dividing the data into groups and datasets. The format of a HDF file can be compared to a file system with the exception that HDF groups are linked as a directed graph. This means that a HDF file allows circular references.
+To be able to offer a possibility for further data inspection all received data is saved to HDF5 files. This is done when both -s and -f parameters are supplied. If either of those is supplied solely, a error is printed and FaPS exits. The data is saved by a seperate process that acts as a client to FaPS. This seperate program is described in chapter \vref{ch:faps-save}.
 
-Every sensor readout is saved as a dataset that is identified by a number. This number represents a timestamp as microseconds since 1.1.1970 (also called Unix Time or epoch).
+\section{Data Processing}
+
+% data is received as 1200 bytes, converted to 600 long array of shorts
+
+As the sensor data is received in a raw binary format, it has to be processed in order to use it in a simple way.
+
+One datagram that is received from the sensor is 1200 bytes long and consists of 600 shorts. This data is in network byte order. By convention, network byte order is always big-endian, which means that the most significant bit is placed first \autocite{IBMByteOrder}. The conversion of a two bytes in network byte order to a short is shown in code listing \vref{code:short_conversion}.
+
+\begin{minipage}{\textwidth}
+\begin{lstlisting}[caption={Conversion of two bytes to a short}, label={code:short_conversion}, captionpos=b, language=C++]
+short s = (((short) bytes[i]) << 8) | bytes[i+1];
+\end{lstlisting}
+\end{minipage}
 
 \section{Data Serialization}
 
-% possible solution
-% ===================
-% explain all three (advantages, disadvantages)
-%
-% take a short[6][100] array
-% use protobufs, json and bson to get a binary representation
-%
-% BIG advantage of json => easy usage in JS (json is a js object)
-
-
 In order to send data so that the other end can interpret the message it has to be packed into a common format. To do this JSON is used \autocite{rfc8259}. It is a language- and platform-independent data serialization format
 originally specified by Douglas Crockford in the early 2000s. JSON is uses text in a human-readable form stores data in key-value pairs. Originally it was derived from JavaScript but as of today many programming languages
-include methods and functions to en- and decode JSON.
-
-\subsection{Other Data Serialization Formats}
-
-\subsubsection{Protocol Buffers}
-
-Protocol Buffer are a data serialization format that packs its data into a binary format, developed by Google. Although they offer a lot of advantages in contrast to JSON, it was decided to not use them as JavaScript is not fully supported yet.
-
-\todo{protobuf support in js -> research}
+include methods and functions to en- and decode JSON. This integration in JavaScript is the biggest advantage for GRAMOC and ultimately led to the decision to use it in this project.
 
 \section{Data Distribution}
 
@@ -71,8 +66,12 @@ Once preprocessing and serialization is finished, the received sensor data has t
 
 Unix domain sockets are a way of communicating between a client and a server that are on the same host. There are two types of sockets available: stream sockets (compareable to TCP) and datagram sockets (compareable to
 UDP). Although this solutions seams ideal for this, it was quickly decided against it. The reason for this decisions is that NodeJS does not support datagram unix domain sockets anymore and real time application usually
-make use of datagrams. Therefor regular UDP was used.
+make use of datagrams. Therefore regular UDP was used.
 
 \subsection{Solution}
 
-Several problems led to the developement of a custom UDP-based networking library that is discussed in chapter \ref{ch:faps-networking}.
+This problem led to the decision to use a custom UDP protocol for data transfer. This custom protocol is discussed in chapter \ref{ch:faps-networking}.
+
+\section{Storing data between starts}
+
+In order to continue the regression analysis after FaPS has been stopped, a way of storing the regression info had to be developed. This was achieved by writing the data of the MLR class to a file. This process includes serialising the $ M $ matrix and $ V $ vector to arrays. The matrix is serialised by creating a two dimensional array where the inner arrays represent the matrix rows. So a $ \begin{bmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \\ 7 & 8 & 9 \end{bmatrix} $ matrix would become \lstinline{[[1, 2, 3], [4, 5, 6], [7, 8, 9]]}.
