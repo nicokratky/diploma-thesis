@@ -292,17 +292,16 @@ These procedures were implemented as a C++ class. The two most important methods
 Code listing \vref{code:mlr_push} shows the \lstinline{push} method. Additionally to computing the $ M $ and $ V $ values, this method adds the variables to a queue-like data structure. This is necessary as the coefficient of determination needs the average of the response variable $ \bar{y} $ and the last few datasets to test this fit (see \vref{sec:rsquared}). The size of this structure is set to 100. This means that if the structure contains 100 datasets, the oldest one is removed before a new one is inserted.
 
 \begin{minipage}{\textwidth}
-\begin{lstlisting}[caption={C++ method to add new observations to the regression model},captionpos=b,label={code:mlr_push}]
+\begin{lstlisting}[caption={C++ method to add new observations to the regression model},captionpos=b,label={code:mlr_push},language=C++]
 void MLR::push(std::vector<double> X, double y) {
     if (X.size() != p_) {
         // not the correct amount of predictor variables
         return;
     }
 
-    // add the values to a moving average and sliding window
-    // this is used for calculating the coefficient of determination
-    avg_y.add(y);
-    sw_.add(std::make_pair(y, X));
+    // add observation to queue-like structure
+    // used for computing the coefficient of determination
+    data_.add(y, X);
 
     // create a 1x(p+1) matrix
     Eigen::Matrix<double, 1, Eigen::Dynamic> X2{p_ + 1};
@@ -327,16 +326,11 @@ void MLR::push(std::vector<double> X, double y) {
 Code listing \vref{code:mlr_predict} show the \lstinline{predict} method. This method initializes the result variable with the line intercept and then adds up the products of the predictor variable and the corresponding regression coefficient.
 
 \begin{minipage}{\textwidth}
-\begin{lstlisting}[caption={C++ method to predict the response variable using the passed predictor variables},captionpos=b,label={code:mlr_predict}]
+\begin{lstlisting}[caption={C++ method to predict the response variable using the passed predictor variables},captionpos=b,label={code:mlr_predict},language=C++]
 double MLR::predict(std::vector<double> X) {
     if (X.size() != p_) {
         // not the correct amount of predictor variables
         return 0;
-    }
-
-    if (coefficients_.empty()) {
-        // calculate coefficients if necessary
-        calculate_coefficients();
     }
 
     // start prediction with the intercept
@@ -366,16 +360,16 @@ Perfomance-wise, Eigen is also better than its competitors.
 
 Figures \vref{fig:eigen_benchmark_ataT} and \vref{fig:eigen_benchmark_atv} depict the computational performance of Eigen. These two tests were done by computing the products of a matrix and its transpose and a matrix and a vector. When multiplying a matrix with its transponse, the GOTO BLAS library has a slight advantage over all matrix sizes but when multiplying matrices with vectors even the older version of eigen outperforms all competitors.
 
-\begin{figure}[h]
+\begin{figure}[!htb]
     \centering
-    \includegraphics[width=0.8\textwidth]{eigen_benchmark_ataT}
+    \includegraphics[width=0.6\textwidth]{eigen_benchmark_ataT}
     \caption{$ A \times A^T $ \autocite{EigenBenchmark}}
     \label{fig:eigen_benchmark_ataT}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[!htb]
     \centering
-    \includegraphics[width=0.8\textwidth]{eigen_benchmark_atv}
+    \includegraphics[width=0.6\textwidth]{eigen_benchmark_atv}
     \caption{$ matrix^T \times vector $ \autocite{EigenBenchmark}}
     \label{fig:eigen_benchmark_atv}
 \end{figure}
