@@ -148,29 +148,6 @@ export default new Router({
 \subsection{WebSockets}
 WebSockets are used to communicate and rapidly sending data between the Webapp and the web server. In GRAMOC a library called \nameref{subsec:socketio} was chosen because of their focus on reliable real-time communication. In order to use socket.io within a Vue.js application the npm package Vue-Socket.io must be included and a socket object must be added to the Vue instance in which the socket will be used \autocite{vuesocketio}.
 
-\section{Web Server}
-\label{sec:webserver}
-To make a web application accessible to a user, there needs to be a web server which serves the files to the web browser of the user. In the case of GRAMOC, Nginx was chosen to be used as a web server \autocite{nginx}.
-
-A web server is a server dedicated to provide information, web sites or web applications. To achieve that goal the web server transmits first the files needed to run the web application and then sends information whenever they are requested. In this project, NGINX was selected to be utilized as a web server \autocite{nginx}.
-
-\subsection{Nginx}
-Nginx is a lightweight web server that was initially created to solve the ``c10K'' problem. The goal of this challenge was to create a web server that is able to handle ten thousand concurrent client connections at once. In GRAMOC Nginx is used to provide only the core features of a web server. This means to provide the static web application content and basic routing between the web server, the Node servers. Any other functionality will be passed on to components that can handle the specific tasks. Nginx was chosen over Apache because of its lightweight and speed. This is mainly achieved through passing on tasks to other programs and not trying to handle everything on its own like Apache does.
-
-\subsection{Node.js}
-\label{subsec:nodejs}
-Node.js is an asynchronous event driven JavaScript runtime, designed to build network applications \autocite{Node}. The built-in HTTP module can be used to create a web server based on Node. This module is used to utilize communication over the HTTP protocol. In terms of GRAMOC the sensor data is received via a UDP connection and then transmitted over HTTP to the web application. Therefore, the primary function of the Node server is to receive data which is emitted by the Filtering and Preprocessing Layer (FAPS) and forward it, to the web application via WebSockets implemented through the ``socket.io'' library \autocite{socketio}. In order to use socket.io the HTTP module in combination with the express framework must be used.
-
-Another function of the Node server is to provide an application programming interface(API) to request the saved sensor data. This is achieved by using the express framework. This API is needed to display historical sensor data within the GRAMOC web application.
-
-\subsection{Express}
-Express is a minimal and flexible web application framework to be used with Node.js. It is based on the HTTP module, which is a part of the standard library of Node.js and its main focus is to manage the routing tasks associated with the running HTTP server. So Express is just a layer on top of a web server, but not a web server itself.
-
-\subsection{socket.io}
-\label{subsec:socketio}
-socket.io is a JavsScript library that implements real-time communication via WebSockets. This library was chosen because it aims to make real-time applications possible in every browser and can be used in a Node.js application. Since GRAMOC was built with the intent of delivering sensor data in real-time to the user, socket.io helped a lot in the step of implementing real-time communication.
-
-
 \section{Plotly}
 \label{sec:Plotly}
 To visualize the data received from the sensor a graphing library called ``Plotly'', more specific the open source JavaScript library ``plotly.js'' is used \autocite{Plotly} \autocite{PlotlyJS}. Plotly is build on top of state of the art JavaScript libraries like ``D3.js''  and ``stackgl'' \autocite{d3} \autocite{stackgl}. The library offers a broad variety of two and three dimensional charts in the categories statistical, financial, scientific and more. In GRAMOC one of the chosen graphing libraries is Plotly, because of the capability to easily create custom and dynamic charts.
@@ -200,8 +177,6 @@ In GRAMOC D3 was used to create a simple line chart to be able to visualize scie
     \label{fig:d3linechart}
 \end{figure}
 
-\todo{implement canvas along with the d3 svg chart and write about it}
-
 \section{Implementation}
 As shown in figure \vref{fig:webserver-program-flow} the server asynchronously tries to connect with the UDP socket and starts listening for incoming connections on a specified port. The server keeps retrying to connect to the UDP socket until a connection is established. Without this connection no live data from the sensor can be forwarded to the web application. If a client connects on the before specified port the connection will be immediately upgraded to a socket connection and the web application will be served to the user. When the Webapp launches it will display the Home page, then the user can navigate to the 2D, the Archive or the About page, through the navigation bar at the top.
 
@@ -227,8 +202,6 @@ The Archive page displays a line chart similar to the line chart on the 2D page,
 
 \subsection{About Page}
 The About page is simply a static page that displays a few informations about the project.
-
-\todo{create divided flowcharts for each component}
 
 \begin{figure}[h]
     \centering
