@@ -63,3 +63,10 @@ The last scenario is when a driver intentionally oversteers to force the car int
     \caption{Measured sensor data when oversteering}
     \label{fig:Oversteer}
 \end{figure}
+
+\section{Regression Results}
+An important feature of GRAMOC is to be able to predict data through multiple linear regression. An important parameter to determine if the model produces correct results is the standard deviation of the predicted values during the tests. Because if the predicted values are very different it indicates that the model does not have a good fit.
+
+% To be able to determine whether a regression model is accurate or not the $ r^2 $ test needs to be done. Another important parameter is the standard deviation of the predicted values during the tests, because if the predicted values are very different it indicates that the model does not have a good fit either.
+
+To test this in the scenario where an accelerometer is mounted inside a car, data was first collected to initially train the model and then the driver was predicted based on the driving style of the current driver. As an abstraction there were only two types of drivers, a slow one and a fast one. A fixed course was selected to conduct the tests. First the slow completed the course a couple times and then the fast driver did the same. To distinct the drivers they were assigned by a number, the fast one had number 1 and the slow one got number 2. As the training of the model was finished, one of the drivers was selected to complete the course another time and the system had to predict which driver is currently driving the car. The results showed that the standard deviation was about 10 percent.
