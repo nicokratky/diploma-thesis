@@ -5,7 +5,7 @@
 %
 In order to test GRAMOC, a test scenario had to be created. As an abstraction to the magnetometer, an accelerometer was used. The mathematical model to process the accelerometer sensor data is the same as the one form the magnetometer data. To get example sensor readouts from the accelerometer, the sensor was mounted inside a car. The sensor was mounted on the arm rest as depicted in figure \vref{fig:CarMount}.
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=10cm,keepaspectratio]{car_mount}
     \caption{Car Mount of the Raspberry Pi accelerometer}
@@ -27,7 +27,7 @@ As the used sensor is an accelerometer, the measured sensor data represent g-for
 \subsection{Shifting Gears}
 The first demonstration scenario is shifting gears while driving. Every time a driver shifts to another gear, the acceleration is interrupted. This short interruption is documented by the red line, which represents the forward acceleration, in figure \vref{fig:ShiftGears}. It can be observed that every time the driver shifts to another gear the line drops back to zero. The example in figure \vref{fig:ShiftGears} shows that the driver shifts 3 times from  first to fourth gear.
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=15cm,keepaspectratio]{shift}
     \caption{Measured sensor data when shifting gears}
@@ -37,7 +37,7 @@ The first demonstration scenario is shifting gears while driving. Every time a d
 \subsection{Driving in a Roundabout}
 In the second scenario, a driver is driving through a roundabout. This scenario was chosen to be used as an example, because it is a situation where the lateral acceleration is roughly the same all the time. As shown in figure \vref{fig:Roundabout}, the forward acceleration stays around zero the whole time and the lateral acceleration is located about -0.5g. The reason why the acceleration remains stable the whole time is simply because when driving through a roundabout, a driver should drive with constant speed and turn.
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=15cm,keepaspectratio]{roundabout}
     \caption{Measured sensor data when driving in a roundabout}
@@ -49,7 +49,7 @@ Another scenario where acceleration can be easily shown is the case of emergency
 
 \todo{Redo test, -1.1g sind mmn zu wenig}
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=15cm,keepaspectratio]{brake}
     \caption{Measured sensor data when applying an emergency brake}
@@ -60,7 +60,7 @@ Another scenario where acceleration can be easily shown is the case of emergency
 
 The last scenario was chosen to show how a car behaves when it is temporarily out of control. This could happend during oversteer caused by a wet street. As depicted in figure \vref{fig:Oversteer} the forward acceleration is erratic, but above zero the whole time during the oversteer phase. The green line which represents the lateral acceleration fluctuates between 1.0g and -1.0g for a short duration, in the remaining time the line stays below zero, due to the fact that the maneuver was applied in a left turn.
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=15cm,keepaspectratio]{drift}
     \caption{Measured sensor data when oversteering}
