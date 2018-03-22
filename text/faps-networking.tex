@@ -3,8 +3,8 @@
 
 \author{Nico Kratky}
 %
-FaPS Networking is a custom UDP-based library that is mainly used for communication between FaPS (see \ref{ch:faps}) and different kinds of client, eg. FaPS-save (see \ref{ch:faps-save}) and the NodeJS server (see
-\ref{sec:webserver}).
+FaPS Networking is a custom UDP-based library that is mainly used for communication between FaPS (see chapter \vref{ch:faps}) and different kinds of client, eg. FaPS-save (see chapter \vref{ch:faps-save}) and the NodeJS server (see
+section \vref{sec:webserver}).
 
 \section{TCP vs UDP in real time environments}
 
@@ -14,14 +14,14 @@ Both TCP and UDP are members of the transport layer of the internet protocol sui
 
 There are two groups of protocols. The ones that require setting up a logical connection before data can be exchanged and the ones that don't require a link between the two communication partners. They are also called
 \textit{connection-oriented transport services} (COTS) and \textit{connectionless transport services} (CLTS) \autocite{connectionbased-vs-connectionless}. The advantages and disadvantes of both are important to know when choosing one of these types of protocols.
-The main feature of COTS is that it is reliable, meaning that the protocol will ensure that sent messages are received reliably and in order. As discussed in \ref{ch:realtimesystems} it is not that big of a deal for
+The main feature of COTS is that it is reliable, meaning that the protocol will ensure that sent messages are received reliably and in order. As discussed in chapter \vref{ch:realtimesystems} it is not that big of a deal for
 real-time applications if packets are dropped, therefor a CLTS was chosen.
 
 \subsection{Perfomance}
 
 As perfomance is a critical component of real-time applications, some research had to be conducted to get the best possible result.
 
-This research included the comparison of the packet headers. As seen in figures \ref{fig:tcp-header} and \ref{fig:udp-header} it is clearly visible that the TCP header is much larger the the UDP header. In fact, TCP requires 20 bytes and UDP requires only 8 bytes for the header information.
+This research included the comparison of the packet headers. As seen in figures \vref{fig:tcp-header} and \vref{fig:udp-header} it is clearly visible that the TCP header is much larger the the UDP header. In fact, TCP requires 20 bytes and UDP requires only 8 bytes for the header information.
 
 \begin{figure}[H]
     \centering
@@ -61,11 +61,11 @@ only finishes when the clients deconstructor is called, thus disconnects.
 
 The handshake procedure is a very important part of connecting. This makes sure that the server is notified whenever a client is waiting to connect.
 
-When the server receives a connection request (see \ref{tab:faps-networking-control-messages}), it has to check if it can accept further clients. This limit is set as a static constant in the \textit{Server} class. The
+When the server receives a connection request (see table \vref{tab:faps-networking-control-messages}), it has to check if it can accept further clients. This limit is set as a static constant in the \textit{Server} class. The
 default value is \textbf{8}. If this check is successful the server sends an acknowledgement message to the client. If the check fails, the client will receive a connection refused message. In this implementation the
 clients connect call will block until it is connected. This is done by a loop that will be exited once the server sends an acknowledgement. In between the connection attempts one second is waited.
 
-These two procedures can be both seen in the code listings (\ref{lst:faps-networking-handshake-server} and \ref{lst:faps-networking-handshake-client}) and the sequence diagram (\ref{fig:faps-networking-handshake}) below.
+These two procedures can be both seen in the code listings (\vref{lst:faps-networking-handshake-server} and \vref{lst:faps-networking-handshake-client}) and the sequence diagram (\vref{fig:faps-networking-handshake}) below.
 
 \begin{minipage}{\linewidth}
 \begin{lstlisting}[caption={Server handshake method}, label=lst:faps-networking-handshake-server, captionpos=b, language=C++]
