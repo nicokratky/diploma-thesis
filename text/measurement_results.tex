@@ -3,9 +3,15 @@
 
 \author{Nico Leidenfrost}
 %
-In order to test GRAMOC, a test scenario had to be created. As an abstraction to the magnetometer, an accelerometer was used. The mathematical model to process the accelerometer sensor data is the same as the one form the magnetometer data. To get example sensor readouts from the accelerometer, the sensor was mounted inside a car. The sensor was mounted on the arm rest as depicted in figure \vref{fig:CarMount}.
+In order to test GRAMOC, a test scenario had to be created. As an abstraction to the magnetometer, an accelerometer was used. The mathematical model to process the accelerometer sensor data is the same as the one form the magnetometer data which is ultimately used. The reason that a alternative had to be used is that the development of the gradient magnetometer was delayed during the writing of this thesis. Also acceleration is easier to influence without using scientific items.
 
-\begin{figure}[H]
+To get example sensor readouts from the accelerometer, the sensor was mounted inside a car.
+
+\section{Car Mount}
+
+To mount the GRAMOC setup in a car, the 12V DC on-board power supply had to be inverted to 230V AC. This was necessary to power an access point as GRAMOC works over an internet connection. The two Raspberry Pis were powered by a powerbank. The Raspberry Pi that acted as sensor was taped to the arm rest of the car. This setup is depicted in figure \vref{fig:CarMount}.
+
+\begin{figure}[h]
     \centering
     \includegraphics[width=10cm,keepaspectratio]{car_mount}
     \caption{Car Mount of the Raspberry Pi accelerometer}
@@ -92,7 +98,7 @@ The first test used a predefined route that is depicted in figure \vref{fig:ziss
     \label{fig:ziss_route}
 \end{figure}
 
-After completing the two runs, GRAMOC tried to predict the driver. The obtained results after testing this with the driving style of the two sample drivers are shown in table \vref{tab:prediction1}.
+After completing the two runs, GRAMOC tried to predict the driver. As GRAMOC uses streaming data, the prediction can not simply be shown at the end of the program, as this would be too inaccurate. Therefore data gets predicted in real time and the average prediction is presented at the end of the program. Also the minimum, maximum and standard deviation of the average are calculated. The obtained results after testing this with the driving style of the two sample drivers are shown in table \vref{tab:prediction1}.
 
 \begin{table}[H]
 \centering
@@ -110,8 +116,6 @@ These predictions only allow to identify tendencies, but do not predict the driv
 
 After researching thoroughly, it was decided to use a course that does not have long straights as these were identified to mislead the regression model. This happens because on long straights the car mostly reaches the speed limit of the road and then does not have any acceleration. And no acceleration can not be matched with a driver.
 
-\todo{prediction only average, streaming data, ...}
-
 \subsection{Course 2}
 
 The second course had to be windy. The easiest way to get a lot of acceleration is to drive through a roundabout. In a roundabout there is no possibility to have no acceleration at all so this was taken as the second course. For the sake of simplicity the roundabout that was used in the first course (see figure \vref{fig:ziss_route}) was used as this test-roundabout.
@@ -120,33 +124,13 @@ The procedure was the same as in the first test, two drivers drive the roundabou
 
 \begin{table}[H]
 \centering
-\begin{tabular}{|l|l|}
+\begin{tabular}{|l|l|l|}
 \hline
-\textbf{Driving Style} & \textbf{Prediction} \\ \hline
-1                      & 0.97                \\ \hline
-2                      & 1.99                \\ \hline
+\textbf{Driving Style} & \textbf{Prediction} & \textbf{Standard Deviation} \\ \hline
+1                      & 0.97                & 0.18 \\ \hline
+2                      & 1.99                & 0.09 \\ \hline
 \end{tabular}
 \caption{Prediction from the second regression testing phase}
 \label{tab:prediction2}
 \end{table}
-
-% An important feature of GRAMOC is to be able to predict data through multiple linear regression. An important parameter to determine if the model produces correct results is the standard deviation of the predicted values during the tests. Because if the predicted values are very different it indicates that the model does not have a good fit.
-
-% To be able to determine whether a regression model is accurate or not the $ r^2 $ test needs to be done. Another important parameter is the standard deviation of the predicted values during the tests, because if the predicted values are very different it indicates that the model does not have a good fit either.
-
-% To test this in the scenario where an accelerometer is mounted inside a car, data was first collected to initially train the model and then the driver was predicted based on the driving style of the current driver. As an abstraction there were only two types of drivers, a slow one and a fast one. A fixed course was selected to conduct the tests. First the slow completed the course a couple times and then the fast driver did the same. To distinct the drivers they were assigned by a number, the fast one had number 1 and the slow one got number 2. As the training of the model was finished, one of the drivers was selected to complete the course another time and the system had to predict which driver is currently driving the car. The results showed that the standard deviation was about 10 percent.
-
-% An important feature of GRAMOC is to be able to predict data through multiple linear regression. An important parameter to determine if the model produces correct results is the standard deviation of the predicted values during the tests. Because if the predicted values are very different it indicates that the model does not have a good fit.
-
-% To be able to determine whether a regression model is accurate or not the $ r^2 $ test needs to be done. Another important parameter is the standard deviation of the predicted values during the tests, because if the predicted values are very different it indicates that the model does not have a good fit either.
-
-% To test this in the scenario where an accelerometer is mounted inside a car, data was first collected to initially train the model and then the driver was predicted based on the driving style of the current driver. As an abstraction there were only two types of drivers, a slow one and a fast one. A fixed course was selected to conduct the tests. During the tests the relevant variables were the acceleration of the x axis, the acceleration of the y axis and the current timestamp. The acceleration of the z axis was irrelevant because this axis indicates the acceleration up and downwards. Both the x and y axis values were used to determine which driver was driving at the moment. The timestamp was needed to bring the sensor data in a relation to the conducted tests.
-
-% First the slow driver completed the course a couple times and then the fast driver did the same. To distinct the drivers they were assigned by a number, the fast one had number 1 and the slow one got number 2. As the training of the model was finished, one of the drivers was selected to complete the course another time and the system had to predict which driver is currently driving the car.
-
-% The results showed that on a course with straight roads, the prediction of the driver was nearly impossible, because the acceleration on a straight road was about the same for both drivers. The acceleration for both drivers was the same because both drove with constant velocity and this means no change of acceleration. Since the velocity was not measured during the tests, on straight roads it was impossible to predict the driver. If the tests are conducted while driving in a roundabout, the results showed that the two drivers could be predicted very well. The reason why the prediction works much better in a roundabout is, because then the driver is constantly turning and there is a constant acceleration, unlike on a straight road.
-
-% Since GRAMOC works with streaming data, only the average of the predicted values was significant. That is because, the single values represent the prediction for only the time point where the values were measured and not for the whole run. The standard deviation of the average predicted values was about 10 percent.
-
-% The mathematical model to predict the driver is the same model that is used to predict the quality parameters of steel belts. This is the reason why this abstraction was chosen to be tested. The only modification that needs to be done is the usage of another sensor and the adjustment of the independent variables of the regression model. Since the base regression model does not need to change it is only a very small amount of work to implement this system in a steel belt production line.
 
