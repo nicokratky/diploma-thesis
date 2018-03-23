@@ -392,7 +392,7 @@ Perfomance-wise, Eigen is also better than its competitors.
 
 Figures \vref{fig:eigen_benchmark_ataT} and \vref{fig:eigen_benchmark_atv} depict the computational performance of Eigen. These two tests were done by computing the products of a matrix and its transpose and a matrix and a vector. When multiplying a matrix with its transponse, the GOTO BLAS library has a slight advantage over all matrix sizes but when multiplying matrices with vectors even the older version of eigen outperforms all competitors.
 
-\begin{figure}[!htb]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.6\textwidth]{eigen_benchmark_ataT}
     \caption[$ A \times A^T $ Eigen Benchmark]{$ A \times A^T $ Eigen Benchmark\footnotemark}
@@ -400,7 +400,7 @@ Figures \vref{fig:eigen_benchmark_ataT} and \vref{fig:eigen_benchmark_atv} depic
 \end{figure}
 \footnotetext{\cite{EigenBenchmark}}
 
-\begin{figure}[!htb]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.6\textwidth]{eigen_benchmark_atv}
     \caption[$ matrix^T \times vector $ Eigen Benchmark]{$ matrix^T \times vector $ Eigen Benchmark\footnotemark}
