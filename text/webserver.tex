@@ -83,7 +83,7 @@ In a layered system, every component can access only the layer next to it. This 
 The last constraint within the REST architecture is the Code-On-Demand constraint which is only optional. It allows an API to send executable code to the clients to extend their set of features. This is used to create simple clients which can be dynamically extended after deployment.
 
 \subsection{Implementation}
-In the GRAMOC REST API are only GET routes, as there is no need to change or modify data. The available routes are listed in table \vref{tab:get_routes}
+In the GRAMOC REST API are only GET routes, as there is no need to change or modify data. The available routes are listed in table \vref{tab:get_routes}.
 
 \begin{table}[H]
     \centering
@@ -103,4 +103,4 @@ In the GRAMOC REST API are only GET routes, as there is no need to change or mod
 The files are all stored in a specific directory from which the API can read. Inside these files there are datasets, which represent time points. With this structure it is possible to request the data from a specific timespan.
 
 \subsubsection{Pagination}
-Due to the large amounts of data, one request took longer to process than the timeout of the web browser allowed. This problem was solved by using pagination. Pagination is a technique to split the whole data from one big request into more smaller requests. These requests can be processed much faster and therefore a response can be send in time. To use pagination a query string with the parameters \textit{limit} and \textit{page} must be provided. The limit indicates the maximum amount of data which can be transmitted by one response. The page parameter specifies the offset of the data which has to be send. To check if another page is available, every response contains a field \textit{has_more}.
+Due to the large amounts of data, one request took longer to process than the timeout of the web browser allowed. This problem was solved by using pagination. Pagination is a technique to split the whole data from one big request into more smaller requests. These requests can be processed much faster and therefore a response can be send in time. To use pagination a query string with the parameters \textit{limit} and \textit{page} must be provided. The limit indicates the maximum amount of data which can be transmitted by one response. The page parameter specifies the offset of the data which has to be send. To check if another page is available, every response contains a field \textit{has\_more}.
