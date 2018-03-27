@@ -5,7 +5,7 @@
 %
 To make a web application accessible to a user, there needs to be a web server which serves the files to the web browser of the user. In the case of GRAMOC, NGINX was chosen to be used as a web server \autocite{nginx}.
 
-A web server is a server dedicated to provide information, web sites or web applications. To achieve this goal the web server first transmits the files needed to run the web application and then sends information whenever it is requested. In this project, NGINX was selected to be utilized as a web server \autocite{nginx}.
+A web server is a server dedicated to provide information, web sites or web applications. To achieve this goal the web server first transmits the files needed to run the web application and then sends information whenever it is requested.
 
 \section{Apache}
 Apache HTTP Server was first launched in 1995 \autocite{apache}. It gained a lot of popularity very quickly and since April 1996 it is the most used web server of active websites. Apache's approach on how to handle incoming connections is quite simple: for each connection there is one thread. This can lead to problems when a lot of clients are trying to connect to the server at the same time. Apache consists of a core module and many dynamically loadable modules. These modules provide various features like:
@@ -24,7 +24,7 @@ This module system gives Apache a lot of power in terms of flexibility, because 
 NGINX, pronounced "engine x", is a lightweight web server that was initially created to solve the \textit{c10K} problem. The goal of this challenge was to create a web server that is able to handle ten thousand concurrent client connections at once. To achieve this goal, the main difference between NGINX and its competitors is that NGINX handles client connections asynchronously instead of synchronously. NGINX is also event driven and single threaded. This means that there is only one thread running and not one thread per connection. In GRAMOC, NGINX is used to provide only the core features of a web server, namely providing static web application content and basic routing between the web server and the Node.js server. Any other functionality will be passed to components that can handle the specific tasks. NGINX was chosen over Apache because of its lightweight design and speed. This is mainly achieved through passing on tasks to other programs and not trying to handle everything on its own like Apache does.
 
 \section{Apache vs NGINX}
-According to Upguard, a cyber security company, NGINX is about 4.2 times faster than Apache. The main reason for this is the single threaded, asynchronous approach of NGINX \autocite{UpguardAvN}.
+According to Upguard, a cyber security company, NGINX is about 4.2 times faster than Apache \autocite{UpguardAvN}. The main reason for this is the single threaded, asynchronous approach of NGINX.
 Apache however contains a much larger feature set and better support, because of the fact that Apache is a lot older than NGINX. The smaller feature set of NGINX can be seen as a disadvantage, but also as an advantage. Less features are usually a clear disadvantage, but on the other hand if there are less features available, the system is much more lightweight. Thats one of the main reasons why NGINX was chosen in GRAMOC. Due to this lightweight design, NGINX can operate also on systems with less computing power, like the Raspberry Pi that is used in GRAMOC.
 
 In terms of popularity Apache is at the time of writing twice as much used in web server development as NGINX. These figures originate from the \textit{February 2018 Web Server Survey} conducted by Netcraft and are shown in figure \vref{fig:netcraft_survey} \autocite{netcraft_survey}.
@@ -40,19 +40,21 @@ These results show that Apache is still the number one web server with 42.72 per
 
 \section{Node.js}
 \label{sec:nodejs}
-Node.js is an asynchronous, event driven JavaScript runtime, designed to build network applications \autocite{Node}. The built-in HTTP module can be used to create a web server based on Node.js. This module is used to utilize communication over the HTTP protocol. In terms of GRAMOC the sensor data is received via a UDP connection and then transmitted over HTTP to the web application. Therefore, the primary function of the Node.js server is to receive data which is emitted by the Filtering and Preprocessing Layer (FAPS) and forward it, to the web application via WebSockets implemented through the \textit{socket.io} library \autocite{socketio}. In order to use socket.io the HTTP module in combination with the express framework must be used.
+Node.js is an asynchronous, event driven JavaScript runtime, designed to build network applications \autocite{Node}. The built-in HTTP module can be used to create a web server based on Node.js. This module is used to utilize communication over the HTTP protocol. In terms of GRAMOC the sensor data is received via a UDP connection and then transmitted over HTTP to the web application. Therefore, the main task of the Node.js server is to receive data which is emitted by the Filtering and Preprocessing Layer (FAPS) and forward it, to the web application via WebSockets implemented through the \textit{socket.io} library \autocite{socketio}. In order to use socket.io the HTTP module in combination with the express framework must be used.
 
-Another function of the Node.js server is to provide an application programming interface (API) to request the saved sensor data. This is achieved by using the express framework. This API is needed to display historical sensor data within the GRAMOC web application.
+To implement an API (Application Programming Interface) to retrieve historical data, also Node.js was used. The actual framework that was used to implement the API is called \textit{Express} (see below section \vref{sec:express}).
 
 \section{Express}
-Express is a minimal and flexible web application framework to be used with Node.js. It is based on the HTTP module, which is a part of the standard library of Node.js and its main focus is to manage the routing tasks associated with the running HTTP server. So Express is just a layer on top of a web server, but not a web server itself.
+\label{sec:express}
+Express is a minimal and flexible web application framework to be used with Node.js. It is build on top of the HTTP module provided by Node.js. Handling basic routing tasks and creating powerful APIs (Application Programming Interfaces) are the main tasks of the Express framework. Sometimes Express is mistaken to be a web server on itself, but it is just a layer on top of a web server. Express was used to create the REST API used in GRAMOC (see below section \vref{sec:restapi}).
 
 \section{socket.io}
 \label{sec:socketio}
-socket.io is a JavsScript library that implements real-time communication via WebSockets. This library was chosen because it aims to make real-time applications possible in every browser and can be used in a Node.js application. Since GRAMOC was built with the intent of delivering sensor data in real-time to the user, socket.io helped a lot in the step of implementing real-time communication.
+socket.io is a JavsScript library that implements real-time communication via WebSockets. This library was selected to be used within this project, because it aims to make real-time applications possible in every browser. Socket.io is available for both Node.js and Vue.js. The socket.io framework works well within GRAMOC, because GRAMOC also aims to deliver sensor data in real-time.
 
 \section{REST API}
-GRAMOC also saves the incoming sensor data beside plotting it. This data is especially useful to create statistics or if a user wants to inspect the sensor data of a certain point of time. How the data is saved is further explained in chapter \vref{ch:faps-save}. To make the stored sensor data available to users, a REST API(Application Programming Interface) was implemented.
+\label{sec:restapi}
+GRAMOC also saves the incoming sensor data beside plotting it. This data is especially useful to create statistics or if a user wants to inspect the sensor data of a certain point of time. How the data is saved is further explained in chapter \vref{ch:faps-save}. To make the stored sensor data available to users, a REST API was implemented.
 REST means \textit{Representational State Transfer}, which is an architectural style. To call an API RESTful it needs to satisfy a number of constraints \autocite{rest}:
 
 \begin{itemize}
@@ -65,7 +67,7 @@ REST means \textit{Representational State Transfer}, which is an architectural s
 \end{itemize}
 
 \subsection{Client-Server}
-The Client-Server constraint simply says that there needs to be at least one server, which is able to provide data to a number of clients. This is useful, because with the separation of server and client they can be developed independently to each other. This can result in better scalability of each component.
+REST features a client-server model, like many other web based architectures. The main concept of this model is that two clients can not talk directly to each other. Every client needs to communicate with a server. If network units need to communicate with each other, then every unit must implement a client and a server. This separation of client and server can lead to better scalability of each component, as they are developed independently.
 
 \subsection{Stateless}
 A stateless system can not store data from clients to use this data in future requests. Each request must contain enough information, so that the server is able to send an appropriate response. This constraint leads also to improved performance as the server does not need to store any contextual data about clients and is therefore able to process multiple requests faster.

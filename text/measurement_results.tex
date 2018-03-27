@@ -98,7 +98,7 @@ The first test used a predefined route that is depicted in figure \vref{fig:ziss
     \label{fig:ziss_route}
 \end{figure}
 
-After completing the two runs, GRAMOC tried to predict the driver. As GRAMOC uses streaming data, the prediction can not simply be shown at the end of the program, as this would be too inaccurate. Therefore data gets predicted in real time and the average prediction is presented at the end of the program. Also the minimum, maximum and standard deviation of the average are calculated. The obtained results after testing this with the driving style of the two sample drivers are shown in table \vref{tab:prediction1}.
+After completing the two runs, GRAMOC tried to predict the driver. As GRAMOC uses streaming data, the prediction can not simply be shown at the end of the program, as this would be too inaccurate. Therefore only the average prediction is shown after the program finishes. The prediction data itself is still getting calculated in real-time. Also the minimum, maximum and standard deviation of the average are calculated. The obtained results after testing this with the driving style of the two sample drivers are shown in table \vref{tab:prediction1}.
 
 \begin{table}[H]
 \centering
@@ -118,7 +118,7 @@ After researching thoroughly, it was decided to use a course that does not have 
 
 \subsection{Course 2}
 
-The second course had to be windy. The easiest way to get a lot of acceleration is to drive through a roundabout. In a roundabout there is no possibility to have no acceleration at all so this was taken as the second course. For the sake of simplicity the roundabout that was used in the first course (see figure \vref{fig:ziss_route}) was used as this test-roundabout.
+The second course had to be windy. The easiest way to get a lot of acceleration is to drive through a roundabout. In a roundabout there will always be at least some acceleration, so this was taken as the second course. For the sake of simplicity the roundabout that was used in the first course (see figure \vref{fig:ziss_route}) was used as this test-roundabout.
 
 The procedure was the same as in the first test, two drivers drive the roundabout at whichever speed they like. After this two runs one driver drives again and GRAMOC tries to predict him. This time, the results were much better as depicted in table \vref{tab:prediction2}.
 
