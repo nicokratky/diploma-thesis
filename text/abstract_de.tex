@@ -1,4 +1,12 @@
 \chapter{Kurzfassung}
 \begin{german}
 
+Diese Diplomarbeit stellt GRAMOC vor. GRAMOC ist ein System Stahlbänder, ohne die Produktion stoppen zu müssen, effektiv zu charakterisieren. Dies wird durch die Erfindung eines hochsensitiven MEMS Gradienten Magnetometer ermöglicht.
+
+Diese Prozedur steigert nicht nur die Produktivität, sondern ist auch material- und kosteneffizient.
+
+GRAMOC besteht aus zwei Kommandozeilenprogrammen und einer Web Applikation. Das erste Kommandozeilenprogramm ist der Server der die vom Sensor empfangenen Daten vorverarbeitet. Dieses Programm führt auch eine dynamische Datenanalyse durch. Das zweite Kommandozeilenprogramm kümmert sich um die Datenspeicherung, da alle Sensordaten in HDF5 Dateien gespeichert werden müssen, um eine nachträgliche Inspektion der Daten zu ermöglichen. Beide Programme laufen auf einem Raspberry Pi 3 Model B. Das Client Programm ist eine Web Anwendung die dazu dient, Sensordaten visuell darzustellen. Auch wird ein Formular zur Verfügung gestellt um historische Sensordaten aus den HDF5 Datein abfragen zu können.
+
+Die empfangenen Sensordaten werden mittels multipler Linear Regression analysiert. Dies ermöglicht es, mechanische Parameter des Stahlbandes von den magnetischen Daten abzuleiten.
+
 \end{german}
