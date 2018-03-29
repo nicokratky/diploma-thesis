@@ -16,7 +16,7 @@
 
 Industry is ever-changing. Especially people working in the information technology branch know that, since these are the people that have to upgrade the current systems using latest technology. The latest industry-changing milestone was the rise of the so-called Industry 4.0, which combines regular mechanical processes with modern information and communication technology.
 
-Industry 4.0 is a term that was coined by the German government \autocite{Industrie4.0Paper}. It describes the fourth industrial revolution. As explained in \citetitle{Industrie4.0History} the first industrial revolution took place around 1800 with the rise of steam and water-powered machines \autocite{Industrie4.0History}. One century later electricity heralded the start of the second industrial revolution, production lines being one of the biggest milestones. Also division of labour was first practiced. The third industrial revolution occurred with the invention of computers, robots and computer automation. The fourth and final one basically just refines the third revolution. This revolution includes the term \textit{cyber-physical systems}, which are systems that are controlled by computers, algorithms and sensors. This also means that there has to be some kind of communication between these systems which happens mostly over the internet. Figure \vref{fig:industry40} depicts this sequence of revolutions.
+Industry 4.0 is a term that was coined by the German government \autocite{Industrie4.0Paper}. It describes the fourth industrial revolution. As explained in \citetitle{Industrie4.0History}, the first industrial revolution took place around 1800 with the rise of steam and water-powered machines \autocite{Industrie4.0History}. One century later electricity heralded the start of the second industrial revolution, production lines being one of the biggest milestones. Also division of labour was first practiced. The third industrial revolution occurred with the invention of computers, robots and computer automation. The fourth and final one basically just refines the third revolution. This revolution includes the term \textit{cyber-physical systems}, which are systems that are controlled by computers, algorithms and sensors. This also means that there has to be some kind of communication between these systems which happens mostly over the internet. Figure \vref{fig:industry40} depicts this sequence of revolutions.
 
 \begin{figure}[H]
     \centering
@@ -26,9 +26,7 @@ Industry 4.0 is a term that was coined by the German government \autocite{Indust
 \end{figure}
 \footnotetext{\cite{img:industry4.0}}
 
-This drastic change means that many companies have to adapt. These adaptions had to be made to keep up with the competing companies that already have these technologies.
-
-Steel belt production companies are no exception. With the invention of a gradient magnetometer that can effectively characterize steel belts, the foundation for this diploma thesis was laid.
+This drastic change means that many companies have to adapt to keep up with the competing companies that already have these technologies. Steel belt production companies are no exception. With the invention of a gradient magnetometer that can effectively characterize steel belts, the foundation for this diploma thesis was laid.
 
 \todo{cite patent?}
 
@@ -69,11 +67,13 @@ This procedure has a few major disadvantages. Firstly, if the product does not p
 
 \subsection{Existing Solutions for Handling Sensor Data}
 
-Currently there are a lot of solutions available that can plot sensor data. The majority of these is even free. The one constraint that most of these solutions share is that the sensor has to be directly connected to the computer. As the sensor that is used for this project sends its data over the network, almost all solutions are considered irrelevant. Also some custom features are wanted that these programs do not offer. For example visualizing historical data.
+Currently there are a lot of solutions available that can plot sensor data. The majority of these are even free. The one constraint that most of these solutions share is that the sensor has to be directly connected to the computer. As the sensor that is used for this project sends its data over the network, almost all solutions are considered irrelevant. Also some custom features are wanted that these programs do not offer. For example visualizing historical data.
 
 \subsection{Existing Solutions for Plotting Real Time Data}
 
-As already mentioned there are a lot of solutions out there that can be used to plot sensor data. But the one thing that these solutions mostly can not provide is real time plotting. Static plots can be achieved in many different ways, with big amounts of data or just small amounts, many plots combined or divided in separate plots and many more variations are within the bounds of possibility. A lot of these solutions promote themselves with ``dynamic data updates'' or ``streaming data''. That just means that the data can be changed at runtime and therefore some could say the data is displayed in real time. But real time can be defined very differently. As one would say real time applications can update their data once every second, others consider that the data must be updated within less than 20 milliseconds to achieve a high framerate. Most of the solutions available can handle the former definition of real-time but nearly none of them can provide enough performance for the latter. Another important point is the amount of data that one wants to depict, because most of the already existing programs that can handle real-time are just powerful enough to handle small amounts of data.
+\author{Nico Leidenfrost}
+%
+As already mentioned there are a lot of solutions out there that can be used to plot sensor data. But the one thing that these solutions mostly can not provide is real time plotting. Static plots can be achieved in many different ways, with big amounts of data or just small amounts, many plots combined or divided in separate plots and many more variations are within the bounds of possibility. A lot of these solutions promote themselves with \textit{dynamic data updates} or \textit{streaming data}. That just means that the data can be changed at runtime and therefore some could say the data is displayed in real time. But real time can be defined very differently. As one would say real time applications can update their data once every second, others consider that the data must be updated within less than 20 milliseconds to achieve a high framerate. Most of the solutions available can handle the former definition of real-time but nearly none of them can provide enough performance for the latter. Another important point is the amount of data that one wants to depict, because most of the already existing programs that can handle real-time are just powerful enough to handle small amounts of data.
 
 \section{Outline}
 
