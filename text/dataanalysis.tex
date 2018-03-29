@@ -173,14 +173,14 @@ where $ \beta $ are the regression coeffecients. Or shorter
     y = X\beta.
 \end{equation}
 
-\todo{describe what leads to the formula below (pseudoinverse, cite german uni paper)}
-
 The problem with this equation is that it is possible that this equation does not have a solution. Therefore the $ y $ and $ X $ matrices are multiplied with the transpose of $ X $.
 
 \begin{equation}
 \label{eq:mlr}
     \hat{\beta} = (X^TX)^{-1} X^Ty
 \end{equation}
+
+This equation is always solvable, though not always exactly.
 
 \subsubsection{Example}
 

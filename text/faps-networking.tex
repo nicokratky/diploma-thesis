@@ -3,7 +3,7 @@
 
 \author{Nico Kratky}
 %
-FaPS Networking is a custom UDP-based library that is mainly used for communication between FaPS (see chapter \vref{ch:faps}) and different kinds of client, eg. FaPS-save (see chapter \vref{ch:faps-save}) and the NodeJS server (see
+FaPS Networking is a custom UDP-based library that is mainly used for communication between FaPS (see chapter \vref{ch:faps}) and different kinds of client, eg. FaPS-save (see chapter \vref{ch:faps-save}) and the Node.js server (see
 section \vref{sec:webserver}).
 
 \section{TCP vs UDP in real time environments}
@@ -40,7 +40,7 @@ This research included the comparison of the packet headers. As seen in figures 
 TCP also has a built-in feedback mechanism which checks if all packets are received by the communication partner and if they are received in order. This mechanisms not only produces a lot of overhead, but also is the data
 most likely outdated when it is resent. Therefor it is not a problem if such packets are dropped.
 
-Considering all these factors the decision to use UDP over TCP was made. TCP is a great protocol for example for sending large files where it is necessary that all bytes come in order and reliably. If one byte is missing
+Considering all these factors the decision to use UDP over TCP was made. TCP is a great protocol for example sending large files where it is necessary that all bytes come in order and reliably. If one byte is missing
 then the whole file would be corrupt. UDP however is a lot better for transferring time critical information as it produces less overhead \autocite{TCPUDPRTlifesize}.
 
 \section {Handling Connections}
@@ -61,8 +61,8 @@ only finishes when the clients deconstructor is called, thus disconnects.
 
 The handshake procedure is a very important part of connecting. This makes sure that the server is notified whenever a client is waiting to connect.
 
-When the server receives a connection request (see table \vref{tab:faps-networking-control-messages}), it has to check if it can accept further clients. This limit is set as a static constant in the \textit{Server} class. The
-default value is \textbf{8}. If this check is successful the server sends an acknowledgement message to the client. If the check fails, the client will receive a connection refused message. In this implementation the
+When the server receives a connection request (see table \vref{tab:faps-networking-control-messages}), it has to check if it can accept further clients. This limit is set as a static constant in the \lstinline{Server} class. The
+default value is $ 8 $. If this check is successful the server sends an acknowledgement message to the client. If the check fails, the client will receive a connection refused message. In this implementation the
 clients connect call will block until it is connected. This is done by a loop that will be exited once the server sends an acknowledgement. In between the connection attempts one second is waited.
 
 These two procedures can be both seen in the code listings (\vref{lst:faps-networking-handshake-server} and \vref{lst:faps-networking-handshake-client}) and the sequence diagram (\vref{fig:faps-networking-handshake}) below.
@@ -71,10 +71,15 @@ These two procedures can be both seen in the code listings (\vref{lst:faps-netwo
 \begin{lstlisting}[caption={Server handshake method}, label=lst:faps-networking-handshake-server, captionpos=b, language=C++]
 void Server::shake_hands(boost::asio::ip::udp::endpoint& remote) {
     if (endpoints_.size() < MAX_CLIENTS_) {
+        // client limit not reached, new client can connect
+
         send(control_messages["ACKNOWLEDGE"], remote);
+        // set the keepalive timestamp to now
         endpoints_[remote] = std::chrono::system_clock::now();
     }
     else {
+        // too many clients connected, send connection refused message
+
         send(control_messages["CONNECTION_REFUSED"], remote);
     }
 }
@@ -85,18 +90,23 @@ void Server::shake_hands(boost::asio::ip::udp::endpoint& remote) {
 \begin{lstlisting}[caption={Client handshake method}, label=lst:faps-networking-handshake-client, captionpos=b, language=C++]
 void Client::connect() {
     while (!connected) {
+        // retry connecting, until connection is accepted by server
+
         send(control_messages["CONNECTION_REQUEST"]);
 
         std::string reply;
         receive(reply);
 
         if (reply.compare(control_messages["ACKNOWLEDGE"]) == 0) {
+            // connection established, start sending keepalive messages
+
             connected = true;
 
             std::thread t_keepalive{&Client::keepalive, this};
             t_keepalive.detach();
         }
         else {
+            // connection refused, try again in TIMOUT\_ seconds
             std::this_thread::sleep_for(TIMEOUT_);
         }
     }
@@ -113,7 +123,7 @@ void Client::connect() {
 
 \section{Control Message}
 
-This table explains all control messages that can be exchanged.
+Control messages are a special type of message that require further action to be taken. These messages are especially important during the handshake. The supported messages and their meaning and depicted in table \vref{tab:faps-networking-control-messages}.
 
 \begin{table}[H]
     \centering

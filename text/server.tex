@@ -3,13 +3,9 @@
 
 \author{Nico Kratky}
 %
-A server is a computer program that supplies clients with services. The term 'server' often refers to the machine on which the program is running on. In this project the server has to accomplish several tasks. It has to read data from the sensor that is used, and distribute this data to clients. To do this it also has to manage clients and incoming connection requests.
+A server is a computer program that supplies clients with services. The term \textit{server} often refers to the machine on which the program is running on. In this project the server has to accomplish several tasks. It has to read data from the sensor that is used, and distribute this data to clients. To do this it also has to manage clients and incoming connection requests.
 
-\section{Hardware}
-\todo{Put something here}
-\subsection{Raspberry Pi 3 Model B}
-% The Raspberry Pi is a small single-board computer originally created to teach children how to program \autocite{RasPi}. It was developed by the Raspberry Pi Foundation. There are numerous options for expanding the capabilities of the Raspberry Pi. One being the use of General-purpose input/output (GPIO) pins. They can be used to connect so-called HAT's (Hardware Attached on Top) or Shields (this term evolved from Arduino-land). These add-on boards are mounted to the Raspberry Pi by connecting the GPIO pins to the board and screwing them together. They mostly provide additional hardware to extend the application possibilites and to achieve the desired goal. Further advantages are its relatively small footprint and its low cost. Also, a wide variety of Linux distributions have been adapted to the hardware. Having these advantages was the decisive factor for choosing the Raspberry Pi 3 Model B.\\
-% The specifications of the Raspberry Pi 3 Model B are:
+\section{Raspberry Pi 3 Model B}
 
 The Raspberry Pi is a small single-board computer, developed by the Raspberry Pi Foundation \autocite{RasPi}. Originally it was created to teach children how to use computers and more importantly, how to program them. The biggest advantage of these mini-computers is the variety of extension possibilities. These extensions are so-called HAT's (Hardware Attached on Top) or Shields (which is a term that is more often used when talking about Arduinos). They are connected by using the on-board General-purpose input/output (GPIO) pins. They mostly provide additional hardware to extend the application possibilities and to achieve the desired goal. Further advantages are its relatively small footprint, low cost and wide-variety of available Linux distributions. Having these advantages was the decisive factor for choosing the Raspberry Pi. In this project the latest available version, which is the Raspberry Pi 3 Model B, was used. Specifications of this computer are listed in table \vref{tab:raspispec}.
 
@@ -40,7 +36,7 @@ The Raspberry Pi is a small single-board computer, developed by the Raspberry Pi
 
 \footnotetext{\cite{img:raspi}}
 
-\subsection{Raspberry Pi SenseHAT}
+\section{Raspberry Pi SenseHAT}
 
 The SenseHAT was made especially for the Astro Pi mission, where student could create and code projects, which were then run on the International Space Station by astronaut Tim Peake \autocite{AstroPiMission}. This board was chosen because it offers a wide variety of sensors and therefore offers many possibilities in terms of testing GRAMOC. Figure \vref{fig:sensehat} shows a SenseHAT that is not attached to a Raspberry Pi.
 

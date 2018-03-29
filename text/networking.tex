@@ -3,9 +3,7 @@
 
 \author{Nico Kratky}
 %
-\section{Networking in GRAMOC}
-
-As sensor data is received over the internet and it should also be delivered to clients wirelessly, a common way of communication had to be developed. This development process resulted in GSDEP, GRAMOC's networking protocol. It is a TCP-based networking protocol that is used for sending large amounts of sensor data \autocite{rfc793}.
+As sensor data is received over a network connection and it should also be delivered to clients wirelessly, a common way of communication had to be developed. This development process resulted in GSDEP, GRAMOC's networking protocol. It is a TCP-based networking protocol that is used for sending large amounts of sensor data \autocite{rfc793}.
 
 \section{Data Flow}
 \label{sec:networking_data-flow}
@@ -30,7 +28,7 @@ If a client wants to disconnect from the server it will send a disconnect messag
 
 \section{Data Interchange Format}
 
-Messages have to be brought to a common format to be understood be all communication partners. Therefore every message transmitted is prefixed with a header. This header includes additional information that is used by the receiving end to determine the size of the payload (see section \vref{sec:messageframing}), to differentiate between different kinds of messages (see section \vref{sec:channels}) and to rebuild the message data to its correct data type. The header consists of of 8 bytes, 4 are used to store the payload length, and 2 bytes each for data type and channel. A example packet is illustrated in figure \vref{fig:packet}.
+Messages have to be brought to a common format to be understood by all communication partners. Therefore every message transmitted is prefixed with a header. This header includes additional information that is used by the receiving end to determine the size of the payload (see section \vref{sec:messageframing}), to differentiate between different kinds of messages (see section \vref{sec:channels}) and to rebuild the message data to its correct data type. The header consists of 8 bytes, 4 bytes to store the payload length, and 2 bytes each for data type and channel. A example packet is illustrated in figure \vref{fig:packet}.
 
 \begin{figure}[h]
     \centering
@@ -42,7 +40,7 @@ Messages have to be brought to a common format to be understood be all communica
 \section{Commands}
 \label{sec:networking_command}
 
-Commands are special message that are used to prompt the other end to do something. These commands are used for two purposes. On the one hand they are used during the connection establishment and termination phases, and on the other hand they are used to request data or to stop data transmission.
+Commands are special message that are used to prompt the other end to do something. These commands are used for two purposes. On the one hand they are used during the connection establishment and termination phases, and on the other hand they are used to request data or to stop data transmission. These commands are listed in table \vref{tab:commands}.
 
 \begin{table}[h]
     \centering
@@ -63,7 +61,7 @@ Commands are special message that are used to prompt the other end to do somethi
 \section{Channels}
 \label{sec:channels}
 
-In the case of GRAMOC, where large amounts of data are received in short periods of time, it is crucial to differentiate between communication data and sensor data in split seconds. To accomplish this, 2 bytes are included in the message header. This field simply contains numbers that represent different channels (see table \vref{tab:channels} shows these channels). This information can then be used by the client to tell apart these two types of data, without even analyzing the payload.
+In the case of GRAMOC, where large amounts of data are received in short periods of time, it is crucial to differentiate between communication data and sensor data in split seconds. To accomplish this, 2 bytes are included in the message header. This field simply contains numbers that represent different channels (see table \vref{tab:channels}). This information can then be used by the client to tell apart these two types of data, without even analyzing the payload.
 
 \begin{table}[h]
     \centering
@@ -81,7 +79,7 @@ In the case of GRAMOC, where large amounts of data are received in short periods
 \section{Message framing}
 \label{sec:messageframing}
 
-A common mistake that many developers make is to assume that TCP operates with messages and that TCP can tell apart these messages \autocite{MessageFramingCleary} \autocite{MessageFramingSkotzko}. Sadly this is not true as TCP operates with continous streams of data. Therefore the differentiation of messages has to be done by the developers. This can be achieved in two ways.
+A common mistake that many developers make is to assume that TCP operates with messages and that TCP can tell apart these messages \autocite{MessageFramingCleary} \autocite{MessageFramingSkotzko}. Sadly this is not true as TCP operates with continous streams of data. Therefore the differentiation of messages has to be done by the developers. This can be achieved in two ways. These procedures are taken from the blog posts \citetitle{MessageFramingCleary} and \citetitle{MessageFramingSkotzko}.
 
 \subsection{Delimiters}
 
