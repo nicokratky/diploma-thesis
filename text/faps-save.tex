@@ -26,14 +26,14 @@ It is possible to associate every file, group or dataset with metadata. This mak
 
 \subsection{HDF and HDF5}
 
-Although these two formats share a similiar name, they are two completely different file formats.
+Although these two formats share a similar name, they are two completely different file formats.
 
-The biggest difference is that only HDF5 uses a true hierarchical structure similiare to the UNIX file system. Every object has to belong to one group. Only one group does not have a parent group, the so-called root group.
+The biggest difference is that only HDF5 uses a true hierarchical structure similar to the UNIX file system. Every object has to belong to one group. Only one group does not have a parent group, the so-called root group.
 HDF uses a pseudo-flat structure using Vgroups. Objects do not necessarily have to belong to a group and there is also no root group.
 
 \section{Structure}
 
-In this case the structure of the HDF file are kept rather simple.
+In this project the structure of the HDF file are kept rather simple.
 
 Every file represents a measuring process. Files do not have any groups. Datasets are identified by a number that represents a timestamp as microseconds since 1.1.1970 (also known as Unix Time or epoch).
 
@@ -43,7 +43,7 @@ A dataset recorded on 1.1.2018 00:00:00 would have the identifier 15147648000000
 
 \section {C++ Library}
 
-Although the HDF Group, which are the maintainers of the HDF project, offer a C++ API, it was decided against this library as it is quite complex. Instead a library developed by the Blue Brain Project, called HighFive was
+Although the HDF Group, which are the maintainers of the HDF project, offers a C++ API, it was decided against this library as it is quite complex. Instead a library developed by the Blue Brain Project, called HighFive was
 used \autocite{HighFive}. This library allows for easy creation and modification of HDF5 files.
 
 \section{Implementation}
@@ -51,24 +51,24 @@ used \autocite{HighFive}. This library allows for easy creation and modification
 To save the sensor data to HDF5 files a seperate command-line program was developed. This application acts as another client to FaPS, which transmitts the sensor data over the network anyways. This approach yields two
 major advantages: Perfomance and hidden complexity.
 
-Perfomance is increased as FaPS can finish one iteration of its loop faster as it does not have to save the data and can carry on receiving data from the sensor.
+Perfomance is increased as FaPS can finish one iteration of its main loop faster as it does not have to save the data and can carry on receiving data from the sensor.
 
 \subsection{Command Line Interface}
 
-As described in chapter \vref{ch:faps}, Boosts Program\_Options were used in this project to parse command line arguments. This program has only a few parameters that are depicted in table \vref{tab:faps-save_arguments}.
+As described in chapter \vref{ch:faps}, Boosts Program\_options were used in this project to parse command line arguments. This program has only a few parameters that are depicted in table \vref{tab:faps-save_arguments}.
 
 \begin{table}[h]
     \centering
     \begin{tabular}{| l | l | l | p{5cm} |}
     \hline
     \textbf{Flag} & \textbf{Argument} & \textbf{Default value} & \textbf{Description} \\ \hline
-    -h, --help & & & Outputs the usage information \\ \hline
-    --version & & & Prints version information \\ \hline
-    -l, --loglevel & \textit{loglevel} & info & Information granularity during runtime \\ \hline
-    --ip & \textit{ip\_adress} & 127.0.0.1 & IP address of FaPS \\ \hline
-    --port & \textit{port number} & 9760 & Port of FaPS \\ \hline
-    -f, --filename & \textit{filename} & & Filename to which the data will be saved \\ \hline
-    -i, --interval & \textit{seconds} & 1 & Compression level \\ \hline
+    -h, -{}-help & & & Outputs the usage information \\ \hline
+    -{}-version & & & Prints version information \\ \hline
+    -l, -{}-loglevel & \textit{loglevel} & info & Information granularity during runtime \\ \hline
+    -{}-ip & \textit{ip\_adress} & 127.0.0.1 & IP address of FaPS \\ \hline
+    -{}-port & \textit{port number} & 9760 & Port of FaPS \\ \hline
+    -f, -{}-filename & \textit{filename} & & Filename to which the data will be saved \\ \hline
+    -i, -{}-interval & \textit{seconds} & 1 & Compression level \\ \hline
     \end{tabular}
     \caption{Flags that can be set, which arguments they take, their default values and what they do or change}
     \label{tab:faps-save_arguments}

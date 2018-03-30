@@ -6,7 +6,7 @@
 FaPS Networking is a custom UDP-based library that is mainly used for communication between FaPS (see chapter \vref{ch:faps}) and different kinds of client, eg. FaPS-save (see chapter \vref{ch:faps-save}) and the Node.js server (see
 section \vref{sec:webserver}).
 
-\section{TCP vs UDP in real time environments}
+\section{TCP vs. UDP in Real Time Environments}
 
 Both TCP and UDP are members of the transport layer of the internet protocol suite, commonly known as the TCP/IP stack \autocite{rfc1122}.
 
@@ -38,7 +38,7 @@ This research included the comparison of the packet headers. As seen in figures 
 \end{figure}
 
 TCP also has a built-in feedback mechanism which checks if all packets are received by the communication partner and if they are received in order. This mechanisms not only produces a lot of overhead, but also is the data
-most likely outdated when it is resent. Therefor it is not a problem if such packets are dropped.
+most likely outdated when it is resent. Therefore it is not a problem if such packets are dropped.
 
 Considering all these factors the decision to use UDP over TCP was made. TCP is a great protocol for example sending large files where it is necessary that all bytes come in order and reliably. If one byte is missing
 then the whole file would be corrupt. UDP however is a lot better for transferring time critical information as it produces less overhead \autocite{TCPUDPRTlifesize}.
@@ -121,7 +121,7 @@ void Client::connect() {
     \label{fig:faps-networking-handshake}
 \end{figure}
 
-\section{Control Message}
+\section{Control Messages}
 
 Control messages are a special type of message that require further action to be taken. These messages are especially important during the handshake. The supported messages and their meaning and depicted in table \vref{tab:faps-networking-control-messages}.
 

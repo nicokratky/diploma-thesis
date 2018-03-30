@@ -251,6 +251,7 @@ In multiple linear regression analysis the predicted value can no longer be read
 gives us the predicted ringsize $ y = 51.76 $.
 
 \subsection{Working with Streaming Data}
+\label{subsec:mlr_streamingdata}
 
 As GRAMOC uses streaming data a few adjustements had to be made. The ordinary multiple linear regression model assumes that all observations are available when calculating the regression coefficients. Therefore a way of calculating these regression coefficients in a streaming way had to be found. To accomplish this the regression parameters have to be calculated incrementally. This means that the two parts of the regression parameter calculation, $ X^T X $ and $ X^T y $ have to be recalculated every time a new observation is made. These two matrices are then added up, since matrix addition between two $ n \times n$ matrices also result in a $ n \times n$ matrix. The sum of these matrices are named $ M $ and $ V $. This is possible as $ X^T X $ always returns a $ p \times p $ matrix and $ X^T y $ always returns a $ p $-dimensional vector.
 
@@ -287,7 +288,7 @@ It is a measure for how much variation of the data can be explained with this re
 
 \section{Implementation}
 
-These procedures were implemented as a C++ class. The two most important methods from this class are \lstinline{void push(std::vector<double> X, double y)} and \lstinline{double predict(std::vector<double> X)}. The first method adds new observations to the model, and the second one tries to predict the response variable from the given predictor variables using the current linear regression model.
+These procedures were implemented as a C++ class. The two most important methods from this class are \lstinline{void push(std::vector<double> X, double y)} and \lstinline{double predict(std::vector<double> X)}. The first method adds new observations to the model, and the second one predicts the response variable from the given predictor variables using the current linear regression model.
 
 Code listing \vref{code:mlr_push} shows the \lstinline{push} method. Additionally to computing the $ M $ and $ V $ values, this method adds the variables to a queue-like data structure. This is necessary as the coefficient of determination needs the average of the response variable $ \bar{y} $ and the last few datasets to test this fit (see \vref{sec:rsquared}). The size of this structure is set to 100. This means that if the structure contains 100 datasets, the oldest one is removed before a new one is inserted.
 
