@@ -25,7 +25,7 @@ NGINX, pronounced \textit{engine x}, is a lightweight web server that was initia
 
 \section{Apache vs NGINX}
 According to Upguard, a cyber security company, NGINX is about 4.2 times faster than Apache \autocite{UpguardAvN}. The main reason for this is the single threaded, asynchronous approach of NGINX.
-Apache however contains a much larger feature set and better support, because of the fact that Apache is a lot older than NGINX. The smaller feature set of NGINX can be seen as a disadvantage, but also as an advantage. Less features are usually a clear disadvantage, but on the other hand if there are less features available, the system is much more lightweight. Thats one of the main reasons why NGINX was chosen in GRAMOC. Due to this lightweight design, NGINX can operate also on systems with less computing power, like the Raspberry Pi that is used in GRAMOC.
+Apache however contains a much larger feature set and better support, because of the fact that Apache is a lot older than NGINX. The smaller feature set of NGINX can be seen as a disadvantage, but also as an advantage. Less features are usually a clear disadvantage, but on the other hand if there are less features available, the system is much more lightweight. That is one of the main reasons why NGINX was chosen in GRAMOC. Due to this lightweight design, NGINX can operate also on systems with less computing power, like the Raspberry Pi that is used in GRAMOC.
 
 In terms of popularity Apache is at the time of writing twice as much used in web server development as NGINX. These figures originate from the \textit{February 2018 Web Server Survey} conducted by Netcraft and are shown in figure \vref{fig:netcraft_survey} \autocite{netcraft_survey}.
 
@@ -40,7 +40,7 @@ These results show that Apache is still the number one web server with 42.72 per
 
 \section{Node.js}
 \label{sec:nodejs}
-Node.js is an asynchronous, event driven JavaScript runtime, designed to build network applications \autocite{Node}. The built-in HTTP module can be used to create a web server based on Node.js. This module is used to utilize communication over the HTTP protocol. In terms of GRAMOC the sensor data is received via a UDP connection and then transmitted over HTTP to the web application. Therefore, the main task of the Node.js server is to receive data which is emitted by the Filtering and Preprocessing Layer (FAPS) and forward it, to the web application via WebSockets implemented through the \textit{socket.io} library \autocite{socketio}. In order to use socket.io the HTTP module in combination with the express framework must be used.
+Node.js is an asynchronous, event driven JavaScript runtime, designed to build network applications \autocite{Node}. The built-in HTTP module can be used to create a web server based on Node.js. This module is used to utilise communication over the HTTP protocol. In terms of GRAMOC the sensor data is received via a UDP connection and then transmitted over HTTP to the web application. Therefore, the main task of the Node.js server is to receive data which is emitted by the Filtering and Preprocessing Layer (FAPS) and forward it, to the web application via WebSockets implemented through the \textit{socket.io} library \autocite{socketio}. In order to use socket.io the HTTP module in combination with the express framework must be used.
 
 To implement an API (Application Programming Interface) to retrieve historical data, also Node.js was used. The actual framework that was used to implement the API is called \textit{Express} (see below section \vref{sec:express}).
 
@@ -76,10 +76,10 @@ A stateless system can not store data from clients to use this data in future re
 A response must be explicitly marked as cacheable or non-cacheable. If a response is marked as cachable, it can be reused for future equivalent requests. This is useful if such cached information can be reused at least one time, because then the client can simply use the cached data instead of sending a new request to the server every time.
 
 \subsection{Uniform Interface}
-A REST API should have a standardized uniform interface in order to maintain the simplicity of interactions. A resource in a system should only have one logical URI.
+A REST API should have a standardised uniform interface in order to maintain the simplicity of interactions. A resource in a system should only have one logical URI.
 
 \subsection{Layered System}
-In a layered system, every component can access only the layer next to it. This removes a lot of complexity from the system, as a component just needs to interact with its neighbors.
+In a layered system, every component can access only the layer next to it. This removes a lot of complexity from the system, as a component just needs to interact with its neighbours.
 
 \subsection{Code-On-Demand}
 The last constraint within the REST architecture is the Code-On-Demand constraint which is only optional. It allows an API to send executable code to the clients to extend their set of features. This is used to create simple clients which can be dynamically extended after deployment.
