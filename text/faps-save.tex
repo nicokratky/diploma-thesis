@@ -76,4 +76,4 @@ As described in chapter \vref{ch:faps}, Boosts Program\_options were used in thi
 
 \subsection{Compression}
 
-As GRAMOC handles a lot of sensor data it is not very practical to save each sensor readout as seperate HDF5 dataset. Therefore readouts in a specified time frame are consolidated and stored in a mutual dataset. This dataset's ID is set to the timestamp of the first sensor readout that is stored in this dataset.
+As GRAMOC handles a lot of sensor data a possibility to compress the datasets had to be implemented. This is necessary because when measurements are perfomed over an extended period of time, an enormous amount of datasets will be recorded. Therefore readouts in a specified time frame are consolidated and stored in a mutual dataset. This dataset's ID is set to the timestamp of the first sensor readout that is stored in this dataset. The timespan in which the data will be consolidated into one dataset can be set via the \lstinline{--interval} command line flag.
