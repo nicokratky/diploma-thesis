@@ -19,8 +19,6 @@ der HTL Wiener Neustadt]
 \newcommand{\@datitelseiten}{}
 \newcommand{\@maketitlepages}{\@datitelseiten}  %default: Diplomarbeit
 
-\RequirePackage{advdate}
-
 %% begin class options ---------------------------------------------
 \DeclareOption{diplom}{\renewcommand{\@maketitlepages}{\@datitelseiten}}
 \DeclareOption{english}{\renewcommand{\htl@MainLanguage}{english}}
@@ -240,7 +238,7 @@ der HTL Wiener Neustadt]
         \> \@betreuerB \\
         \> \@betreuerC \\
     \end{tabbing}
-    {\large \@studienort, am \germandateformat\AdvanceDate[1]\today}%
+    {\large \@studienort, am \germandateformat\today}%
     \begin{center}%
     \rule{\textwidth}{1pt}
     \end{center}%
@@ -284,7 +282,7 @@ Quellen und Hilfsmittel nicht benutzt und die den benutzten Quellen wörtlich un
 
 \vspace{10mm}
 \noindent
-\@studienort, am \germandateformat\AdvanceDate[1]\today
+\@studienort, am \germandateformat\today
 
 \vspace{12mm}
 \noindent
